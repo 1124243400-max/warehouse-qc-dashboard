@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>仓库工作实时监控</title>
+    <link rel="stylesheet" href="./styles.css?v=complaint-categories-weekly-20260728" />
+    <link rel="stylesheet" href="./qc-redesign.css?v=qc-svg-icons-v4-20260729" />
+    <link rel="stylesheet" href="./qc-p2.css?v=qc-svg-icons-v4-20260729" />
+  </head>
+  <body class="home-mode">
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar" aria-label="监控导航">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <div>
+            <strong>仓库监控</strong>
+            <small>Realtime Ops</small>
+          </div>
+        </div>
+
+        <nav class="side-nav" aria-label="监控导航">
+          <a class="active" href="#home" data-page-link="home" title="首页">首页</a>
+          <a href="#warehouse-people" data-page-link="warehouse-people" title="仓库人员">仓库人员</a>
+          <div class="qc-nav-group">
+            <button type="button" class="side-nav-parent" id="qcSideToggle" title="品控统计" aria-expanded="false">品控统计<span aria-hidden="true">&#8963;</span></button>
+            <div class="qc-side-subnav" id="qcSideSubnav" hidden>
+              <button type="button" data-qc-side-view="overview">品控总览</button>
+              <button type="button" data-qc-side-view="realtime">实时作业</button>
+              <button type="button" data-qc-side-view="people">人员分析</button>
+              <button type="button" data-qc-side-view="brands">品牌分析</button>
+              <button type="button" data-qc-side-view="quality">质量分析</button>
+              <button type="button" data-qc-side-view="complaint">客诉分析</button>
+              <button type="button" data-qc-side-view="alerts">异常中心</button>
+            </div>
+          </div>
+          <a href="#alerts" data-page-link="alerts" title="提醒">提醒</a>
+        </nav>
+        <div class="source-box">
+          <span>数据源</span>
+          <strong id="sourceName"></strong>
+          <small id="sourceRange"></small>
+        </div>
+      </aside>
+
+      <main class="dashboard">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">临平仓 · 工作实时监控</p>
+            <h1 id="pageTitle">仓库作业驾驶舱</h1>
+          </div>
+          <div class="top-actions">
+            <div class="date-switch" data-date-switch aria-label="日期选择">
+              <span>日期</span>
+            </div>
+            <div class="live-status" aria-live="polite">
+              <span class="pulse"></span>
+              <div>
+                <strong>当前报表</strong>
+                <small data-live-clock></small>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <section class="page-view active home-command-center" data-page="home" id="home">
+          <header class="command-hero">
+            <div><span>REALTIME WAREHOUSE COMMAND</span><h2>仓储实时指挥中心</h2><p>当日作业、异常与人员情况实时聚合</p></div>
+            <div class="command-live"><i></i><span>当前报表</span><strong id="overviewUpdatedAt">正在加载</strong></div>
+          </header>
+          <section class="command-grid">
+            <aside class="command-panel command-alert-panel">
+              <div class="command-panel-head alert-head"><div><span>异常监控</span><strong>优先处理事项</strong></div><b id="alertCount">0 条</b></div>
+              <div class="command-exception-status"><span>作业状态</span><em id="exceptionUpdatedAt"></em></div>
+              <div class="command-exception-list" id="exceptionList"></div>
+              <div class="command-alert-divider"><span>待跟进提醒</span></div>
+              <div class="command-alert-list" id="alertsList"></div>
+            </aside>
+            <section class="command-panel command-core-panel">
+              <div class="command-panel-head"><div><span>仓库工作总览</span><strong>今日核心作业</strong></div><em>数据实时汇总</em></div>
+              <div class="command-overview" id="warehouseOverviewHero"></div>
+              <div class="command-kpi-grid" id="kpiGrid"></div>
+              <div class="command-overview-cards" id="warehouseOverviewCards"></div>
+              <div class="command-anomaly-summary" id="overviewAnomalySummary"></div>
+              <div class="command-process-head"><span>今日工作量监控</span><em>按主指标处理量</em></div>
+              <div id="processTrend" class="command-process-trend"></div>
+            </section>
+            <aside class="command-right-column">
+              <section class="command-panel command-inbound-panel"><div class="command-panel-head"><div><span>入库监控</span><strong>入库进度</strong></div><em id="inboundUpdatedAt"></em></div><div id="inboundList" class="command-inbound-list"></div></section>
+              <section class="command-panel command-rank-panel"><div class="command-panel-head"><div><span>今日作业人员排行</span><strong>处理量 TOP 10</strong></div></div><div class="command-leaderboard" data-leaderboard></div></section>
+            </aside>
+          </section>
+          <section class="command-bottom-grid">
+            <section class="command-panel"><div class="command-panel-head"><div><span>岗位负载</span><strong>今日岗位分布</strong></div></div><div class="command-role-bars" data-role-bars></div></section>
+          </section>
+        </section>
+        <section class="page-view" data-page="warehouse-people" id="warehouse-people">
+          <section class="home-grid">
+            <div class="panel efficiency-panel">
+              <div class="section-heading">
+                <span>人效总览</span>
+                <strong>按当前人员明细计算</strong>
+              </div>
+              <div class="efficiency-grid" id="efficiencyGrid"></div>
+            </div>
+
+            <div class="panel focus-panel">
+              <div class="section-heading">
+                <span>重点工种</span>
+                <strong>TOP 排名</strong>
+              </div>
+              <div class="worktype-tabs" id="worktypeTabs"></div>
+              <div class="worktype-list" id="worktypeList"></div>
+            </div>
+
+            <div class="panel rank-panel">
+              <div class="section-heading">
+                <span>不同工种排名</span>
+                <strong>人员可跨岗入榜</strong>
+              </div>
+              <div class="rank-card-grid" id="rankCardGrid"></div>
+            </div>
+
+            <div class="panel multi-role-panel">
+              <div class="section-heading">
+                <span>跨岗作业人员</span>
+                <strong>多岗位分别统计</strong>
+              </div>
+              <div class="multi-role-list" id="multiRoleList"></div>
+            </div>
+          </section>
+
+          <section class="lower-grid" id="people">
+            <div class="panel">
+              <div class="section-heading">
+                <span>人员产出排行</span>
+                <strong>Top 10</strong>
+              </div>
+              <div class="leaderboard" data-leaderboard></div>
+            </div>
+
+            <div class="panel">
+              <div class="section-heading">
+                <span>岗位负载</span>
+                <strong>按处理量排序</strong>
+              </div>
+              <div class="role-bars" data-role-bars></div>
+            </div>
+          </section>
+
+          <section class="panel people-table-panel">
+            <div class="table-toolbar">
+              <div class="section-heading">
+                <span>人员作业明细</span>
+                <strong id="tableCount"></strong>
+              </div>
+              <div class="toolbar-actions">
+                <input id="searchInput" type="search" placeholder="搜索人员或岗位" />
+                <div class="segments" id="roleFilters"></div>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>人员</th>
+                    <th>岗位</th>
+                    <th>总处理</th>
+                    <th>拣货</th>
+                    <th>验货</th>
+                    <th>发货</th>
+                    <th>上下架</th>
+                    <th>拆包</th>
+                  </tr>
+                </thead>
+                <tbody id="peopleRows"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="auxiliary-workers warehouse-auxiliary-workers panel" aria-labelledby="auxiliaryWorkersTitle">
+                    <div class="auxiliary-workers-head">
+                      <div><strong id="auxiliaryWorkersTitle">辅助人员</strong><span>单人单岗当日处理低于 25 件/次</span></div>
+                      <em id="auxiliaryWorkerCount">0 人</em>
+                    </div>
+                    <div class="auxiliary-worker-list" id="auxiliaryWorkerList"></div>
+                  </section>
+        </section>
+
+        <section class="page-view" data-page="qc" id="qc">
+          <section class="qc-layout qc-dashboard">
+            <article class="panel qc-intro">
+              <div class="qc-page-title">
+                <div>
+                  <span>运营中心 / 品控统计</span>
+                  <h1>品控统计</h1>
+                  <p id="qcDataSource">将从飞书「品控部数据汇总」加载已确认的产能、质检、问题与返修数据。</p>
+                </div>
+                <div class="qc-page-status" aria-live="polite">
+                  <span>数据状态</span>
+                  <strong id="qcDataStatus" data-status="loading">正在加载</strong>
+                  <em id="qcDataRange">可用日期范围 —</em>
+                </div>
+              </div>
+            </article>
+
+            <nav class="qc-business-nav" id="qcBusinessNav" aria-label="品控业务导航">
+              <button type="button" class="active" data-qc-view="overview" aria-current="page">品控总览</button>
+              <button type="button" data-qc-view="realtime">实时作业</button>
+              <button type="button" data-qc-view="people">人员分析</button>
+              <button type="button" data-qc-view="brands">品牌分析</button>
+              <button type="button" data-qc-view="quality">质量分析</button>
+              <button type="button" data-qc-view="complaint">客诉分析</button>
+              <button type="button" data-qc-view="alerts">异常中心</button>
+            </nav>
+            <section class="qc-filter-panel panel" aria-label="品控数据筛选">
+              <div class="qc-filter-head">
+                <div><span>全局筛选</span><strong>查看范围与对比口径</strong></div>
+                <p>所有仪表盘、排行和趋势共用当前条件</p>
+              </div>
+              <div class="qc-filter-grid">
+                <label><span>开始日期</span><input id="qcStartDate" type="date" /></label>
+                <label><span>结束日期</span><input id="qcEndDate" type="date" /></label>
+                <label><span>对比方式</span><select id="qcCompareMode"><option value="previousPeriod">上一周期</option><option value="previousDay">前一天</option><option value="previousMonth">上一个月</option><option value="custom">自选时间段</option><option value="none">不对比</option></select></label>
+                <label id="qcCompareStartWrap" hidden><span>对比开始日期</span><input id="qcCompareStartDate" type="date" /></label>
+                <label id="qcCompareEndWrap" hidden><span>对比结束日期</span><input id="qcCompareEndDate" type="date" /></label>
+                <div class="qc-filter-field"><span>品牌（可多选）</span><details id="qcBrandFilter" class="qc-multi-select"><summary id="qcBrandFilterSummary">全部品牌</summary><div class="qc-multi-menu"><div class="qc-multi-actions"><button type="button" data-qc-brand-action="all">全部品牌</button><button type="button" data-qc-brand-action="main3">三品牌</button></div><div id="qcBrandOptions" class="qc-checkbox-list"></div></div></details></div>
+                <label><span>人员</span><select id="qcPersonFilter"><option value="all">全部人员</option></select></label>
+              </div>
+              <div class="qc-filter-presets" aria-label="快捷日期范围">
+                <label class="qc-quick-range"><span>快捷日期</span><select id="qcQuickRange"><option value="custom">自选日期</option><option value="latestDay">最新一天</option><option value="previousDay">前一天</option><option value="currentWeek">本周</option><option value="previousWeek">上一周</option><option value="currentMonth">本月</option><option value="previousMonth">上一月</option><option value="past7">最近 7 天</option><option value="all">2026 全部</option></select></label>
+                <button type="button" id="qcResetFilters">重置筛选</button>
+              </div>
+            </section><section class="qc-section qc-primary-section" data-qc-view-section="realtime" aria-labelledby="qcRealtimeTitle">
+              <div class="qc-section-head">
+                <div><span>现场作业</span><h2 id="qcRealtimeTitle">品控实时作业看板</h2></div>
+                <p>按已选报告日统计；不以未来预录数据作为默认值。</p>
+              </div>
+              <div class="qc-inline-period" aria-label="现场作业时间范围">
+                <label><span class="qc-period-label"><b>统计区间（单日或时间段）</b><em id="qcCurrentDayCount">共 1 天</em></span><div><input id="qcInlineStartDate" type="date" /><em>至</em><input id="qcInlineEndDate" type="date" /></div></label>
+                <label><span class="qc-period-label"><b>对比区间（可自由选择）</b><em id="qcCompareDayCount">共 1 天</em></span><div><input id="qcInlineCompareStartDate" type="date" /><em>至</em><input id="qcInlineCompareEndDate" type="date" /></div></label>
+              </div>
+              <div class="qc-kpi-grid" id="qcRealtimeCards"></div>
+              <div class="qc-compare-grid" id="qcCompareGrid"></div>
+              <div class="qc-note-grid" id="qcFlowNotes"></div>
+            </section>
+
+            <section class="qc-section qc-secondary-panel" data-qc-panel="people" data-qc-view-section="people" aria-labelledby="qcEfficiencyTitle">
+              <div class="qc-section-head">
+                <div><span>人效分析</span><h2 id="qcEfficiencyTitle">人员人效与多周期对比</h2></div>
+                <p>位于现场作业主模块下方；支持按日期、品牌和人员做横向与纵向比较。</p>
+              </div>
+              <div class="qc-module-period" data-qc-module-period="people"><div class="qc-module-period-title"><strong>人效分析区间</strong><span id="qcPeopleDayCount">共 7 天</span></div><label><span>开始日期</span><input id="qcPeopleStartDate" type="date" /></label><label><span>结束日期</span><input id="qcPeopleEndDate" type="date" /></label><label><span>快捷日期</span><select id="qcPeopleQuickRange"></select></label><button type="button" data-qc-module-sync="people">同步主筛选</button></div>              <div class="qc-analysis-grid">
+                <article class="qc-data-card qc-ranking-card"><div class="qc-card-title"><strong id="qcRankingTitle">区间工种排行</strong><span>大货质检 / 销退质检 / 包装 / 进返修间 / 大烫</span></div><div id="qcPeopleRanking" class="qc-ranking-list"></div></article>
+                <article class="qc-data-card qc-trend-card"><div class="qc-card-title"><strong id="qcTrendTitle">全体人员 · 质检合计产出趋势</strong><span id="qcTrendSubtitle">按日汇总</span></div><div id="qcTrend" class="qc-trend-list"></div></article>
+              </div>
+              <div id="qcEfficiencyTabs" class="qc-efficiency-tabs" aria-label="人效工种口径"></div>
+              <div class="qc-efficiency-split">
+                <article class="qc-data-card"><div class="qc-card-title"><strong>总体人效</strong><span id="qcOverallEfficiencyScope">主岗位有效产出 / 有效工时</span></div><div id="qcOverallEfficiency" class="qc-overall-efficiency"></div></article>
+                <article class="qc-data-card"><div class="qc-card-title"><strong>个人人效</strong><span id="qcIndividualEfficiencyScope">仅计算有工时记录</span></div><div id="qcIndividualEfficiency" class="qc-individual-efficiency"></div></article>
+              </div>
+              <div class="qc-insight-grid">
+                <article class="qc-data-card"><div class="qc-card-title"><strong>岗位结构（含临时工）</strong><span id="qcRoleScope">已选区间 · 人数 / 主岗位产出</span></div><div id="qcRoleDistribution" class="qc-bar-list"></div></article>
+                <article class="qc-data-card"><div class="qc-card-title"><strong>数据完整度</strong><span>在岗时长 / 报次</span></div><div id="qcCompleteness" class="qc-completeness-grid"></div></article>
+              </div>
+            </section>
+
+            <section class="qc-section qc-secondary-panel" data-qc-panel="brands" data-qc-view-section="brands" aria-labelledby="qcBrandTitle">
+              <div class="qc-section-head">
+                <div><span>品牌拆分</span><h2 id="qcBrandTitle">三品牌作业明细</h2></div>
+                <p>鹭青一、周淼、陈陈分开展示；可收起已查看品牌的明细。</p>
+              </div>
+              <div class="qc-module-period" data-qc-module-period="brands"><div class="qc-module-period-title"><strong>品牌分析区间</strong><span id="qcBrandsDayCount">共 7 天</span></div><label><span>开始日期</span><input id="qcBrandsStartDate" type="date" /></label><label><span>结束日期</span><input id="qcBrandsEndDate" type="date" /></label><label><span>快捷日期</span><select id="qcBrandsQuickRange"></select></label><button type="button" data-qc-module-sync="brands">同步主筛选</button></div>
+              <div id="qcBrandGroups" class="qc-brand-groups"></div>
+            </section>
+
+            <section class="qc-section qc-alert-center-panel" data-qc-view-section="alerts" hidden aria-labelledby="qcAlertCenterTitle">
+  <div class="qc-section-head"><div><span>异常汇总</span><h2 id="qcAlertCenterTitle">品控异常中心</h2></div><p>集中汇总当前筛选范围内的客诉、质量问题、返修风险和数据完整性异常。</p></div>
+  <div id="qcAlertSummary" class="qc-alert-summary"></div>
+</section>
+<section class="qc-section qc-secondary-panel" data-qc-panel="quality" data-qc-view-section="quality" aria-labelledby="qcQualityTitle">
+              <div class="qc-section-head">
+                <div><span>质量分析</span><h2 id="qcQualityTitle">问题分布与返修口径</h2></div>
+              </div>
+              <div class="qc-module-period" data-qc-module-period="quality"><div class="qc-module-period-title"><strong>质量分析区间</strong><span id="qcQualityDayCount">共 7 天</span></div><label><span>开始日期</span><input id="qcQualityStartDate" type="date" /></label><label><span>结束日期</span><input id="qcQualityEndDate" type="date" /></label><label><span>快捷日期</span><select id="qcQualityQuickRange"></select></label><button type="button" data-qc-module-sync="quality">同步主筛选</button></div>
+              <div class="qc-analysis-grid qc-quality-grid">
+                <article class="qc-data-card"><div class="qc-card-title"><strong>质量概览</strong><span>抽检问题汇总</span></div><div id="qcQualitySummary" class="qc-quality-summary"></div></article>
+                <article class="qc-data-card"><div class="qc-card-title"><strong>Top 质量问题</strong><span id="qcQualityRange">已选区间累计</span></div><div id="qcIssueRanking" class="qc-bar-list"></div></article>
+                <article class="qc-data-card"><div class="qc-card-title"><strong>责任方分布</strong><span>已标注问题</span></div><div id="qcResponsibility" class="qc-bar-list"></div></article>              <article class="qc-data-card qc-sampling-card">
+                <div class="qc-card-title"><strong>抽检质量分布</strong><span>按当前质量分析日期与品牌筛选</span></div>
+                <div id="qcSamplingBreakdown" class="qc-sampling-breakdown"></div>
+              </article>
+              <article class="qc-data-card qc-weekly-warehouse-card">
+                <div class="qc-card-title"><strong>周报出入仓</strong><span id="qcWeeklyWarehouseRange">等待周报数据</span></div>
+                <div id="qcWeeklyWarehouse" class="qc-weekly-warehouse"></div>
+              </article>
+              </div>
+              <article class="qc-data-card qc-repair-module">
+                <div class="qc-card-title"><strong>返修闭环分析</strong><span id="qcRepairRange">已选区间累计</span><label class="qc-repair-person-filter"><span>&#x4EBA;&#x5458;&#x7B5B;&#x9009;</span><select id="qcRepairPersonFilter"></select></label></div>
+                <div id="qcRepairFlow" class="qc-repair-flow"></div>
+                <section class="qc-repair-effective-personal" aria-labelledby="qcRepairEffectiveTitle">
+                  <div class="qc-repair-list-title teal"><strong id="qcRepairEffectiveTitle">返修有效产能（按人员）</strong><span>有效产能 = 返修产能 ×（1 − 二次返修率）²</span></div>
+                  <div id="qcRepairEffectivePersonal" class="qc-repair-effective-table"></div>
+                </section>
+              </article>
+
+              <section class="quality-list-layout qc-quality-data-center">
+            <div class="qc-section-head quality-list-hero"><div><span>&#x8D28;&#x91CF;&#x6570;&#x636E;&#x5217;&#x8868;</span><h2>&#x8D28;&#x91CF;&#x6570;&#x636E;&#x8868;&#x7B5B;&#x9009;&#x4E2D;&#x5FC3;</h2></div><p>&#x6309;&#x8868;&#x540D;&#x3001;&#x5206;&#x7C7B;&#x3001;&#x72B6;&#x6001;&#x548C;&#x7528;&#x9014;&#x5FEB;&#x901F;&#x5B9A;&#x4F4D;&#x6570;&#x636E;&#x8868;&#xFF0C;&#x51CF;&#x5C11;&#x624B;&#x52A8;&#x6EDA;&#x52A8;&#x67E5;&#x627E;&#x3002;</p></div>
+            <section class="quality-command-panel panel" aria-label="&#x8D28;&#x91CF;&#x6570;&#x636E;&#x8868;&#x7B5B;&#x9009;"><label class="quality-search-box"><span>&#x5FEB;&#x901F;&#x641C;&#x7D22;</span><input id="qualitySearchInput" type="search" placeholder="&#x641C;&#x8868;&#x540D;&#x3001;&#x4EBA;&#x5458;&#x3001;&#x54C1;&#x724C;&#x3001;&#x95EE;&#x9898;&#x3001;&#x8FD4;&#x4FEE;..." autocomplete="off" /></label><div class="quality-filter-strip" id="qualityCategoryFilters"></div><div class="quality-filter-grid"><label><span>&#x6570;&#x636E;&#x7C7B;&#x578B;</span><select id="qualityTypeFilter"></select></label><label><span>&#x66F4;&#x65B0;&#x72B6;&#x6001;</span><select id="qualityStatusFilter"></select></label><label><span>&#x6392;&#x5E8F;&#x65B9;&#x5F0F;</span><select id="qualitySortFilter"><option value="priority">&#x6309;&#x4F7F;&#x7528;&#x4F18;&#x5148;&#x7EA7;</option><option value="updated">&#x6309;&#x66F4;&#x65B0;&#x65F6;&#x95F4;</option><option value="records">&#x6309;&#x6570;&#x636E;&#x91CF;</option></select></label></div></section>
+            <section class="quality-list-grid"><article class="quality-list-main panel"><div class="quality-list-title"><div><span>&#x7B5B;&#x9009;&#x7ED3;&#x679C;</span><strong id="qualityListCount">0 &#x4E2A;&#x6570;&#x636E;&#x8868;</strong></div><em id="qualityListHint">&#x5168;&#x90E8;&#x5206;&#x7C7B;</em></div><div id="qualityDataList" class="quality-data-list"></div></article><aside class="quality-list-side panel"><div class="quality-side-title"><span>&#x5217;&#x8868;&#x6458;&#x8981;</span><strong id="qualitySummaryTotal">0</strong></div><div id="qualitySummaryCards" class="quality-summary-cards"></div></aside></section>
+          </section>
+            </section>
+          </section>
+<section class="qc-section qc-complaint-module" data-qc-view-section="complaint" hidden aria-labelledby="qcComplaintTitle">
+          <div class="qc-section-head"><div><span>&#x5BA2;&#x8BC9;&#x5206;&#x6790;</span><h2 id="qcComplaintTitle">&#x5BA2;&#x8BC9;&#x7387;&#x4E0E;&#x5F02;&#x5E38;&#x8D8B;&#x52BF;</h2></div><p>&#x6570;&#x636E;&#x6765;&#x81EA;&#x300C;&#x4E34;&#x5E73;&#x4ED3;&#x50A8;--&#x77E5;&#x8BC6;&#x5E93;&#x300D;&#x4E2D;&#x7684;&#x300C;&#x4ED3;&#x50A8;&#x5468;&#x4F1A;&#x300D;&#x3002;</p></div>
+          <div class="qc-complaint-toolbar" id="qcComplaintToolbar" role="tablist"><button type="button" data-qc-complaint-granularity="week" class="active">&#x5468;&#x5EA6;</button><button type="button" data-qc-complaint-granularity="month">&#x6708;&#x5EA6;</button><span id="qcComplaintSource"></span></div><div id="qcComplaintAlert" class="qc-complaint-alert" role="alert" hidden></div><div class="qc-complaint-filters" id="qcComplaintFilters" aria-label="客诉筛选"><label><span>开始日期</span><input id="qcComplaintStartDate" type="date" min="2026-01-01" /></label><label><span>结束日期</span><input id="qcComplaintEndDate" type="date" /></label><label><span>品牌</span><select id="qcComplaintBrandFilter"><option value="all">全部品牌</option></select></label><button type="button" id="qcComplaintReset">重置</button></div>
+          <div id="qcComplaintSummary" class="qc-complaint-summary"></div>
+          <article class="qc-data-card qc-complaint-structure-card"><div class="qc-card-title"><strong>客诉问题结构</strong><span>总客诉及质量、面料、生产问题占比</span></div><div id="qcComplaintIssueBreakdown" class="qc-complaint-issue-breakdown"></div></article>
+          <div class="qc-complaint-layout"><article class="qc-data-card"><div class="qc-card-title"><strong>&#x54C1;&#x724C;&#x5BA2;&#x8BC9;&#x5BF9;&#x6BD4;</strong><span>&#x5F53;&#x524D;&#x5468;&#x671F;&#x5BA2;&#x8BC9;&#x6570; &#x00F7; &#x4E0A;&#x4E00;&#x5468;&#x671F;&#x53D1;&#x8D27;&#x6570;</span></div><div id="qcComplaintBrandTable" class="qc-complaint-table"></div></article><article class="qc-data-card"><div class="qc-card-title"><strong>&#x53E3;&#x5F84;&#x8BF4;&#x660E;</strong><span>&#x907F;&#x514D;&#x5BA2;&#x8BC9;&#x65F6;&#x6EDE;&#x5BFC;&#x81F4;&#x5931;&#x771F;</span></div><div id="qcComplaintFormula" class="qc-complaint-formula"></div></article></div>
+        </section>
+        </section>
+
+        
+        
+        <section class="page-view" data-page="alerts" id="alerts">
+          <section class="alerts-workbench">
+            <div class="alerts-workbench-head"><div><span>&#x5F85;&#x529E;&#x63D0;&#x9192;</span><h2>&#x5F02;&#x5E38;&#x5904;&#x7406;&#x4E2D;&#x5FC3;</h2></div><p>&#x8FD9;&#x91CC;&#x53EA;&#x4FDD;&#x7559;&#x9700;&#x8981;&#x8DDF;&#x8FDB;&#x7684;&#x4E8B;&#x9879;&#xFF1B;&#x9996;&#x9875;&#x4EC5;&#x5C55;&#x793A;&#x5168;&#x5C40;&#x6458;&#x8981;&#x3002;</p></div>
+            <section id="alertCenterStats" class="alert-center-stats" aria-label="&#x63D0;&#x9192;&#x6C47;&#x603B;"></section>
+            <section class="alert-center-panel panel"><div class="alert-center-title"><div><span>&#x9700;&#x8981;&#x5904;&#x7406;</span><strong>&#x5F53;&#x524D;&#x5F85;&#x529E;</strong></div><em id="alertCenterCount"></em></div><div id="alertCenterList" class="alert-center-list"></div></section>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js?v=complaint-categories-weekly-20260728"></script>
+    <script src="./qc-redesign.js?v=qc-svg-icons-v4-20260729"></script>
+    <script src="./qc-p2.js?v=qc-svg-icons-v4-20260729"></script>
+  </body>
+</html>
+
+
