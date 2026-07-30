@@ -1,56 +1,56 @@
 {
-  "dateKey": "2026-07-28",
-  "label": "7月28日",
-  "rangeLabel": "2026-07-28 00:00 - 2026-07-28 23:00",
-  "generatedAt": "2026-07-28 23:03:57",
-  "updatedAt": "2026-07-28 23:15:12",
+  "dateKey": "2026-07-29",
+  "label": "7月29日",
+  "rangeLabel": "2026-07-29 00:00 - 2026-07-29 23:00",
+  "generatedAt": "2026-07-30 04:54:15",
+  "updatedAt": "2026-07-30 04:55:01",
   "headline": {
     "title": "仓库实时总览",
     "mainMetric": {
       "label": "总处理量",
-      "value": 71875,
+      "value": 75863,
       "unit": "件/次"
     },
     "progress": {
       "label": "发货/拣货进度",
-      "value": 86,
+      "value": 79,
       "unit": "%"
     }
   },
   "cards": [
     {
       "label": "今日拣货",
-      "value": 14709,
+      "value": 14435,
       "unit": "件",
-      "sub": "14,645 次"
+      "sub": "14,351 次"
     },
     {
       "label": "今日发货",
-      "value": 12624,
+      "value": 11334,
       "unit": "件",
-      "sub": "12,624 次"
+      "sub": "11,334 次"
     },
     {
       "label": "今日入库",
-      "value": 5748,
+      "value": 6144,
       "unit": "件",
-      "sub": "2 个仓"
+      "sub": "1 个仓"
     },
     {
       "label": "上下架",
-      "value": 11720,
+      "value": 13553,
       "unit": "件",
-      "sub": "8,919 次"
+      "sub": "10,097 次"
     },
     {
       "label": "售后拆包",
-      "value": 7810,
+      "value": 7486,
       "unit": "件",
-      "sub": "5,192 包"
+      "sub": "5,295 包"
     },
     {
       "label": "在线作业",
-      "value": 55,
+      "value": 53,
       "unit": "人",
       "sub": "17 个岗位"
     }

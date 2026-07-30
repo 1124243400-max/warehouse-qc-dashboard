@@ -1,4 +1,4 @@
-﻿(() => {
+(() => {
   'use strict';
 
   const REDESIGN_VIEWS = {
@@ -235,12 +235,18 @@
     if (!root || root.dataset.redesignBound === 'true') return;
     root.dataset.redesignBound = 'true';
     root.addEventListener('click', (event) => {
-      if (!event.target.closest('#qcBrandCellPopover, [data-qc-cell-module]')) {
+      if (!event.target.closest('#qcBrandCellPopover, #qcMetricPopover, [data-qc-cell-module], [data-qc-matrix-target], [data-qc-trend-point], [data-qc-horizontal-module], [data-qc-kpi-note]')) {
         redesignCloseBrandCellPopover();
+        redesignCloseMetricPopover();
       }
       const popoverClose = event.target.closest('[data-qc-cell-close]');
       if (popoverClose) {
         redesignCloseBrandCellPopover();
+        return;
+      }
+      const metricClose = event.target.closest('[data-qc-metric-close]');
+      if (metricClose) {
+        redesignCloseMetricPopover();
         return;
       }
       const popoverGo = event.target.closest('[data-qc-popover-go]');
@@ -248,10 +254,17 @@
         const brand = popoverGo.dataset.qcBrandName;
         const target = popoverGo.dataset.qcBrandDetail;
         redesignCloseBrandCellPopover();
-        redesignSetBrands(brand === '合计' ? [] : [brand]);
+        redesignCloseMetricPopover();
+        redesignSetBrands(brand === '合计' || brand === '全部' ? [] : [brand]);
         qcSetBusinessView(target);
         return;
-      }      const controlToggle = event.target.closest('#qcControlToggle');
+      }
+      const kpiCard = event.target.closest('[data-qc-kpi-note]');
+      if (kpiCard) {
+        redesignOpenKpiNotePopover(kpiCard);
+        return;
+      }
+      const controlToggle = event.target.closest('#qcControlToggle');
       if (controlToggle) {
         const dock = document.querySelector('#qcControlDock');
         redesignSetControlDock(!dock?.classList.contains('is-collapsed'));
@@ -284,9 +297,17 @@
       }
       const matrixCell = event.target.closest('[data-qc-matrix-target]');
       if (matrixCell) {
-        const brand = matrixCell.dataset.qcMatrixBrand;
-        redesignSetBrands(brand === '全部' ? [] : [brand]);
-        qcSetBusinessView(matrixCell.dataset.qcMatrixTarget);
+        redesignOpenCockpitMatrixPopover(matrixCell);
+        return;
+      }
+      const trendPoint = event.target.closest('[data-qc-trend-point]');
+      if (trendPoint) {
+        redesignOpenTrendPointPopover(trendPoint);
+        return;
+      }
+      const horizontalModule = event.target.closest('[data-qc-horizontal-module]');
+      if (horizontalModule) {
+        redesignOpenHorizontalModulePopover(horizontalModule);
         return;
       }
       const tableCell = event.target.closest('.qc-brand-table-row:not(.head) [data-qc-cell-module]');
@@ -302,7 +323,7 @@
       const tableLink = event.target.closest('[data-qc-brand-detail]');
       if (tableLink) {
         const brand = tableLink.dataset.qcBrandName;
-        redesignSetBrands(brand === '合计' ? [] : [brand]);
+        redesignSetBrands(brand === '合计' || brand === '全部' ? [] : [brand]);
         qcSetBusinessView(tableLink.dataset.qcBrandDetail);
         return;
       }
@@ -339,12 +360,25 @@
       root.querySelectorAll('.is-col-hover').forEach((item) => item.classList.remove('is-col-hover'));
     }, true);
     root.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') redesignCloseBrandCellPopover();
+      if (event.key === 'Escape') {
+        redesignCloseBrandCellPopover();
+        redesignCloseMetricPopover();
+      }
+      if ((event.key === 'Enter' || event.key === ' ') && event.target.closest('[data-qc-kpi-note], [data-qc-matrix-target], [data-qc-trend-point], [data-qc-horizontal-module]')) {
+        event.preventDefault();
+        event.target.click();
+      }
     });
     root.addEventListener('scroll', (event) => {
-      if (event.target.closest?.('.qc-brand-table-wrap')) redesignCloseBrandCellPopover();
+      if (event.target.closest?.('.qc-brand-table-wrap')) {
+        redesignCloseBrandCellPopover();
+        redesignCloseMetricPopover();
+      }
     }, true);
-    window.addEventListener('resize', redesignCloseBrandCellPopover);
+    window.addEventListener('resize', () => {
+      redesignCloseBrandCellPopover();
+      redesignCloseMetricPopover();
+    });
   }
 
   function redesignMetricRows(brand, range = { start: qcState.start, end: qcState.end }) {
@@ -411,6 +445,111 @@
     document.querySelectorAll('.qc-brand-table [data-qc-cell-module].is-cell-selected').forEach((cell) => {
       cell.classList.remove('is-cell-selected');
       cell.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  function redesignEnsureMetricPopover() {
+    const root = document.querySelector('#qc');
+    if (!root) return null;
+    let popover = document.querySelector('#qcMetricPopover');
+    if (!popover) {
+      popover = document.createElement('aside');
+      popover.id = 'qcMetricPopover';
+      popover.className = 'qc-metric-popover';
+      popover.setAttribute('role', 'dialog');
+      popover.setAttribute('aria-label', '数据口径说明');
+      popover.hidden = true;
+      popover.innerHTML = `<button type="button" class="qc-metric-popover-close" data-qc-metric-close aria-label="关闭说明">×</button><strong data-qc-metric-title></strong><b data-qc-metric-value></b><p data-qc-metric-compare></p><small data-qc-metric-note></small><button type="button" data-qc-popover-go>查看对应明细 <span>→</span></button>`;
+      root.appendChild(popover);
+    }
+    return popover;
+  }
+
+  function redesignCloseMetricPopover() {
+    const popover = document.querySelector('#qcMetricPopover');
+    if (popover) popover.hidden = true;
+    document.querySelectorAll('.is-metric-selected').forEach((item) => {
+      item.classList.remove('is-metric-selected');
+      item.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  function redesignPositionMetricPopover(popover, anchor) {
+    if (!popover || popover.hidden || !anchor?.isConnected) return;
+    const rect = anchor.getBoundingClientRect();
+    const margin = 12;
+    const width = popover.offsetWidth || 260;
+    const height = popover.offsetHeight || 180;
+    const left = Math.max(margin, Math.min(window.innerWidth - width - margin, rect.left + rect.width / 2 - width / 2));
+    const placeAbove = rect.bottom + height + margin > window.innerHeight && rect.top > height + margin;
+    popover.classList.toggle('is-above', placeAbove);
+    popover.style.left = `${left}px`;
+    popover.style.top = `${placeAbove ? Math.max(margin, rect.top - height - 10) : Math.min(window.innerHeight - height - margin, rect.bottom + 10)}px`;
+  }
+
+  function redesignFillMetricPopover(anchor, detail) {
+    const popover = redesignEnsureMetricPopover();
+    if (!popover || !anchor) return;
+    redesignCloseBrandCellPopover();
+    redesignCloseMetricPopover();
+    popover.querySelector('[data-qc-metric-title]').textContent = detail.title || '数据说明';
+    popover.querySelector('[data-qc-metric-value]').textContent = detail.value || '';
+    popover.querySelector('[data-qc-metric-compare]').textContent = detail.compare || '';
+    popover.querySelector('[data-qc-metric-note]').textContent = detail.note || '';
+    const go = popover.querySelector('[data-qc-popover-go]');
+    go.hidden = !detail.target;
+    if (detail.target) {
+      go.dataset.qcBrandName = detail.brand || '合计';
+      go.dataset.qcBrandDetail = detail.target;
+      go.setAttribute('aria-label', `查看${detail.title || '数据'}明细`);
+    }
+    anchor.classList.add('is-metric-selected');
+    anchor.setAttribute('aria-expanded', 'true');
+    popover.hidden = false;
+    requestAnimationFrame(() => redesignPositionMetricPopover(popover, anchor));
+  }
+
+  function redesignOpenKpiNotePopover(card) {
+    redesignFillMetricPopover(card, {
+      title: `${card.dataset.qcKpiLabel || '指标'} · 数据来源`,
+      value: card.dataset.qcKpiValue || '',
+      compare: card.dataset.qcKpiTrend || '',
+      note: card.dataset.qcKpiNote || '',
+    });
+  }
+
+  function redesignOpenCockpitMatrixPopover(cell) {
+    const brand = cell.dataset.qcMatrixBrand || '全部';
+    const module = cell.dataset.qcMatrixModule || '模块';
+    redesignFillMetricPopover(cell, {
+      title: `${brand} · ${module}`,
+      value: `${qcNumber(Number(cell.dataset.qcMatrixValue) || 0, '0')} 件`,
+      compare: cell.dataset.qcMatrixRank || '',
+      note: REDESIGN_MODULE_NOTES[module] || '点击进入对应分析页查看明细。',
+      brand,
+      target: cell.dataset.qcMatrixTarget,
+    });
+  }
+
+  function redesignOpenTrendPointPopover(point) {
+    redesignFillMetricPopover(point, {
+      title: `${point.dataset.qcTrendDate || ''} · ${point.dataset.qcTrendLabel || '趋势'}`,
+      value: `${qcNumber(Number(point.dataset.qcTrendValue) || 0, '0')} 件`,
+      compare: '近 7 日处理趋势',
+      note: point.dataset.qcTrendNote || '来源：品控部数据汇总 Base，按当前品牌与日期筛选汇总。',
+    });
+  }
+
+  function redesignOpenHorizontalModulePopover(row) {
+    const brand = row.dataset.qcHorizontalBrand || cockpitBrand;
+    const module = row.dataset.qcHorizontalModule || '模块';
+    redesignFillMetricPopover(row, {
+      title: `${brand} · ${module}`,
+      value: `${qcNumber(Number(row.dataset.qcHorizontalValue) || 0, '0')} 件`,
+      compare: `占三品牌最大值 ${row.dataset.qcHorizontalRatio || '0'}% · 最大 ${qcNumber(Number(row.dataset.qcHorizontalMax) || 0, '0')} 件`,
+      note: REDESIGN_MODULE_NOTES[module] || '每个模块独立归一，柱长表示本品牌值除以三品牌该模块最大值。',
+      brand,
+      target: row.dataset.qcHorizontalTarget,
     });
   }
 
@@ -516,7 +655,7 @@
     document.querySelector('#qcCockpitKpis').innerHTML = kpis.map((item) => {
       const trend = item.oldValue === null ? { text: '当前口径', tone: 'flat' } : redesignTrend(Number(item.value) || 0, Number(item.oldValue) || 0, item.adverse);
       const formatted = item.unit === '件' ? qcNumber(item.value, '0') : qcDecimal(item.value, 1);
-      return `<article title="${qcEscape(item.note)}"><i class="qc-cockpit-icon icon-${item.icon} has-svg" aria-hidden="true">${redesignBusinessIcon(item.icon)}</i><span>${item.label}</span><strong>${formatted}<small>${item.unit}</small></strong><b>${item.note}</b><em class="${trend.tone}">${trend.text}</em></article>`;
+      return `<article role="button" tabindex="0" aria-haspopup="dialog" aria-expanded="false" aria-label="查看${qcEscape(item.label)}数据来源" data-qc-kpi-note="${qcEscape(item.note)}" data-qc-kpi-label="${qcEscape(item.label)}" data-qc-kpi-value="${qcEscape(formatted + item.unit)}" data-qc-kpi-trend="${qcEscape(trend.text)}"><i class="qc-cockpit-icon icon-${item.icon} has-svg" aria-hidden="true">${redesignBusinessIcon(item.icon)}</i><span>${item.label}</span><strong>${formatted}<small>${item.unit}</small></strong><em class="${trend.tone}">${trend.text}</em></article>`;
     }).join('');
 
     const brandStats = QC_MAIN_BRANDS.map((brand) => {
@@ -532,7 +671,7 @@
     const rows = [...brandStats, { brand: '全部', values: totalValues }];
     document.querySelector('#qcCockpitMatrix').innerHTML = `
       <div class="qc-matrix"><div class="qc-matrix-row head"><strong>品牌</strong>${REDESIGN_MODULES.map((module) => `<span>${module.label}</span>`).join('')}</div>
-      ${rows.map((item) => `<div class="qc-matrix-row ${item.brand !== '全部' && qcState.brands.length && !qcState.brands.includes(item.brand) ? 'is-muted' : ''}"><strong>${item.brand}</strong>${REDESIGN_MODULES.map((module) => `<button type="button" class="${item.brand === '全部' ? 'total' : tones[`${item.brand}:${module.key}`]}" data-qc-matrix-target="${module.target}" data-qc-matrix-brand="${item.brand}" title="点击查看${item.brand} · ${module.label}明细">${qcNumber(item.values[module.key], '0')}</button>`).join('')}</div>`).join('')}</div>
+      ${rows.map((item) => `<div class="qc-matrix-row ${item.brand !== '全部' && qcState.brands.length && !qcState.brands.includes(item.brand) ? 'is-muted' : ''}"><strong>${item.brand}</strong>${REDESIGN_MODULES.map((module) => { const tone = item.brand === '全部' ? 'total' : tones[`${item.brand}:${module.key}`]; const rank = item.brand === '全部' ? '当前筛选合计' : `列内排名：${tone === 'good' ? '优' : tone === 'bad' ? '需关注' : '中'}`; return `<button type="button" class="${tone}" data-qc-matrix-target="${module.target}" data-qc-matrix-brand="${item.brand}" data-qc-matrix-module="${qcEscape(module.label)}" data-qc-matrix-value="${item.values[module.key] || 0}" data-qc-matrix-rank="${qcEscape(rank)}" aria-haspopup="dialog" aria-expanded="false" title="点击查看${item.brand} · ${module.label}数据">${qcNumber(item.values[module.key], '0')}</button>`; }).join('')}</div>`).join('')}</div>
       <div class="qc-matrix-legend"><span><i class="good"></i>优</span><span><i class="mid"></i>中</span><span><i class="bad"></i>需关注</span><em>点击单元格查看详情</em></div>`;
 
     if (!QC_MAIN_BRANDS.includes(cockpitBrand)) cockpitBrand = QC_MAIN_BRANDS[0];
@@ -543,7 +682,7 @@
       const max = Math.max(1, ...brandStats.map((item) => item.values[module.key]));
       const value = selectedBrandStats.values[module.key];
       const ratio = Math.round(value / max * 100);
-      return `<article class="${module.higherBetter ? '' : 'adverse'}"><span>${module.label}</span><div><i style="width:${Math.max(3, ratio)}%"></i></div><strong>${ratio}%</strong><em>${qcNumber(value, '0')} 件</em></article>`;
+      return `<article class="${module.higherBetter ? '' : 'adverse'}" role="button" tabindex="0" aria-haspopup="dialog" aria-expanded="false" data-qc-horizontal-module="${qcEscape(module.label)}" data-qc-horizontal-brand="${qcEscape(cockpitBrand)}" data-qc-horizontal-value="${value || 0}" data-qc-horizontal-max="${max}" data-qc-horizontal-ratio="${ratio}" data-qc-horizontal-target="${module.target}"><span>${module.label}</span><div><i style="width:${Math.max(3, ratio)}%"></i></div><strong>${ratio}%</strong><em>${qcNumber(value, '0')} 件</em></article>`;
     }).join('') + `</div><p class="qc-cockpit-note">${cockpitBrand} · ${[...REDESIGN_MODULES].sort((a, b) => selectedBrandStats.values[b.key] - selectedBrandStats.values[a.key])[0].label}为当前最高量模块</p>`;
 
     const moduleSelect = document.querySelector('#qcCockpitModule');
@@ -563,7 +702,7 @@
       ['brand', '品牌分析', '三品牌明细', 'brands'],
       ['quality', '质量分析', `大货次品 ${qcNumber(metrics.largeDefects, '0')}`, 'quality'],
       ['complaint', '客诉分析', `客诉 ${qcNumber(complaint?.complaints, '0')} 件`, 'complaint'],
-    ].map(([icon, label, value, view]) => `<button type="button" data-qc-drill-view="${view}"><i class="qc-drill-icon icon-${icon} has-svg" aria-hidden="true">${redesignBusinessIcon(icon)}</i><span><strong>${label}</strong><em>${value}</em></span><b>→</b></button>`).join('');
+    ].map(([icon, label, value, view]) => `<button type="button" data-qc-drill-view="${view}" aria-label="进入${label}"><i class="qc-drill-icon icon-${icon} has-svg" aria-hidden="true">${redesignBusinessIcon(icon)}</i><span><strong>${label}</strong><em>${value}</em></span><b aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5l7 7-7 7"/></svg></b></button>`).join('');
 
     const repairHighest = [...brandStats].sort((a, b) => b.values.repair - a.values.repair)[0];
     const largeQcLowest = [...brandStats].sort((a, b) => a.values.largeQc - b.values.largeQc)[0];
@@ -728,7 +867,7 @@
         const ratio = item.previous ? item.value / item.previous * 100 : null;
         return `<div title="${qcEscape(item.source)}"><span><i class="ui-line-icon icon-${item.icon || 'overview'} has-svg">${redesignBusinessIcon(item.icon || 'overview')}</i>${item.label}</span><span><b style="width:${Math.min(100, Math.max(3, ratio ?? 0))}%;background:${item.color || '#377ee8'}"></b><strong>${qcNumber(item.value, '0')}</strong></span><em>${item.previous ? qcNumber(item.previous, '0') : '—'}</em><strong>${ratio === null ? '—' : qcDecimal(ratio, 1) + '%'}</strong></div>`;
       }).join('')}</div><p class="qc-source-note">来源：品控部数据汇总 Base；综合人效另按 q/rq + pk + rrp + ir ÷ wh 计算。</p></article>
-      <article class="qc-data-card qc-realtime-trend-card"><div class="qc-card-title"><strong>近 7 日处理趋势</strong><span>${trendSeries.map((item) => `<i class="legend" style="background:${item.color}"></i>${item.label}`).join(' ')}</span></div><div class="qc-realtime-line-chart"><svg viewBox="0 0 ${chartWidth} ${chartHeight}" role="img" aria-label="近七日大货质检、销退质检、包装与进返修间处理趋势">${[0, .25, .5, .75, 1].map((step) => `<line x1="${chartLeft}" y1="${chartTop + step * plotHeight}" x2="${chartLeft + plotWidth}" y2="${chartTop + step * plotHeight}" class="grid"/><text x="4" y="${chartTop + step * plotHeight + 4}">${qcNumber(chartMax * (1 - step), '0')}</text>`).join('')}${trendSeries.map((line) => `<polyline points="${daily.map((item, index) => `${xAt(index)},${yAt(item[line.key])}`).join(' ')}" style="stroke:${line.color}"/><g>${daily.map((item, index) => `<circle cx="${xAt(index)}" cy="${yAt(item[line.key])}" r="4" style="fill:${line.color}"><title>${item.date} · ${line.label} ${qcNumber(item[line.key], '0')} 件</title></circle>`).join('')}</g>`).join('')}${daily.map((item, index) => `<text class="date" x="${xAt(index)}" y="218">${item.date.slice(5)}</text>`).join('')}</svg></div></article>
+      <article class="qc-data-card qc-realtime-trend-card"><div class="qc-card-title"><strong>近 7 日处理趋势</strong><span>${trendSeries.map((item) => `<i class="legend" style="background:${item.color}"></i>${item.label}`).join(' ')}</span></div><div class="qc-realtime-line-chart"><svg viewBox="0 0 ${chartWidth} ${chartHeight}" role="img" aria-label="近七日大货质检、销退质检、包装与进返修间处理趋势">${[0, .25, .5, .75, 1].map((step) => `<line x1="${chartLeft}" y1="${chartTop + step * plotHeight}" x2="${chartLeft + plotWidth}" y2="${chartTop + step * plotHeight}" class="grid"/><text x="4" y="${chartTop + step * plotHeight + 4}">${qcNumber(chartMax * (1 - step), '0')}</text>`).join('')}${trendSeries.map((line) => `<polyline points="${daily.map((item, index) => `${xAt(index)},${yAt(item[line.key])}`).join(' ')}" style="stroke:${line.color}"/><g>${daily.map((item, index) => `<circle cx="${xAt(index)}" cy="${yAt(item[line.key])}" r="4" style="fill:${line.color}" data-qc-trend-point="true" data-qc-trend-date="${qcEscape(item.date)}" data-qc-trend-label="${qcEscape(line.label)}" data-qc-trend-value="${Number(item[line.key]) || 0}" data-qc-trend-note="来源：品控部数据汇总 Base；${qcEscape(line.label)}按当前品牌与日期筛选汇总。" tabindex="0" role="button" aria-haspopup="dialog" aria-expanded="false" aria-label="查看${qcEscape(item.date)} ${qcEscape(line.label)} ${qcNumber(item[line.key], '0')}件"><title>${item.date} · ${line.label} ${qcNumber(item[line.key], '0')} 件</title></circle>`).join('')}</g>`).join('')}${daily.map((item, index) => `<text class="date" x="${xAt(index)}" y="218">${item.date.slice(5)}</text>`).join('')}</svg></div></article>
       <article class="qc-data-card qc-realtime-staff-card"><div class="qc-card-title"><strong>人员实时效率</strong><span>按综合人效排序 · 在岗时长缺失不参与排名</span></div><div class="qc-realtime-staff-table"><div class="head"><span>人员</span><span>品牌</span><span>主要模块</span><span>处理量（件）</span><span>在岗时长</span><span>人效（件/人时）</span><span>状态</span></div>${staff.length ? staff.map((item) => `<div><strong>${item.name}</strong><span>${[...item.brands].join('、') || '—'}</span><span>${item.primary}</span><em>${qcNumber(item.output, '0')}</em><span>${item.hours ? qcDecimal(item.hours, 1) + ' h' : '待补录'}</span><b>${item.rate === null ? '—' : qcDecimal(item.rate, 1)}</b><i class="${item.hours ? 'good' : 'warn'}">${item.hours ? '正常' : '需关注'}</i></div>`).join('') : '<p class="qc-empty">当前筛选范围暂无人员作业记录。</p>'}</div></article>
       <article class="qc-data-card qc-realtime-alert-card"><div class="qc-card-title"><strong>实时预警</strong><span><button type="button" data-qc-drill-view="brands">查看品牌分析</button><button type="button" data-qc-drill-view="alerts">查看异常中心</button></span></div><div class="qc-realtime-alert-list">${alertItems.map((item) => `<button type="button" class="${item.tone}" data-qc-drill-view="${item.target}"><i class="ui-line-icon icon-${item.icon} has-svg">${redesignBusinessIcon(item.icon)}</i><span><strong>${item.title}</strong><em>${item.detail}</em></span><b>查看 →</b></button>`).join('')}</div></article>`;
   }
