@@ -6,7 +6,7 @@
     <title>仓库工作实时监控</title>
     <link rel="stylesheet" href="./styles.css?v=complaint-categories-weekly-20260728" />
     <link rel="stylesheet" href="./qc-redesign.css?v=qc-click-notes-v2-20260729" />
-    <link rel="stylesheet" href="./qc-p2.css?v=qc-click-notes-v2-20260729" />
+    <link rel="stylesheet" href="./qc-p2.css?v=p2-people-efficiency-v8-20260731" />
   </head>
   <body class="home-mode">
     <div class="app-shell">
@@ -313,7 +313,7 @@
           </section>
 <section class="qc-section qc-complaint-module" data-qc-view-section="complaint" hidden aria-labelledby="qcComplaintTitle">
           <div class="qc-section-head"><div><span>&#x5BA2;&#x8BC9;&#x5206;&#x6790;</span><h2 id="qcComplaintTitle">&#x5BA2;&#x8BC9;&#x7387;&#x4E0E;&#x5F02;&#x5E38;&#x8D8B;&#x52BF;</h2></div><p>&#x6570;&#x636E;&#x6765;&#x81EA;&#x300C;&#x4E34;&#x5E73;&#x4ED3;&#x50A8;--&#x77E5;&#x8BC6;&#x5E93;&#x300D;&#x4E2D;&#x7684;&#x300C;&#x4ED3;&#x50A8;&#x5468;&#x4F1A;&#x300D;&#x3002;</p></div>
-          <div class="qc-complaint-toolbar" id="qcComplaintToolbar" role="tablist"><button type="button" data-qc-complaint-granularity="week" class="active">&#x5468;&#x5EA6;</button><button type="button" data-qc-complaint-granularity="month">&#x6708;&#x5EA6;</button><span id="qcComplaintSource"></span></div><div id="qcComplaintAlert" class="qc-complaint-alert" role="alert" hidden></div><div class="qc-complaint-filters" id="qcComplaintFilters" aria-label="客诉筛选"><label><span>开始日期</span><input id="qcComplaintStartDate" type="date" min="2026-01-01" /></label><label><span>结束日期</span><input id="qcComplaintEndDate" type="date" /></label><label><span>品牌</span><select id="qcComplaintBrandFilter"><option value="all">全部品牌</option></select></label><button type="button" id="qcComplaintReset">重置</button></div>
+          <div class="qc-complaint-toolbar" id="qcComplaintToolbar" role="tablist"><button type="button" data-qc-complaint-granularity="week" class="active">&#x5468;&#x5EA6;</button><button type="button" data-qc-complaint-granularity="month">&#x6708;&#x5EA6;</button><span id="qcComplaintSource"></span></div><div id="qcComplaintAlert" class="qc-complaint-alert" role="alert" hidden></div><div class="qc-complaint-filters" id="qcComplaintFilters" aria-label="客诉趋势与品牌对比筛选"><strong class="qc-complaint-filter-title">趋势与品牌对比筛选</strong><div id="qcComplaintQuickRanges" aria-label="快捷时间范围"><button type="button" data-qc-complaint-range="week">近1周</button><button type="button" data-qc-complaint-range="month">近1月</button><button type="button" data-qc-complaint-range="quarter">近3月</button><button type="button" data-qc-complaint-range="all" class="active">全部</button></div><label><span>开始日期</span><input id="qcComplaintStartDate" type="date" min="2026-01-01" /></label><label><span>结束日期</span><input id="qcComplaintEndDate" type="date" /></label><label><span>品牌</span><select id="qcComplaintBrandFilter"><option value="all">全部品牌</option></select></label><button type="button" id="qcComplaintReset">重置</button></div>
           <div id="qcComplaintSummary" class="qc-complaint-summary"></div>
           <article class="qc-data-card qc-complaint-structure-card"><div class="qc-card-title"><strong>客诉问题结构</strong><span>总客诉及质量、面料、生产问题占比</span></div><div id="qcComplaintIssueBreakdown" class="qc-complaint-issue-breakdown"></div></article>
           <div class="qc-complaint-layout"><article class="qc-data-card"><div class="qc-card-title"><strong>&#x54C1;&#x724C;&#x5BA2;&#x8BC9;&#x5BF9;&#x6BD4;</strong><span>&#x5F53;&#x524D;&#x5468;&#x671F;&#x5BA2;&#x8BC9;&#x6570; &#x00F7; &#x4E0A;&#x4E00;&#x5468;&#x671F;&#x53D1;&#x8D27;&#x6570;</span></div><div id="qcComplaintBrandTable" class="qc-complaint-table"></div></article><article class="qc-data-card"><div class="qc-card-title"><strong>&#x53E3;&#x5F84;&#x8BF4;&#x660E;</strong><span>&#x907F;&#x514D;&#x5BA2;&#x8BC9;&#x65F6;&#x6EDE;&#x5BFC;&#x81F4;&#x5931;&#x771F;</span></div><div id="qcComplaintFormula" class="qc-complaint-formula"></div></article></div>
@@ -332,9 +332,9 @@
       </main>
     </div>
 
-    <script src="./app.js?v=complaint-categories-weekly-20260728"></script>
-    <script src="./qc-redesign.js?v=qc-click-notes-v2-20260729"></script>
-    <script src="./qc-p2.js?v=qc-click-notes-v2-20260729"></script>
+    <script src="./app.js?v=p2-people-layout-v7-20260731"></script>
+    <script src="./qc-redesign.js?v=qc-complaint-compare-v4-20260731"></script>
+    <script src="./qc-p2.js?v=p2-people-efficiency-v8-20260731"></script>
   </body>
 </html>
 

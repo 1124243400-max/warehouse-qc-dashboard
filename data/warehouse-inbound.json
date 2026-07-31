@@ -1,14 +1,14 @@
 {
-  "dateKey": "2026-07-29",
-  "label": "7月29日",
-  "updatedAt": "2026-07-30 04:55:01",
+  "dateKey": "2026-07-30",
+  "label": "7月30日",
+  "updatedAt": "2026-07-31 09:22:19",
   "sections": [
     {
       "name": "采购入库",
       "metrics": [
         {
           "label": "已入库件数",
-          "value": 6144,
+          "value": 5498,
           "unit": "件"
         },
         {
@@ -18,7 +18,7 @@
         },
         {
           "label": "上下架参考",
-          "value": 13553,
+          "value": 13295,
           "unit": "件"
         }
       ]
@@ -28,17 +28,17 @@
       "metrics": [
         {
           "label": "拆包件数",
-          "value": 7486,
+          "value": 7884,
           "unit": "件"
         },
         {
           "label": "采购退货",
-          "value": 128,
+          "value": 148,
           "unit": "件"
         },
         {
           "label": "售后包裹",
-          "value": 5295,
+          "value": 5356,
           "unit": "包"
         }
       ]
@@ -48,17 +48,17 @@
       "metrics": [
         {
           "label": "入库作业件数",
-          "value": 6144,
+          "value": 5498,
           "unit": "件"
         },
         {
           "label": "上下架件数",
-          "value": 13553,
+          "value": 13295,
           "unit": "件"
         },
         {
           "label": "上下架次数",
-          "value": 10097,
+          "value": 10365,
           "unit": "次"
         }
       ]

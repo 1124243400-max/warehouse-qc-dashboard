@@ -1,4 +1,1338 @@
 const DATASETS = {
+  "2026-07-30": {
+    "key": "2026-07-30",
+    "label": "7月30日",
+    "sourceFile": "仓库人员工作统计_2026-07-30 00~2026-07-30 23_20260731091044_22955421.xlsx",
+    "sourceType": "single-day",
+    "sourceNote": "单日报表，排名按当天数据计算",
+    "rangeLabel": "2026-07-30 00:00 - 2026-07-30 23:00",
+    "generatedAt": "2026-07-31 09:10:44",
+    "totals": {
+      "pickPieces": 15235,
+      "pickTimes": 15216,
+      "pickSkus": 7902,
+      "pickOrders": 10857,
+      "seedOrders": 1095,
+      "seedPieces": 2567,
+      "checkTimes": 11246,
+      "checkPieces": 13410,
+      "weighTimes": 10207,
+      "weighPieces": 11996,
+      "shipTimes": 11341,
+      "shipPieces": 13805,
+      "inboundPieces": 5498,
+      "purchaseReturnPieces": 148,
+      "moveTimes": 1189,
+      "movePieces": 3088,
+      "returnTimes": 75,
+      "returnPieces": 75,
+      "shelfPieces": 13295,
+      "shelfTimes": 10365,
+      "packPieces": 389,
+      "qcOrders": 30,
+      "qcPieces": 80,
+      "unpackParcels": 5356,
+      "unpackPieces": 7884,
+      "unpackOrders": 7018,
+      "stocktakeTimes": 0,
+      "stocktakePieces": 0,
+      "auditOrders": 282356,
+      "auditConfirmOrders": 35270,
+      "forceAuditOrders": 578,
+      "smartAuditOrders": 246508,
+      "expressPrints": 11377,
+      "barcodePrints": 400,
+      "barcodePrintTimes": 2,
+      "tagPrints": 870,
+      "tagPrintTimes": 85,
+      "activeWorkers": 54,
+      "totalWorkload": 75474,
+      "roles": 19,
+      "warehouses": 2
+    },
+    "processes": [
+      {
+        "key": "pick",
+        "name": "拣货",
+        "primary": 15235,
+        "secondary": 15216,
+        "unit": "件",
+        "subUnit": "次",
+        "progress": 100,
+        "status": "顺畅"
+      },
+      {
+        "key": "seed",
+        "name": "播种",
+        "primary": 2567,
+        "secondary": 1095,
+        "unit": "件",
+        "subUnit": "单",
+        "progress": 17,
+        "status": "积压"
+      },
+      {
+        "key": "check",
+        "name": "验货",
+        "primary": 13410,
+        "secondary": 11246,
+        "unit": "件",
+        "subUnit": "次",
+        "progress": 88,
+        "status": "顺畅"
+      },
+      {
+        "key": "weigh",
+        "name": "称重",
+        "primary": 10207,
+        "secondary": 11996,
+        "unit": "次",
+        "subUnit": "件",
+        "progress": 67,
+        "status": "顺畅"
+      },
+      {
+        "key": "ship",
+        "name": "发货",
+        "primary": 13805,
+        "secondary": 11341,
+        "unit": "件",
+        "subUnit": "次",
+        "progress": 91,
+        "status": "顺畅"
+      },
+      {
+        "key": "inbound",
+        "name": "入库",
+        "primary": 5498,
+        "secondary": 0,
+        "unit": "件",
+        "subUnit": "",
+        "progress": 36,
+        "status": "关注"
+      },
+      {
+        "key": "shelf",
+        "name": "上下架",
+        "primary": 13295,
+        "secondary": 10365,
+        "unit": "件",
+        "subUnit": "次",
+        "progress": 87,
+        "status": "顺畅"
+      },
+      {
+        "key": "unpack",
+        "name": "售后拆包",
+        "primary": 7884,
+        "secondary": 5356,
+        "unit": "件",
+        "subUnit": "包",
+        "progress": 52,
+        "status": "关注"
+      },
+      {
+        "key": "print",
+        "name": "单据打印",
+        "primary": 12647,
+        "secondary": 11377,
+        "unit": "张",
+        "subUnit": "快递单",
+        "progress": 83,
+        "status": "顺畅"
+      }
+    ],
+    "roles": [
+      {
+        "role": "发货",
+        "workers": 15,
+        "workload": 32295,
+        "pickPieces": 5061,
+        "shipPieces": 13020,
+        "checkPieces": 12902,
+        "unpackPieces": 0,
+        "shelfPieces": 12
+      },
+      {
+        "role": "上架",
+        "workers": 9,
+        "workload": 14228,
+        "pickPieces": 6,
+        "shipPieces": 174,
+        "checkPieces": 171,
+        "unpackPieces": 0,
+        "shelfPieces": 11336
+      },
+      {
+        "role": "统计组长",
+        "workers": 1,
+        "workload": 6069,
+        "pickPieces": 0,
+        "shipPieces": 0,
+        "checkPieces": 0,
+        "unpackPieces": 0,
+        "shelfPieces": 619
+      },
+      {
+        "role": "拆包",
+        "workers": 6,
+        "workload": 5416,
+        "pickPieces": 1505,
+        "shipPieces": 86,
+        "checkPieces": 0,
+        "unpackPieces": 3723,
+        "shelfPieces": 0
+      },
+      {
+        "role": "库维员",
+        "workers": 3,
+        "workload": 4232,
+        "pickPieces": 2480,
+        "shipPieces": 0,
+        "checkPieces": 0,
+        "unpackPieces": 0,
+        "shelfPieces": 1129
+      },
+      {
+        "role": "售后拆包",
+        "workers": 5,
+        "workload": 4158,
+        "pickPieces": 0,
+        "shipPieces": 0,
+        "checkPieces": 0,
+        "unpackPieces": 4158,
+        "shelfPieces": 0
+      },
+      {
+        "role": "拣货",
+        "workers": 2,
+        "workload": 3780,
+        "pickPieces": 3274,
+        "shipPieces": 102,
+        "checkPieces": 0,
+        "unpackPieces": 0,
+        "shelfPieces": 1
+      },
+      {
+        "role": "配货员",
+        "workers": 2,
+        "workload": 3521,
+        "pickPieces": 2801,
+        "shipPieces": 83,
+        "checkPieces": 0,
+        "unpackPieces": 0,
+        "shelfPieces": 2
+      },
+      {
+        "role": "审单员",
+        "workers": 1,
+        "workload": 1206,
+        "pickPieces": 3,
+        "shipPieces": 337,
+        "checkPieces": 337,
+        "unpackPieces": 0,
+        "shelfPieces": 3
+      },
+      {
+        "role": "异常件处理",
+        "workers": 2,
+        "workload": 132,
+        "pickPieces": 105,
+        "shipPieces": 3,
+        "checkPieces": 0,
+        "unpackPieces": 0,
+        "shelfPieces": 7
+      },
+      {
+        "role": "品控",
+        "workers": 1,
+        "workload": 96,
+        "pickPieces": 0,
+        "shipPieces": 0,
+        "checkPieces": 0,
+        "unpackPieces": 0,
+        "shelfPieces": 0
+      },
+      {
+        "role": "副总助理",
+        "workers": 1,
+        "workload": 93,
+        "pickPieces": 0,
+        "shipPieces": 0,
+        "checkPieces": 0,
+        "unpackPieces": 0,
+        "shelfPieces": 87
+      },
+      {
+        "role": "统计",
+        "workers": 2,
+        "workload": 93,
+        "pickPieces": 0,
+        "shipPieces": 0,
+        "checkPieces": 0,
+        "unpackPieces": 0,
+        "shelfPieces": 56
+      },
+      {
+        "role": "质检组长",
+        "workers": 1,
+        "workload": 80,
+        "pickPieces": 0,
+        "shipPieces": 0,
+        "checkPieces": 0,
+        "unpackPieces": 0,
+        "shelfPieces": 0
+      },
+      {
+        "role": "仓库副主管",
+        "workers": 1,
+        "workload": 45,
+        "pickPieces": 0,
+        "shipPieces": 0,
+        "checkPieces": 0,
+        "unpackPieces": 0,
+        "shelfPieces": 43
+      },
+      {
+        "role": "自营返修专员",
+        "workers": 1,
+        "workload": 27,
+        "pickPieces": 0,
+        "shipPieces": 0,
+        "checkPieces": 0,
+        "unpackPieces": 0,
+        "shelfPieces": 0
+      },
+      {
+        "role": "主账号",
+        "workers": 1,
+        "workload": 3,
+        "pickPieces": 0,
+        "shipPieces": 0,
+        "checkPieces": 0,
+        "unpackPieces": 3,
+        "shelfPieces": 0
+      },
+      {
+        "role": "面辅料管理",
+        "workers": 2,
+        "workload": 0,
+        "pickPieces": 0,
+        "shipPieces": 0,
+        "checkPieces": 0,
+        "unpackPieces": 0,
+        "shelfPieces": 0
+      },
+      {
+        "role": "陈陈项目",
+        "workers": 1,
+        "workload": 0,
+        "pickPieces": 0,
+        "shipPieces": 0,
+        "checkPieces": 0,
+        "unpackPieces": 0,
+        "shelfPieces": 0
+      }
+    ],
+    "workers": [
+      {
+        "name": "尤佳辉",
+        "role": "统计组长",
+        "warehouse": "临平仓",
+        "workload": 6069,
+        "actions": 12,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 5233,
+        "shelfPieces": 619,
+        "unpackPieces": 0,
+        "expressPrints": 22
+      },
+      {
+        "name": "庞海春",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 5645,
+        "actions": 13,
+        "pickPieces": 211,
+        "pickOrders": 141,
+        "pickTimes": 211,
+        "seedPieces": 110,
+        "checkPieces": 2662,
+        "shipPieces": 2662,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 2301
+      },
+      {
+        "name": "魏子晴",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 5300,
+        "actions": 7,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 2650,
+        "shipPieces": 2650,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 2314
+      },
+      {
+        "name": "郭宝亮",
+        "role": "上架",
+        "warehouse": "临平仓",
+        "workload": 3891,
+        "actions": 4,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 2648,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "赵银",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 3560,
+        "actions": 7,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 1780,
+        "shipPieces": 1780,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 1404
+      },
+      {
+        "name": "魏文敬",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 3070,
+        "actions": 7,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 1535,
+        "shipPieces": 1535,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 1157
+      },
+      {
+        "name": "邹丽玉",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 2606,
+        "actions": 5,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 1303,
+        "shipPieces": 1303,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 1134
+      },
+      {
+        "name": "李雯雅",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 2582,
+        "actions": 5,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 1291,
+        "shipPieces": 1291,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 1223
+      },
+      {
+        "name": "王宁",
+        "role": "上架",
+        "warehouse": "临平仓",
+        "workload": 2287,
+        "actions": 4,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 2283,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "陈强",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 2122,
+        "actions": 14,
+        "pickPieces": 243,
+        "pickOrders": 103,
+        "pickTimes": 243,
+        "seedPieces": 203,
+        "checkPieces": 838,
+        "shipPieces": 838,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 712
+      },
+      {
+        "name": "胡猛",
+        "role": "上架",
+        "warehouse": "临平仓",
+        "workload": 2080,
+        "actions": 4,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 1596,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "蒋周鹏",
+        "role": "上架",
+        "warehouse": "临平仓",
+        "workload": 2030,
+        "actions": 6,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 1288,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "曹志龙",
+        "role": "拣货",
+        "warehouse": "临平仓",
+        "workload": 1964,
+        "actions": 8,
+        "pickPieces": 1693,
+        "pickOrders": 1470,
+        "pickTimes": 1693,
+        "seedPieces": 225,
+        "checkPieces": 0,
+        "shipPieces": 46,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "赵名扬",
+        "role": "配货员",
+        "warehouse": "临平仓",
+        "workload": 1954,
+        "actions": 10,
+        "pickPieces": 1407,
+        "pickOrders": 1050,
+        "pickTimes": 1403,
+        "seedPieces": 503,
+        "checkPieces": 0,
+        "shipPieces": 43,
+        "inboundPieces": 0,
+        "shelfPieces": 1,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "易奎",
+        "role": "拣货",
+        "warehouse": "临平仓",
+        "workload": 1816,
+        "actions": 14,
+        "pickPieces": 1581,
+        "pickOrders": 1416,
+        "pickTimes": 1581,
+        "seedPieces": 106,
+        "checkPieces": 0,
+        "shipPieces": 56,
+        "inboundPieces": 0,
+        "shelfPieces": 1,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "俞建伟",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 1745,
+        "actions": 10,
+        "pickPieces": 1572,
+        "pickOrders": 1431,
+        "pickTimes": 1560,
+        "seedPieces": 113,
+        "checkPieces": 0,
+        "shipPieces": 56,
+        "inboundPieces": 0,
+        "shelfPieces": 4,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "董树安",
+        "role": "拆包",
+        "warehouse": "临平仓",
+        "workload": 1693,
+        "actions": 8,
+        "pickPieces": 1505,
+        "pickOrders": 1250,
+        "pickTimes": 1505,
+        "seedPieces": 102,
+        "checkPieces": 0,
+        "shipPieces": 86,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "陈艳琳",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 1653,
+        "actions": 8,
+        "pickPieces": 1321,
+        "pickOrders": 1064,
+        "pickTimes": 1321,
+        "seedPieces": 296,
+        "checkPieces": 0,
+        "shipPieces": 36,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "蒋周斌",
+        "role": "库维员",
+        "warehouse": "临平仓",
+        "workload": 1619,
+        "actions": 10,
+        "pickPieces": 1055,
+        "pickOrders": 159,
+        "pickTimes": 1055,
+        "seedPieces": 79,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 483,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "黄琴",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 1590,
+        "actions": 5,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 795,
+        "shipPieces": 795,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 695
+      },
+      {
+        "name": "田立立",
+        "role": "配货员",
+        "warehouse": "临平仓",
+        "workload": 1567,
+        "actions": 10,
+        "pickPieces": 1394,
+        "pickOrders": 1237,
+        "pickTimes": 1394,
+        "seedPieces": 132,
+        "checkPieces": 0,
+        "shipPieces": 40,
+        "inboundPieces": 0,
+        "shelfPieces": 1,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "李元",
+        "role": "库维员",
+        "warehouse": "临平仓",
+        "workload": 1323,
+        "actions": 10,
+        "pickPieces": 607,
+        "pickOrders": 126,
+        "pickTimes": 607,
+        "seedPieces": 74,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 257,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "王成",
+        "role": "库维员",
+        "warehouse": "临平仓",
+        "workload": 1290,
+        "actions": 8,
+        "pickPieces": 818,
+        "pickOrders": 88,
+        "pickTimes": 818,
+        "seedPieces": 83,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 389,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "裴永俊",
+        "role": "上架",
+        "warehouse": "临平仓",
+        "workload": 1265,
+        "actions": 4,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 1217,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "吴家兴",
+        "role": "上架",
+        "warehouse": "临平仓",
+        "workload": 1251,
+        "actions": 4,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 1249,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "黎白",
+        "role": "审单员",
+        "warehouse": "临平仓",
+        "workload": 1206,
+        "actions": 18,
+        "pickPieces": 3,
+        "pickOrders": 0,
+        "pickTimes": 3,
+        "seedPieces": 0,
+        "checkPieces": 337,
+        "shipPieces": 337,
+        "inboundPieces": 105,
+        "shelfPieces": 3,
+        "unpackPieces": 0,
+        "expressPrints": 287
+      },
+      {
+        "name": "王凤龙",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 1154,
+        "actions": 8,
+        "pickPieces": 878,
+        "pickOrders": 649,
+        "pickTimes": 875,
+        "seedPieces": 258,
+        "checkPieces": 0,
+        "shipPieces": 18,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "曹达禄",
+        "role": "上架",
+        "warehouse": "临平仓",
+        "workload": 1004,
+        "actions": 4,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 997,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "苏娟",
+        "role": "售后拆包",
+        "warehouse": "临平仓",
+        "workload": 971,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 971,
+        "expressPrints": 0
+      },
+      {
+        "name": "魏晏黎",
+        "role": "拆包",
+        "warehouse": "临平仓",
+        "workload": 952,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 952,
+        "expressPrints": 0
+      },
+      {
+        "name": "李睛丽",
+        "role": "售后拆包",
+        "warehouse": "临平仓",
+        "workload": 923,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 923,
+        "expressPrints": 0
+      },
+      {
+        "name": "王碧飞",
+        "role": "拆包",
+        "warehouse": "临平仓",
+        "workload": 883,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 883,
+        "expressPrints": 0
+      },
+      {
+        "name": "田世汪",
+        "role": "售后拆包",
+        "warehouse": "临平仓",
+        "workload": 844,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 844,
+        "expressPrints": 0
+      },
+      {
+        "name": "余俊文",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 837,
+        "actions": 10,
+        "pickPieces": 577,
+        "pickOrders": 345,
+        "pickTimes": 577,
+        "seedPieces": 254,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 1,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "韩鹏",
+        "role": "售后拆包",
+        "warehouse": "临平仓",
+        "workload": 837,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 837,
+        "expressPrints": 0
+      },
+      {
+        "name": "李文静",
+        "role": "拆包",
+        "warehouse": "临平仓",
+        "workload": 784,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 784,
+        "expressPrints": 0
+      },
+      {
+        "name": "盛瑶",
+        "role": "拆包",
+        "warehouse": "临平仓",
+        "workload": 590,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 590,
+        "expressPrints": 0
+      },
+      {
+        "name": "秦雨婷",
+        "role": "售后拆包",
+        "warehouse": "临平仓",
+        "workload": 583,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 583,
+        "expressPrints": 0
+      },
+      {
+        "name": "李娟",
+        "role": "拆包",
+        "warehouse": "临平仓",
+        "workload": 514,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 514,
+        "expressPrints": 0
+      },
+      {
+        "name": "冯建豪",
+        "role": "上架",
+        "warehouse": "临平仓",
+        "workload": 361,
+        "actions": 13,
+        "pickPieces": 6,
+        "pickOrders": 5,
+        "pickTimes": 6,
+        "seedPieces": 0,
+        "checkPieces": 171,
+        "shipPieces": 174,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 37
+      },
+      {
+        "name": "肖林",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 198,
+        "actions": 12,
+        "pickPieces": 164,
+        "pickOrders": 131,
+        "pickTimes": 164,
+        "seedPieces": 29,
+        "checkPieces": 0,
+        "shipPieces": 4,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "宿仙梅",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 139,
+        "actions": 18,
+        "pickPieces": 95,
+        "pickOrders": 89,
+        "pickTimes": 95,
+        "seedPieces": 0,
+        "checkPieces": 1,
+        "shipPieces": 5,
+        "inboundPieces": 0,
+        "shelfPieces": 7,
+        "unpackPieces": 0,
+        "expressPrints": 7
+      },
+      {
+        "name": "张拼",
+        "role": "品控",
+        "warehouse": "临平仓",
+        "workload": 96,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 96,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "蒋丽娟",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 94,
+        "actions": 7,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 47,
+        "shipPieces": 47,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 47
+      },
+      {
+        "name": "王子民",
+        "role": "副总助理",
+        "warehouse": "",
+        "workload": 93,
+        "actions": 4,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 87,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "周吉雨",
+        "role": "异常件处理",
+        "warehouse": "临平仓",
+        "workload": 90,
+        "actions": 16,
+        "pickPieces": 68,
+        "pickOrders": 67,
+        "pickTimes": 68,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 3,
+        "inboundPieces": 0,
+        "shelfPieces": 6,
+        "unpackPieces": 0,
+        "expressPrints": 2
+      },
+      {
+        "name": "安佳佳",
+        "role": "统计",
+        "warehouse": "临平仓",
+        "workload": 83,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 27,
+        "shelfPieces": 56,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "王来宝",
+        "role": "质检组长",
+        "warehouse": "临平仓",
+        "workload": 80,
+        "actions": 2,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "刘志文",
+        "role": "上架",
+        "warehouse": "临平仓",
+        "workload": 59,
+        "actions": 4,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 58,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "陶峰",
+        "role": "仓库副主管",
+        "warehouse": "临平仓",
+        "workload": 45,
+        "actions": 4,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 43,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "关晶晶",
+        "role": "异常件处理",
+        "warehouse": "临平仓",
+        "workload": 42,
+        "actions": 12,
+        "pickPieces": 37,
+        "pickOrders": 36,
+        "pickTimes": 37,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 1,
+        "unpackPieces": 0,
+        "expressPrints": 4
+      },
+      {
+        "name": "尹嫦娥",
+        "role": "自营返修专员",
+        "warehouse": "临平仓",
+        "workload": 27,
+        "actions": 1,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 27,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "杜婷",
+        "role": "统计",
+        "warehouse": "临平仓",
+        "workload": 10,
+        "actions": 1,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 10,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "马晓芳",
+        "role": "主账号",
+        "warehouse": "",
+        "workload": 3,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 3,
+        "expressPrints": 0
+      },
+      {
+        "name": "余海女",
+        "role": "面辅料管理",
+        "warehouse": "临平仓",
+        "workload": 0,
+        "actions": 6,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 2
+      },
+      {
+        "name": "客户服务麦敏敏",
+        "role": "陈陈项目",
+        "warehouse": "样衣仓",
+        "workload": 0,
+        "actions": 1,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 23
+      },
+      {
+        "name": "何建珍",
+        "role": "面辅料管理",
+        "warehouse": "临平仓",
+        "workload": 0,
+        "actions": 4,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 6
+      }
+    ],
+    "alerts": [
+      {
+        "level": "info",
+        "title": "发货节拍匹配",
+        "desc": "发货 13,805 件，与拣货 15,235 件保持联动。"
+      },
+      {
+        "level": "info",
+        "title": "售后拆包持续作业",
+        "desc": "拆包 7,884 件，包裹 5,356 个。"
+      },
+      {
+        "level": "info",
+        "title": "尤佳辉 产出领先",
+        "desc": "统计组长，累计 6,069 件/次，覆盖 12 类动作。"
+      },
+      {
+        "level": "info",
+        "title": "庞海春 产出领先",
+        "desc": "发货，累计 5,645 件/次，覆盖 13 类动作。"
+      },
+      {
+        "level": "info",
+        "title": "魏子晴 产出领先",
+        "desc": "发货，累计 5,300 件/次，覆盖 7 类动作。"
+      }
+    ]
+  },
   "2026-07-29": {
     "key": "2026-07-29",
     "label": "7月29日",
@@ -30560,6 +31894,8 @@ qcState = {
   complaintStart: '2026-01-01',
   complaintEnd: '',
   complaintBrand: 'all',
+  complaintRangePreset: 'all',
+  complaintCompareBrands: null,
   rankMode: 'qc',
   qcSubMode: 'all',
   efficiencyQcSubMode: 'all',
@@ -30803,7 +32139,7 @@ function qcFilterRows(rows, range, options = {}) {
   const filterPerson = options.person !== false;
   return (rows || []).filter((row) => {
     if (row.d < range.start || row.d > range.end) return false;
-    if (options.brand !== false && !qcBrandMatches(row.b)) return false;
+    if (options.brand !== false && row.b != null && !qcBrandMatches(row.b)) return false;
     if (filterPerson && qcState.person !== 'all' && row.n !== qcState.person && row.rn !== qcState.person && row.qn !== qcState.person) return false;
     return true;
   });
@@ -30906,7 +32242,7 @@ function qcBars(items, emptyText) {
 }
 
 function qcRefreshPersonOptions() {
-  const rows = (qcState.data?.capacity || []).filter((row) => row.d >= qcState.start && row.d <= qcState.end && qcBrandMatches(row.b));
+  const rows = (qcState.data?.capacity || []).filter((row) => row.d >= qcState.start && row.d <= qcState.end);
   const people = new Map();
   rows.forEach((row) => {
     if (!row.n) return;
@@ -31041,7 +32377,9 @@ function qcPrimaryOutput(row) {
 }
 
 function qcEffectiveHours(row) {
-  return Math.max(0, Number(row?.wh) || 0);
+  const totalHours = Number(row?.wh) || 0;
+  const otherHours = Number(row?.other) || 0;
+  return Math.max(0, totalHours - otherHours);
 }
 function qcEfficiencyOutput(row, field = null) {
   if (field) return Number(row[field]) || 0;
@@ -31103,13 +32441,13 @@ function qcRenderEfficiency(rows, rangeValue) {
   $('#qcEfficiencyTabs').querySelectorAll('[data-qc-efficiency-qc-sub-mode]').forEach((button) => button.addEventListener('click', () => { qcState.efficiencyQcSubMode = button.dataset.qcEfficiencyQcSubMode; renderQCDashboard(); }));
   $('#qcOverallEfficiencyScope').textContent = `${range} · ${brandLabel} · ${personLabel} · ${efficiencyLabel}`;
   $('#qcIndividualEfficiencyScope').textContent = `${range} · ${brandLabel} · ${efficiencyLabel} · ${qcState.person === 'all' ? '按个人排名' : '当前单人'}`;
-const overallCards = [
-    ['\u603b\u4f53\u4eba\u6548', overall.rate === null ? '\u6709\u6548\u5de5\u65f6\u4e0d\u8db3' : `${qcDecimal(overall.rate)} \u4ef6/\u4eba\u65f6`, `${efficiencyLabel}\u6b63\u5f0f\u4ea7\u80fd \u00f7 \u5728\u5c97\u65f6\u957f`],
-    ['\u6709\u6548\u4ea7\u51fa', `${qcNumber(overall.output, '0')} \u4ef6`, '仅统计飞书正式产能字段'],
-    ['\u5728\u5c97\u65f6\u957f', `${qcDecimal(overall.hours)} \u5c0f\u65f6`, `${qcNumber(overall.people, '0')} \u4eba \u00b7 ${qcNumber(overall.personDays, '0')} \u4eba\u5929`],
-    ['\u4eba\u5929\u5de5\u65f6\u8986\u76d6\u7387', `${overall.coverage}%`, `${qcNumber(overall.validGroups.length, '0')} / ${qcNumber(overall.groups.length, '0')} \u4eba\u5929`],
+  const overallCards = [
+    ['\u603b\u4f53\u4eba\u6548', overall.rate === null ? '\u6709\u6548\u5de5\u65f6\u4e0d\u8db3' : `${qcDecimal(overall.rate)} \u4ef6/\u4eba\u65f6`],
+    ['\u6709\u6548\u4ea7\u51fa', `${qcNumber(overall.output, '0')} \u4ef6`],
+    ['\u6709\u6548\u5728\u5c97\u65f6\u957f', `${qcDecimal(overall.hours)} \u5c0f\u65f6`],
+    ['\u4eba\u5929\u5de5\u65f6\u8986\u76d6\u7387', `${overall.coverage}%`],
   ];
-$('#qcOverallEfficiency').innerHTML = `<div class="qc-overall-grid">${overallCards.map(([label, value, note]) => `<article><span>${label}</span><strong>${value}</strong><p>${note}</p></article>`).join('')}</div><p class="qc-efficiency-method">人效＝飞书正式产能字段 ÷ 在岗时长；备注仅供说明，不计入产能。选择部分品牌时，工时按当天产能占比折算。</p>`;
+  $('#qcOverallEfficiency').innerHTML = `<div class="qc-overall-grid">${overallCards.map(([label, value]) => `<article><span>${label}</span><strong>${value}</strong></article>`).join('')}</div>`;
 
   const people = new Map();
   overall.validGroups.forEach((item) => {
@@ -31155,7 +32493,7 @@ function renderQCBrandGroups(data, rows) {
   if (!root) return;
   const preferred = QC_MAIN_BRANDS;
   const brandTotals = new Map();
-  rows.forEach((row) => brandTotals.set(row.b, (brandTotals.get(row.b) || 0) + row.q + row.pk + row.rrp + row.ir));
+  (data.capacityByBrand || rows).forEach((row) => brandTotals.set(row.b, (brandTotals.get(row.b) || 0) + row.q + row.pk + row.rrp + row.ir));
   let brands = qcState.brands.length
     ? qcState.brands.filter((brand) => brandTotals.has(brand))
     : preferred.filter((brand) => brandTotals.has(brand));
@@ -31163,7 +32501,7 @@ function renderQCBrandGroups(data, rows) {
     [...brandTotals.entries()].sort((a, b) => b[1] - a[1]).forEach(([brand]) => { if (brands.length < 3 && !brands.includes(brand)) brands.push(brand); });
   }
   root.innerHTML = brands.length ? brands.map((brand, index) => {
-    const brandRows = rows.filter((row) => row.b === brand);
+    const brandRows = (data.capacityByBrand || rows).filter((row) => row.b === brand);
     const modeKey = qcState.brandModes[brand] || 'qc';
     const mode = QC_WORK_MODES.find((item) => item.key === modeKey) || QC_WORK_MODES[0];
     const subModeKey = qcState.brandQcSubModes[brand] || 'all';
@@ -31171,7 +32509,7 @@ function renderQCBrandGroups(data, rows) {
       ? QC_QC_SUBMODES.find((item) => item.key === subModeKey) || QC_QC_SUBMODES[0]
       : mode;
     const modeLabel = mode.key === 'qc' ? subMode.label : mode.label;
-    const ranking = qcAggregateRanking(qcRowsForRoleMode(brandRows, subMode), mode.field).slice(0, 15);
+    const ranking = (brandRows.some((r) => r.n) ? qcAggregateRanking(qcRowsForRoleMode(brandRows, subMode), mode.field) : []).slice(0, 15);
     const max = Math.max(1, ...ranking.map((row) => row.value));
     const open = Object.prototype.hasOwnProperty.call(qcState.brandOpen, brand) ? qcState.brandOpen[brand] : index === 0;
     const totals = qcCapacityMetrics(brandRows);
@@ -31244,7 +32582,9 @@ function qcComplaintVisiblePeriods(complaintData, granularity) {
   const periods = Array.isArray(complaintData?.[key]) ? complaintData[key] : [];
   const start = qcState.complaintStart || complaintData?.availableRange?.start || '2026-01-01';
   const end = qcState.complaintEnd || complaintData?.availableRange?.end || '';
-  return periods.filter((period) => (!start || period.end >= start) && (!end || period.start <= end));
+  return periods.filter((period) => granularity === 'month'
+    ? (!start || period.end >= start) && (!end || period.start <= end)
+    : (!start || period.start >= start) && (!end || period.start <= end));
 }
 function qcComplaintSelectedValues(period) {
   const allBrands = Array.isArray(period?.brands) ? period.brands : [];
@@ -31266,6 +32606,7 @@ function qcRenderComplaintBrandOptions(complaintData, periods) {
   const end = $('#qcComplaintEndDate');
   if (start) { start.min = availableStart; start.max = availableEnd; start.value = qcState.complaintStart || availableStart; }
   if (end) { end.min = availableStart; end.max = availableEnd; end.value = qcState.complaintEnd || availableEnd; }
+  document.querySelectorAll('[data-qc-complaint-range]').forEach((button) => button.classList.toggle('active', button.dataset.qcComplaintRange === qcState.complaintRangePreset));
 }
 function qcRenderComplaints() {
   const summary = $('#qcComplaintSummary');
@@ -31334,7 +32675,7 @@ summary.innerHTML = `
     : partialCoverage
       ? `周报已同步 ${coverageNames}（${coveredBrands.length}/${periodBrands.length} 品牌）：面料、生产占比按已同步品牌客诉 ${qcNumber(coveredComplaints, '0')} 件计算，并非全部品牌汇总。`
       : '当前品牌的面料、生产分项尚未从周报同步；不会用差额推算。';
-  if (breakdown) breakdown.innerHTML = `<div class="qc-complaint-issue-total"><span>总客诉</span><strong>${qcNumber(totalComplaints, '0')}<small>件</small></strong></div><div class="qc-complaint-issue-grid">${categories.map((item) => `<article class="${item.tone}"><span>${item.label}</span><strong>${categoryText(item.value)}</strong><p>${item.note}</p><b>${categoryShare(item.value, item.denominator)}</b></article>`).join('')}</div><p class="qc-complaint-issue-note ${partialCoverage ? 'partial' : ''}">${categoryNote}</p>`;
+  if (breakdown) breakdown.innerHTML = `<div class="qc-complaint-issue-total"><span>总客诉</span><strong>${qcNumber(totalComplaints, '0')}<small>件</small></strong></div><div class="qc-complaint-issue-grid">${categories.map((item) => `<article class="${item.tone}"><span>${item.label}</span><strong>${categoryText(item.value)}</strong><b>${categoryShare(item.value, item.denominator)}</b></article>`).join('')}</div>${categoryBreakdownReady ? '' : `<p class="qc-complaint-issue-note ${partialCoverage ? 'partial' : ''}">${categoryNote}</p>`}`;
   const brands = (Array.isArray(currentPeriod.brands) ? currentPeriod.brands : []).filter((brand) => qcState.complaintBrand === 'all' || brand.name === qcState.complaintBrand);
 table.innerHTML = brands.length ? `
     <div class="qc-complaint-table-head"><span>\u54c1\u724c</span><span>\u672c\u671f\u5ba2\u8bc9</span><span>\u672c\u671f\u53d1\u8d27</span><span>\u5b9e\u9645\u5ba2\u8bc9\u7387</span><span>\u8d28\u68c0\u95ee\u9898\u5ba2\u8bc9\u7387</span><span>\u5ba2\u8bc9\u6570\u53d8\u5316\uff08\u8f83\u4e0a\u671f\uff09</span></div>
@@ -31427,14 +32768,14 @@ function qcRenderQuality(issueRows, repairRows, capacityRows, rangeValue) {
   const workdays = new Set(repairCapacityRows.map((row) => row.d).filter(Boolean)).size;
   const dailyEffectiveRepairCapacity = workdays ? effectiveRepairCapacity / workdays : 0;
   const renderRepairEffectivePeople = (rows) => rows.length ?
-    '<div class="qc-repair-effective-table-head"><span>人员</span><span>进返修间</span><span>二次返修率</span><span>有效产能</span><span>日均有效产能（Base内部修正）</span><span>工作日</span></div>' +
+    '<div class="qc-repair-effective-table-head"><span>人员</span><span>进返修间</span><span>二次返修率</span><span>有效产能</span><span>日均有效产能</span><span>工作日</span></div>' +
     rows.map((person) => '<div class="qc-repair-effective-table-row' + (person.secondRate !== null && person.secondRate > 0.15 ? ' warning' : '') + '"><strong>' + qcEscape(person.name) + '</strong><span>' + qcNumber(person.capacity, '0') + ' 件</span><span>' + (person.secondRate === null ? '待核对' : qcPercent(person.secondRate) + '%') + '</span><b>' + (person.effective === null ? '待核对' : qcDecimal(person.effective, 2) + ' 件') + '</b><b>' + (person.effective === null || !person.days ? '—' : qcDecimal(person.daily, 2) + ' 件/天') + '</b><span>' + qcNumber(person.days, '0') + ' 天</span></div>').join('') : '<p class="qc-empty">当前筛选下暂无进返修间有效产能记录</p>';
   $('#qcQualitySummary').innerHTML = `
     <article class="qc-quality-metric"><span>抽检数</span><strong>${qcNumber(samples, '0')}<small>件</small></strong></article>
     <article class="qc-quality-metric"><span>次品数</span><strong>${qcNumber(defects, '0')}<small>件</small></strong></article>
     <article class="qc-quality-metric"><span>问题率</span><strong>${defectRate}<small>%</small></strong></article>
     <article class="qc-quality-metric"><span>问题记录</span><strong>${qcNumber(issueRows.length, '0')}<small>条</small></strong></article>
-    <p class="qc-quality-note">质量问题率按“次品数 ÷ 抽检数”计算；返修闭环使用独立返修明细，不与抽检问题率混算。</p>`;
+`;
   const bulkSampleCount = qcSum(issueRows, 's');
   const bulkDefectCount = qcSum(issueRows, 'x');
   const bulkIssueRate = bulkSampleCount ? bulkDefectCount / bulkSampleCount : null;
@@ -31443,7 +32784,7 @@ function qcRenderQuality(issueRows, repairRows, capacityRows, rangeValue) {
   const samplingRoot = document.querySelector('#qcSamplingBreakdown');
   if (samplingRoot) {
     samplingRoot.innerHTML = '<div class="qc-sampling-grid">' +
-      '<article class="qc-sampling-item bulk"><span>大货抽检</span><strong>' + qcNumber(bulkSampleCount, '0') + '<small>件</small></strong><p>问题 ' + qcNumber(bulkDefectCount, '0') + ' 件 · 问题率 ' + (bulkIssueRate === null ? '—' : qcPercent(bulkIssueRate) + '%') + '</p><em>来源：大货问题明细</em></article>' +
+      '<article class="qc-sampling-item bulk"><span>大货抽检</span><strong>' + qcNumber(bulkSampleCount, '0') + '<small>件</small></strong><p>问题 ' + qcNumber(bulkDefectCount, '0') + ' 件 · 问题率 ' + (bulkIssueRate === null ? '—' : qcPercent(bulkIssueRate) + '%') + '</p></article>' +
       '<article class="qc-sampling-item return"><span>销退抽检</span><strong>' + qcNumber(returnSampleCount, '0') + '<small>件</small></strong><p>销退质检汇总 ' + qcNumber(returnSummaryCount, '0') + ' 件</p><em>当前数据未提供销退次品明细，暂不计算问题率</em></article>' +
       '</div>';
   }  $('#qcIssueRanking').innerHTML = qcBars(issueItems, '当前条件下暂无可计数的质量问题');
@@ -31454,23 +32795,23 @@ function qcRenderQuality(issueRows, repairRows, capacityRows, rangeValue) {
       <section class="qc-repair-lane red">
         <div class="qc-repair-lane-title"><i aria-hidden="true"></i><strong>\u8FD4\u4FEE\u4EBA\u5458\u4FA7</strong></div>
         <div class="qc-repair-lane-cards">
-          <article class="red"><span>\u8FD4\u4FEE\u4ED3\u8FD4\u4FEE\u603B\u6570\uFF08\u0042\u0061\u0073\u0065\uFF09</span><strong>${qcNumber(repairCapacity, '0')}<small>\u4EF6</small></strong><p>\u54C1\u63A7\u90E8\u6570\u636E\u6C47\u603B\uFF1A\u8FD4\u4FEE\u4ED3\u8FD4\u4FEE\u6570\u91CF\u6C47\u603B\u5B57\u6BB5\u0020\u0072\u0072\u0070\uFF1B\u4E0E\u5468\u62A5\u540C\u53E3\u5F84\u6838\u5BF9</p></article>
-          <article class="red"><span>\u9000\u8FD4\u4FEE\u4ED3\uFF08\u0042\u0061\u0073\u0065\uFF09</span><strong>${qcNumber(warehouse, '0')}<small>\u4EF6</small></strong><p>\u54C1\u63A7\u90E8\u6570\u636E\u6C47\u603B\uFF1A\u8FD4\u4FEE\u6570\u636E\u660E\u7EC6\u5B57\u6BB5\u0020\u0077</p></article>
+          <article class="red"><span>\u8FD4\u4FEE\u4ED3\u8FD4\u4FEE\u603B\u6570</span><strong>${qcNumber(repairCapacity, '0')}<small>\u4EF6</small></strong></article>
+          <article class="red"><span>\u9000\u8FD4\u4FEE\u4ED3</span><strong>${qcNumber(warehouse, '0')}<small>\u4EF6</small></strong></article>
         </div>
       </section>
       <i class="qc-repair-arrow" aria-hidden="true">\u2192</i>
       <section class="qc-repair-lane blue">
         <div class="qc-repair-lane-title"><i aria-hidden="true"></i><strong>\u8D28\u68C0\u4EBA\u5458\u4FA7</strong></div>
         <div class="qc-repair-lane-cards">
-          <article class="blue"><span>\u8D28\u68C0\u590D\u68C0\u91CF\uFF08\u0042\u0061\u0073\u0065\uFF09</span><strong>${qcNumber(qcTotal, '0')}<small>\u4EF6</small></strong><p>\u54C1\u63A7\u90E8\u6570\u636E\u6C47\u603B\uFF1A\u8FD4\u4FEE\u6570\u636E\u660E\u7EC6\u5B57\u6BB5\u0020\u0071</p></article>
-          <article class="blue"><span>\u73B0\u573A\u5904\u7406\uFF08\u0042\u0061\u0073\u0065\uFF09</span><strong>${qcNumber(onsite, '0')}<small>\u4EF6</small></strong><p>\u54C1\u63A7\u90E8\u6570\u636E\u6C47\u603B\uFF1A\u8FD4\u4FEE\u6570\u636E\u660E\u7EC6\u5B57\u6BB5\u0020\u006F</p></article>
+          <article class="blue"><span>\u8D28\u68C0\u590D\u68C0\u91CF</span><strong>${qcNumber(qcTotal, '0')}<small>\u4EF6</small></strong></article>
+          <article class="blue"><span>\u73B0\u573A\u5904\u7406</span><strong>${qcNumber(onsite, '0')}<small>\u4EF6</small></strong></article>
         </div>
       </section>
       <div class="qc-repair-outcomes">
-        <article class="qc-repair-effective"><span>进返修间有效产能（Base内部修正）</span><strong>${qcDecimal(effectiveRepairCapacity, 2)}<small>件</small></strong><p>进返修间数量 ${qcNumber(repairCapacity, '0')} 件 × （1 − ${qcPercent(secondRepairRate)}%）<sup>2</sup></p></article>
-        <article class="qc-repair-effective"><span>日均有效产能（Base内部修正）</span><strong>${qcDecimal(dailyEffectiveRepairCapacity, 2)}<small>件/天</small></strong><p>有效产能 ÷ ${qcNumber(workdays, '0')} 个上班日</p></article>
+        <article class="qc-repair-effective"><span>进返修间有效产能</span><strong>${qcDecimal(effectiveRepairCapacity, 2)}<small>件</small></strong></article>
+        <article class="qc-repair-effective"><span>日均有效产能</span><strong>${qcDecimal(dailyEffectiveRepairCapacity, 2)}<small>件/天</small></strong></article>
       </div>
-      <article class="qc-repair-rate"><span>二次返修率</span><strong>${repairDefectRate}<small>%</small></strong><p>品控部数据汇总： ${qcNumber(warehouse, '0')} 退返修仓 ÷ ${qcNumber(qcTotal, '0')} 质检复检量 q</p></article>
+      <article class="qc-repair-rate"><span>二次返修率</span><strong>${repairDefectRate}<small>%</small></strong></article>
     </div>`;
   $('#qcRepairEffectivePersonal').innerHTML = renderRepairEffectivePeople(repairEffectiveRows);
 }
@@ -31620,7 +32961,7 @@ function qcBindFilters() {
   });
 
   const brandTotals = new Map();
-  data.capacity.forEach((row) => brandTotals.set(row.b, (brandTotals.get(row.b) || 0) + qcEfficiencyOutput(row, null)));
+  (data.capacityByBrand || data.capacity).forEach((row) => brandTotals.set(row.b, (brandTotals.get(row.b) || 0) + qcEfficiencyOutput(row, null)));
   const brands = [...brandTotals.keys()].filter(Boolean).sort((a, b) => {
     const aMain = QC_MAIN_BRANDS.indexOf(a);
     const bMain = QC_MAIN_BRANDS.indexOf(b);
@@ -31705,26 +33046,46 @@ function qcBindFilters() {
     const button = event.target.closest('[data-qc-complaint-granularity]');
     if (!button) return;
     qcState.complaintGranularity = button.dataset.qcComplaintGranularity === 'month' ? 'month' : 'week';
-    qcRenderComplaints();
+    renderQCDashboard();
   });
   const complaintStart = $('#qcComplaintStartDate');
   const complaintEnd = $('#qcComplaintEndDate');
   const complaintBrand = $('#qcComplaintBrandFilter');
   const complaintReset = $('#qcComplaintReset');
-  const updateComplaintFilter = () => {
+  const updateComplaintFilter = (customRange = false) => {
     qcState.complaintStart = complaintStart?.value || '2026-01-01';
     qcState.complaintEnd = complaintEnd?.value || qcState.complaints?.availableRange?.end || '';
     qcState.complaintBrand = complaintBrand?.value || 'all';
-    qcRenderComplaints();
+    if (customRange) qcState.complaintRangePreset = 'custom';
+    renderQCDashboard();
   };
-  complaintStart?.addEventListener('change', updateComplaintFilter);
-  complaintEnd?.addEventListener('change', updateComplaintFilter);
-  complaintBrand?.addEventListener('change', updateComplaintFilter);
+  complaintStart?.addEventListener('change', () => updateComplaintFilter(true));
+  complaintEnd?.addEventListener('change', () => updateComplaintFilter(true));
+  complaintBrand?.addEventListener('change', () => updateComplaintFilter(false));
   complaintReset?.addEventListener('click', () => {
     qcState.complaintStart = qcState.complaints?.availableRange?.start || '2026-01-01';
     qcState.complaintEnd = qcState.complaints?.availableRange?.end || '';
     qcState.complaintBrand = 'all';
-    qcRenderComplaints();
+    qcState.complaintRangePreset = 'all';
+    qcState.complaintCompareBrands = null;
+    renderQCDashboard();
+  });
+  $('#qcComplaintQuickRanges')?.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-qc-complaint-range]');
+    if (!button) return;
+    const data = qcState.complaints || {};
+    const end = data.availableRange?.end || '';
+    const latestWeek = (data.weekly || []).at(-1);
+    const monthStart = (months) => {
+      const [year, month] = end.slice(0, 7).split('-').map(Number);
+      const date = new Date(year, month - months, 1);
+      return String(date.getFullYear()) + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-01';
+    };
+    const range = button.dataset.qcComplaintRange;
+    qcState.complaintStart = range === 'week' ? (latestWeek?.start || end) : range === 'month' ? monthStart(1) : range === 'quarter' ? monthStart(3) : (data.availableRange?.start || '2026-01-01');
+    qcState.complaintEnd = range === 'week' ? (latestWeek?.end || end) : end;
+    qcState.complaintRangePreset = range;
+    renderQCDashboard();
   });  $('#qcQuickRange').addEventListener('change', (event) => {
     const range = qcQuickRange(event.target.value);
     if (!range) return;

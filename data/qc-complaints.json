@@ -1,7 +1,7 @@
 {
   "version": 2,
   "source": "飞书知识库「临平仓储--知识库」/「仓储周会」",
-  "generatedAt": "2026-07-28T08:49:42.262Z",
+  "generatedAt": "2026-07-31T03:04:33.121Z",
   "availableRange": {
     "start": "2026-01-01",
     "end": "2026-07-24"
@@ -80,17 +80,6 @@
       "previousQualityIssues": 317,
       "brands": [
         {
-          "name": "陈陈",
-          "shipment": 23720,
-          "complaints": 206,
-          "qualityIssues": 36,
-          "fabricComplaints": null,
-          "productionComplaints": null,
-          "previousShipment": 29432,
-          "previousComplaints": 190,
-          "previousQualityIssues": 39
-        },
-        {
           "name": "鹭青一",
           "shipment": 51085,
           "complaints": 712,
@@ -111,6 +100,17 @@
           "previousShipment": 28770,
           "previousComplaints": 563,
           "previousQualityIssues": 127
+        },
+        {
+          "name": "陈陈",
+          "shipment": 23720,
+          "complaints": 206,
+          "qualityIssues": 36,
+          "fabricComplaints": null,
+          "productionComplaints": null,
+          "previousShipment": 29432,
+          "previousComplaints": 190,
+          "previousQualityIssues": 39
         }
       ]
     },
@@ -491,49 +491,49 @@
       ]
     },
     {
-      "start": "2026-04-05",
-      "end": "2026-04-11",
-      "shipment": 62292,
-      "complaints": 1402,
-      "qualityIssues": 223,
+      "start": "2026-03-29",
+      "end": "2026-04-04",
+      "shipment": 81568,
+      "complaints": 1389,
+      "qualityIssues": 229,
       "fabricComplaints": null,
       "productionComplaints": null,
-      "previousShipment": 81568,
-      "previousComplaints": 1389,
-      "previousQualityIssues": 229,
+      "previousShipment": 61421,
+      "previousComplaints": 506,
+      "previousQualityIssues": 88,
       "brands": [
         {
           "name": "鹭青一",
-          "shipment": 31814,
-          "complaints": 606,
-          "qualityIssues": 96,
+          "shipment": 40451,
+          "complaints": 623,
+          "qualityIssues": 95,
           "fabricComplaints": null,
           "productionComplaints": null,
-          "previousShipment": 40451,
-          "previousComplaints": 623,
-          "previousQualityIssues": 95
+          "previousShipment": 30607,
+          "previousComplaints": 171,
+          "previousQualityIssues": 29
         },
         {
           "name": "周淼",
-          "shipment": 30478,
-          "complaints": 796,
-          "qualityIssues": 127,
+          "shipment": 41117,
+          "complaints": 766,
+          "qualityIssues": 134,
           "fabricComplaints": null,
           "productionComplaints": null,
-          "previousShipment": 41117,
-          "previousComplaints": 766,
-          "previousQualityIssues": 134
+          "previousShipment": 30814,
+          "previousComplaints": 335,
+          "previousQualityIssues": 59
         },
         {
           "name": "陈陈",
-          "shipment": 16835,
-          "complaints": 134,
-          "qualityIssues": 19,
+          "shipment": 24865,
+          "complaints": 150,
+          "qualityIssues": 26,
           "fabricComplaints": null,
           "productionComplaints": null,
-          "previousShipment": 24865,
-          "previousComplaints": 150,
-          "previousQualityIssues": 26
+          "previousShipment": 14149,
+          "previousComplaints": 169,
+          "previousQualityIssues": 34
         }
       ]
     },
@@ -679,53 +679,6 @@
       ]
     },
     {
-      "start": "2026-05-03",
-      "end": "2026-05-09",
-      "shipment": 84728,
-      "complaints": 1329,
-      "qualityIssues": 179,
-      "fabricComplaints": null,
-      "productionComplaints": null,
-      "previousShipment": 73650,
-      "previousComplaints": 1542,
-      "previousQualityIssues": 198,
-      "brands": [
-        {
-          "name": "鹭青一",
-          "shipment": 49970,
-          "complaints": 775,
-          "qualityIssues": 108,
-          "fabricComplaints": null,
-          "productionComplaints": null,
-          "previousShipment": 40366,
-          "previousComplaints": 852,
-          "previousQualityIssues": 100
-        },
-        {
-          "name": "周淼",
-          "shipment": 34758,
-          "complaints": 554,
-          "qualityIssues": 71,
-          "fabricComplaints": null,
-          "productionComplaints": null,
-          "previousShipment": 33284,
-          "previousComplaints": 690,
-          "previousQualityIssues": 98
-        },
-        {
-          "name": "陈陈",
-          "shipment": 22293,
-          "complaints": 362,
-          "qualityIssues": 33,
-          "fabricComplaints": null,
-          "productionComplaints": null,
-          "previousShipment": 20797,
-          "previousComplaints": 306,
-          "previousQualityIssues": 39
-        }
-      ]
-    },
-    {
       "start": "2026-05-10",
       "end": "2026-05-16",
       "shipment": 66157,
@@ -867,53 +820,6 @@
       ]
     },
     {
-      "start": "2026-05-31",
-      "end": "2026-06-06",
-      "shipment": 93908,
-      "complaints": 1600,
-      "qualityIssues": 209,
-      "fabricComplaints": null,
-      "productionComplaints": null,
-      "previousShipment": 99612,
-      "previousComplaints": 1441,
-      "previousQualityIssues": 188,
-      "brands": [
-        {
-          "name": "鹭青一",
-          "shipment": 55184,
-          "complaints": 999,
-          "qualityIssues": 138,
-          "fabricComplaints": null,
-          "productionComplaints": null,
-          "previousShipment": 65797,
-          "previousComplaints": 922,
-          "previousQualityIssues": 127
-        },
-        {
-          "name": "周淼",
-          "shipment": 38724,
-          "complaints": 601,
-          "qualityIssues": 71,
-          "fabricComplaints": null,
-          "productionComplaints": null,
-          "previousShipment": 33815,
-          "previousComplaints": 519,
-          "previousQualityIssues": 61
-        },
-        {
-          "name": "陈陈",
-          "shipment": 41585,
-          "complaints": 768,
-          "qualityIssues": 75,
-          "fabricComplaints": null,
-          "productionComplaints": null,
-          "previousShipment": 30709,
-          "previousComplaints": 584,
-          "previousQualityIssues": 51
-        }
-      ]
-    },
-    {
       "start": "2026-06-07",
       "end": "2026-06-13",
       "shipment": 81887,
@@ -1008,53 +914,6 @@
       ]
     },
     {
-      "start": "2026-06-21",
-      "end": "2026-06-27",
-      "shipment": 107383,
-      "complaints": 1225,
-      "qualityIssues": 184,
-      "fabricComplaints": null,
-      "productionComplaints": null,
-      "previousShipment": 75020,
-      "previousComplaints": 1549,
-      "previousQualityIssues": 202,
-      "brands": [
-        {
-          "name": "鹭青一",
-          "shipment": 58803,
-          "complaints": 792,
-          "qualityIssues": 123,
-          "fabricComplaints": null,
-          "productionComplaints": null,
-          "previousShipment": 45393,
-          "previousComplaints": 928,
-          "previousQualityIssues": 120
-        },
-        {
-          "name": "周淼",
-          "shipment": 48580,
-          "complaints": 433,
-          "qualityIssues": 61,
-          "fabricComplaints": null,
-          "productionComplaints": null,
-          "previousShipment": 29627,
-          "previousComplaints": 621,
-          "previousQualityIssues": 82
-        },
-        {
-          "name": "陈陈",
-          "shipment": 33610,
-          "complaints": 822,
-          "qualityIssues": 52,
-          "fabricComplaints": null,
-          "productionComplaints": null,
-          "previousShipment": 29705,
-          "previousComplaints": 956,
-          "previousQualityIssues": 49
-        }
-      ]
-    },
-    {
       "start": "2026-06-28",
       "end": "2026-07-04",
       "shipment": 62578,
@@ -1087,6 +946,17 @@
           "previousShipment": 48580,
           "previousComplaints": 433,
           "previousQualityIssues": 61
+        },
+        {
+          "name": "陈陈",
+          "shipment": 25512,
+          "complaints": 795,
+          "qualityIssues": 50,
+          "fabricComplaints": null,
+          "productionComplaints": null,
+          "previousShipment": 33610,
+          "previousComplaints": 822,
+          "previousQualityIssues": 52
         }
       ]
     },
@@ -1192,28 +1062,6 @@
       "qualityIssues": 141,
       "fabricComplaints": null,
       "productionComplaints": null,
-      "warehouse": {
-        "brands": [
-          {
-            "name": "鹭青一",
-            "inbound": 2066,
-            "inboundReturnRate": 0.0799,
-            "outbound": 3523
-          },
-          {
-            "name": "周淼",
-            "inbound": 2570,
-            "inboundReturnRate": 0.1634,
-            "outbound": 2448
-          },
-          {
-            "name": "陈陈",
-            "inbound": 1635,
-            "inboundReturnRate": 0.1382,
-            "outbound": 1584
-          }
-        ]
-      },
       "previousShipment": 77779,
       "previousComplaints": 952,
       "previousQualityIssues": 132,
@@ -1225,10 +1073,10 @@
           "qualityIssues": 91,
           "fabricComplaints": 234,
           "productionComplaints": 262,
-          "categorySource": "2026年7月25日周会周报",
           "previousShipment": 43286,
           "previousComplaints": 545,
-          "previousQualityIssues": 81
+          "previousQualityIssues": 81,
+          "categorySource": "2026年7月25日周会周报"
         },
         {
           "name": "周淼",
@@ -1252,7 +1100,29 @@
           "previousComplaints": 577,
           "previousQualityIssues": 37
         }
-      ]
+      ],
+      "warehouse": {
+        "brands": [
+          {
+            "name": "鹭青一",
+            "inbound": 2066,
+            "inboundReturnRate": 0.0799,
+            "outbound": 3523
+          },
+          {
+            "name": "周淼",
+            "inbound": 2570,
+            "inboundReturnRate": 0.1634,
+            "outbound": 2448
+          },
+          {
+            "name": "陈陈",
+            "inbound": 1635,
+            "inboundReturnRate": 0.1382,
+            "outbound": 1584
+          }
+        ]
+      }
     }
   ],
   "monthly": [
@@ -1397,17 +1267,17 @@
     {
       "start": "2026-04-01",
       "end": "2026-04-30",
-      "shipment": 214632,
-      "complaints": 4360,
-      "qualityIssues": 637,
+      "shipment": 233908,
+      "complaints": 4347,
+      "qualityIssues": 643,
       "fabricComplaints": null,
       "productionComplaints": null,
       "brands": [
         {
           "name": "鹭青一",
-          "shipment": 116448,
-          "complaints": 2060,
-          "qualityIssues": 303,
+          "shipment": 125085,
+          "complaints": 2077,
+          "qualityIssues": 302,
           "fabricComplaints": null,
           "productionComplaints": null,
           "previousShipment": 90866,
@@ -1416,9 +1286,9 @@
         },
         {
           "name": "周淼",
-          "shipment": 98184,
-          "complaints": 2300,
-          "qualityIssues": 334,
+          "shipment": 108823,
+          "complaints": 2270,
+          "qualityIssues": 341,
           "fabricComplaints": null,
           "productionComplaints": null,
           "previousShipment": 93906,
@@ -1427,9 +1297,9 @@
         },
         {
           "name": "陈陈",
-          "shipment": 51575,
-          "complaints": 475,
-          "qualityIssues": 83,
+          "shipment": 59605,
+          "complaints": 491,
+          "qualityIssues": 90,
           "fabricComplaints": null,
           "productionComplaints": null,
           "previousShipment": 61748,
@@ -1444,96 +1314,96 @@
     {
       "start": "2026-05-01",
       "end": "2026-05-31",
-      "shipment": 407990,
-      "complaints": 7302,
-      "qualityIssues": 929,
+      "shipment": 323262,
+      "complaints": 5973,
+      "qualityIssues": 750,
       "fabricComplaints": null,
       "productionComplaints": null,
       "brands": [
         {
           "name": "鹭青一",
-          "shipment": 244961,
-          "complaints": 4538,
-          "qualityIssues": 578,
+          "shipment": 194991,
+          "complaints": 3763,
+          "qualityIssues": 470,
           "fabricComplaints": null,
           "productionComplaints": null,
-          "previousShipment": 116448,
-          "previousComplaints": 2060,
-          "previousQualityIssues": 303
+          "previousShipment": 125085,
+          "previousComplaints": 2077,
+          "previousQualityIssues": 302
         },
         {
           "name": "周淼",
-          "shipment": 163029,
-          "complaints": 2764,
-          "qualityIssues": 351,
+          "shipment": 128271,
+          "complaints": 2210,
+          "qualityIssues": 280,
           "fabricComplaints": null,
           "productionComplaints": null,
-          "previousShipment": 98184,
-          "previousComplaints": 2300,
-          "previousQualityIssues": 334
+          "previousShipment": 108823,
+          "previousComplaints": 2270,
+          "previousQualityIssues": 341
         },
         {
           "name": "陈陈",
-          "shipment": 119518,
-          "complaints": 2259,
-          "qualityIssues": 203,
+          "shipment": 97225,
+          "complaints": 1897,
+          "qualityIssues": 170,
           "fabricComplaints": null,
           "productionComplaints": null,
-          "previousShipment": 51575,
-          "previousComplaints": 475,
-          "previousQualityIssues": 83
+          "previousShipment": 59605,
+          "previousComplaints": 491,
+          "previousQualityIssues": 90
         }
       ],
-      "previousShipment": 214632,
-      "previousComplaints": 4360,
-      "previousQualityIssues": 637
+      "previousShipment": 233908,
+      "previousComplaints": 4347,
+      "previousQualityIssues": 643
     },
     {
       "start": "2026-06-01",
       "end": "2026-06-30",
-      "shipment": 358198,
-      "complaints": 5796,
-      "qualityIssues": 773,
+      "shipment": 156907,
+      "complaints": 2971,
+      "qualityIssues": 380,
       "fabricComplaints": null,
       "productionComplaints": null,
       "brands": [
         {
           "name": "鹭青一",
-          "shipment": 211173,
-          "complaints": 3554,
-          "qualityIssues": 486,
+          "shipment": 97186,
+          "complaints": 1763,
+          "qualityIssues": 225,
           "fabricComplaints": null,
           "productionComplaints": null,
-          "previousShipment": 244961,
-          "previousComplaints": 4538,
-          "previousQualityIssues": 578
+          "previousShipment": 194991,
+          "previousComplaints": 3763,
+          "previousQualityIssues": 470
         },
         {
           "name": "周淼",
-          "shipment": 147025,
-          "complaints": 2242,
-          "qualityIssues": 287,
+          "shipment": 59721,
+          "complaints": 1208,
+          "qualityIssues": 155,
           "fabricComplaints": null,
           "productionComplaints": null,
-          "previousShipment": 163029,
-          "previousComplaints": 2764,
-          "previousQualityIssues": 351
+          "previousShipment": 128271,
+          "previousComplaints": 2210,
+          "previousQualityIssues": 280
         },
         {
           "name": "陈陈",
-          "shipment": 137230,
-          "complaints": 3276,
-          "qualityIssues": 234,
+          "shipment": 62035,
+          "complaints": 1686,
+          "qualityIssues": 107,
           "fabricComplaints": null,
           "productionComplaints": null,
-          "previousShipment": 119518,
-          "previousComplaints": 2259,
-          "previousQualityIssues": 203
+          "previousShipment": 97225,
+          "previousComplaints": 1897,
+          "previousQualityIssues": 170
         }
       ],
-      "previousShipment": 407990,
-      "previousComplaints": 7302,
-      "previousQualityIssues": 929
+      "previousShipment": 323262,
+      "previousComplaints": 5973,
+      "previousQualityIssues": 750
     },
     {
       "start": "2026-07-01",
@@ -1551,9 +1421,9 @@
           "qualityIssues": 332,
           "fabricComplaints": null,
           "productionComplaints": null,
-          "previousShipment": 211173,
-          "previousComplaints": 3554,
-          "previousQualityIssues": 486
+          "previousShipment": 97186,
+          "previousComplaints": 1763,
+          "previousQualityIssues": 225
         },
         {
           "name": "周淼",
@@ -1562,25 +1432,25 @@
           "qualityIssues": 206,
           "fabricComplaints": null,
           "productionComplaints": null,
-          "previousShipment": 147025,
-          "previousComplaints": 2242,
-          "previousQualityIssues": 287
+          "previousShipment": 59721,
+          "previousComplaints": 1208,
+          "previousQualityIssues": 155
         },
         {
           "name": "陈陈",
-          "shipment": 71549,
-          "complaints": 1650,
-          "qualityIssues": 108,
+          "shipment": 97061,
+          "complaints": 2445,
+          "qualityIssues": 158,
           "fabricComplaints": null,
           "productionComplaints": null,
-          "previousShipment": 137230,
-          "previousComplaints": 3276,
-          "previousQualityIssues": 234
+          "previousShipment": 62035,
+          "previousComplaints": 1686,
+          "previousQualityIssues": 107
         }
       ],
-      "previousShipment": 358198,
-      "previousComplaints": 5796,
-      "previousQualityIssues": 773
+      "previousShipment": 156907,
+      "previousComplaints": 2971,
+      "previousQualityIssues": 380
     }
   ],
   "monthlySource": "按周报周期汇总推算（月报原表未接入时使用）"

@@ -1,14 +1,14 @@
 {
-  "dateKey": "2026-07-29",
-  "label": "7月29日",
-  "updatedAt": "2026-07-30 04:55:01",
+  "dateKey": "2026-07-30",
+  "label": "7月30日",
+  "updatedAt": "2026-07-31 09:22:19",
   "items": [
     {
       "type": "发货节拍",
       "title": "拣货与发货差额",
-      "count": 3101,
+      "count": 1430,
       "unit": "件",
-      "level": "high",
+      "level": "medium",
       "desc": "用于观察拣货后是否在发货端形成积压。"
     },
     {
@@ -22,7 +22,7 @@
     {
       "type": "售后压力",
       "title": "拆包处理量",
-      "count": 7486,
+      "count": 7884,
       "unit": "件",
       "level": "high",
       "desc": "用于观察退件拆包压力。"
@@ -30,7 +30,7 @@
     {
       "type": "退货流转",
       "title": "归还/采购退货",
-      "count": 220,
+      "count": 223,
       "unit": "件",
       "level": "medium",
       "desc": "用于观察退货相关动作是否异常抬升。"

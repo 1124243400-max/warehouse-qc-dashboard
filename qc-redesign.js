@@ -382,7 +382,10 @@
   }
 
   function redesignMetricRows(brand, range = { start: qcState.start, end: qcState.end }) {
-    return qcFilterRows(qcState.data.capacity, range, { brand: false }).filter((row) => !brand || row.b === brand);
+    if (brand) {
+      return (qcState.data.capacityByBrand || []).filter((row) => row.d >= range.start && row.d <= range.end && row.b === brand);
+    }
+    return (qcState.data.capacity || []).filter((row) => row.d >= range.start && row.d <= range.end);
   }
 
   function redesignMetricValue(rows, module) {
@@ -633,8 +636,8 @@
     const comparison = qcComparisonRange(range);
     const allRows = qcFilterRows(qcState.data.capacity, range, { brand: false });
     const compareRows = comparison ? qcFilterRows(qcState.data.capacity, comparison, { brand: false }) : [];
-    const selectedRows = qcState.brands.length ? allRows.filter((row) => qcState.brands.includes(row.b)) : allRows;
-    const selectedCompareRows = qcState.brands.length ? compareRows.filter((row) => qcState.brands.includes(row.b)) : compareRows;
+    const selectedRows = qcState.brands.length ? (qcState.data.capacityByBrand || []).filter((row) => row.d >= range.start && row.d <= range.end && qcState.brands.includes(row.b)) : allRows;
+    const selectedCompareRows = qcState.brands.length ? (qcState.data.capacityByBrand || []).filter((row) => comparison && row.d >= comparison.start && row.d <= comparison.end && qcState.brands.includes(row.b)) : compareRows;
     const metrics = qcCapacityMetrics(selectedRows);
     const previous = qcCapacityMetrics(selectedCompareRows);
     const issueRows = qcFilterRows(qcState.data.issues, range);
@@ -659,7 +662,7 @@
     }).join('');
 
     const brandStats = QC_MAIN_BRANDS.map((brand) => {
-      const rows = allRows.filter((row) => row.b === brand);
+      const rows = (qcState.data.capacityByBrand || []).filter((row) => row.d >= range.start && row.d <= range.end && row.b === brand);
       return { brand, values: Object.fromEntries(REDESIGN_MODULES.map((module) => [module.key, redesignMetricValue(rows, module)])) };
     });
     const tones = {};
@@ -720,8 +723,8 @@
     if (!root || !qcState.data) return;
     const range = { start: qcState.start, end: qcState.end };
     const comparison = qcComparisonRange(range);
-    const allCurrent = qcFilterRows(qcState.data.capacity, range, { brand: false });
-    const allPrevious = comparison ? qcFilterRows(qcState.data.capacity, comparison, { brand: false }) : [];
+    const allCurrent = (qcState.data.capacityByBrand || []).filter((row) => row.d >= range.start && row.d <= range.end);
+    const allPrevious = comparison ? (qcState.data.capacityByBrand || []).filter((row) => row.d >= comparison.start && row.d <= comparison.end) : [];
     const brandRows = QC_MAIN_BRANDS.map((brand) => ({
       brand,
       current: qcCapacityMetrics(allCurrent.filter((row) => row.b === brand)),
@@ -839,9 +842,10 @@
       const primary = [...item.modules.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] || '待补充';
       return { ...item, hours, primary, rate: hours ? item.output / hours : null };
     }).sort((a, b) => (b.rate ?? -1) - (a.rate ?? -1) || b.output - a.output).slice(0, 8);
+    const brandSrc = (qcState.data.capacityByBrand || []);
     const currentByBrand = QC_MAIN_BRANDS.map((brand) => {
-      const current = qcCapacityMetrics(rows.filter((row) => row.b === brand));
-      const previous = qcCapacityMetrics(previousRows.filter((row) => row.b === brand));
+      const current = qcCapacityMetrics(brandSrc.filter((row) => row.d >= range.start && row.d <= range.end && row.b === brand));
+      const previous = qcCapacityMetrics(brandSrc.filter((row) => comparison && row.d >= comparison.start && row.d <= comparison.end && row.b === brand));
       return { brand, current, previous };
     });
     const repairAlert = currentByBrand.map((item) => {
@@ -866,7 +870,7 @@
       <article class="qc-data-card qc-realtime-load-card"><div class="qc-card-title"><strong>模块实时负荷</strong><span>质检已拆分 · 返修质检 ≠ 进返修间</span></div><div class="qc-realtime-load-table"><div class="head"><span>模块</span><span>当前处理量（件）</span><span>对比基准（件）</span><span>完成比</span></div>${values.map((item) => {
         const ratio = item.previous ? item.value / item.previous * 100 : null;
         return `<div title="${qcEscape(item.source)}"><span><i class="ui-line-icon icon-${item.icon || 'overview'} has-svg">${redesignBusinessIcon(item.icon || 'overview')}</i>${item.label}</span><span><b style="width:${Math.min(100, Math.max(3, ratio ?? 0))}%;background:${item.color || '#377ee8'}"></b><strong>${qcNumber(item.value, '0')}</strong></span><em>${item.previous ? qcNumber(item.previous, '0') : '—'}</em><strong>${ratio === null ? '—' : qcDecimal(ratio, 1) + '%'}</strong></div>`;
-      }).join('')}</div><p class="qc-source-note">来源：品控部数据汇总 Base；综合人效另按 q/rq + pk + rrp + ir ÷ wh 计算。</p></article>
+      }).join('')}</div></article>
       <article class="qc-data-card qc-realtime-trend-card"><div class="qc-card-title"><strong>近 7 日处理趋势</strong><span>${trendSeries.map((item) => `<i class="legend" style="background:${item.color}"></i>${item.label}`).join(' ')}</span></div><div class="qc-realtime-line-chart"><svg viewBox="0 0 ${chartWidth} ${chartHeight}" role="img" aria-label="近七日大货质检、销退质检、包装与进返修间处理趋势">${[0, .25, .5, .75, 1].map((step) => `<line x1="${chartLeft}" y1="${chartTop + step * plotHeight}" x2="${chartLeft + plotWidth}" y2="${chartTop + step * plotHeight}" class="grid"/><text x="4" y="${chartTop + step * plotHeight + 4}">${qcNumber(chartMax * (1 - step), '0')}</text>`).join('')}${trendSeries.map((line) => `<polyline points="${daily.map((item, index) => `${xAt(index)},${yAt(item[line.key])}`).join(' ')}" style="stroke:${line.color}"/><g>${daily.map((item, index) => `<circle cx="${xAt(index)}" cy="${yAt(item[line.key])}" r="4" style="fill:${line.color}" data-qc-trend-point="true" data-qc-trend-date="${qcEscape(item.date)}" data-qc-trend-label="${qcEscape(line.label)}" data-qc-trend-value="${Number(item[line.key]) || 0}" data-qc-trend-note="来源：品控部数据汇总 Base；${qcEscape(line.label)}按当前品牌与日期筛选汇总。" tabindex="0" role="button" aria-haspopup="dialog" aria-expanded="false" aria-label="查看${qcEscape(item.date)} ${qcEscape(line.label)} ${qcNumber(item[line.key], '0')}件"><title>${item.date} · ${line.label} ${qcNumber(item[line.key], '0')} 件</title></circle>`).join('')}</g>`).join('')}${daily.map((item, index) => `<text class="date" x="${xAt(index)}" y="218">${item.date.slice(5)}</text>`).join('')}</svg></div></article>
       <article class="qc-data-card qc-realtime-staff-card"><div class="qc-card-title"><strong>人员实时效率</strong><span>按综合人效排序 · 在岗时长缺失不参与排名</span></div><div class="qc-realtime-staff-table"><div class="head"><span>人员</span><span>品牌</span><span>主要模块</span><span>处理量（件）</span><span>在岗时长</span><span>人效（件/人时）</span><span>状态</span></div>${staff.length ? staff.map((item) => `<div><strong>${item.name}</strong><span>${[...item.brands].join('、') || '—'}</span><span>${item.primary}</span><em>${qcNumber(item.output, '0')}</em><span>${item.hours ? qcDecimal(item.hours, 1) + ' h' : '待补录'}</span><b>${item.rate === null ? '—' : qcDecimal(item.rate, 1)}</b><i class="${item.hours ? 'good' : 'warn'}">${item.hours ? '正常' : '需关注'}</i></div>`).join('') : '<p class="qc-empty">当前筛选范围暂无人员作业记录。</p>'}</div></article>
       <article class="qc-data-card qc-realtime-alert-card"><div class="qc-card-title"><strong>实时预警</strong><span><button type="button" data-qc-drill-view="brands">查看品牌分析</button><button type="button" data-qc-drill-view="alerts">查看异常中心</button></span></div><div class="qc-realtime-alert-list">${alertItems.map((item) => `<button type="button" class="${item.tone}" data-qc-drill-view="${item.target}"><i class="ui-line-icon icon-${item.icon} has-svg">${redesignBusinessIcon(item.icon)}</i><span><strong>${item.title}</strong><em>${item.detail}</em></span><b>查看 →</b></button>`).join('')}</div></article>`;
@@ -1007,7 +1011,7 @@
     }
     if (action === 'excel') {
       const range = { start: qcState.start, end: qcState.end };
-      const rows = qcFilterRows(qcState.data.capacity, range, { brand: false });
+      const rows = (qcState.data.capacityByBrand || []).filter((row) => row.d >= range.start && row.d <= range.end);
       const header = ['品牌', ...REDESIGN_BRAND_COLUMNS.map((item) => item.label)];
       const records = QC_MAIN_BRANDS.map((brand) => {
         const metrics = qcCapacityMetrics(rows.filter((row) => row.b === brand));
@@ -1034,9 +1038,6 @@
   const legacyRenderQCDashboard = renderQCDashboard;
   renderQCDashboard = function redesignRenderQCDashboard() {
     redesignRestoreUrl();
-    qcState.complaintStart = qcState.start;
-    qcState.complaintEnd = qcState.end;
-    qcState.complaintBrand = qcState.brands.length === 1 ? qcState.brands[0] : 'all';
     legacyRenderQCDashboard();
     redesignInstallShell();
     redesignRenderLocalBrandBars();
