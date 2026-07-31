@@ -30916,6 +30916,10 @@ function multiRoleWorkers() {
 
 
 async function fetchJson(path, { retries = 2, retryDelay = 400 } = {}) {
+  // 方案③：数据已内嵌进 window.__QC_INLINE__，命中则直接返回，不再发起网络请求
+  if (typeof window !== 'undefined' && window.__QC_INLINE__ && Object.prototype.hasOwnProperty.call(window.__QC_INLINE__, path)) {
+    return window.__QC_INLINE__[path];
+  }
   let lastError;
   for (let attempt = 0; attempt <= retries; attempt += 1) {
     try {
