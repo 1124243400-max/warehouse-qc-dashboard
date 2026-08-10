@@ -1,0 +1,288 @@
+/* ==========================================================================
+   qc-mobile.css — 移动端 / 平板响应式适配覆盖层
+   --------------------------------------------------------------------------
+   设计原则：
+     1. 零侵入 —— 不修改 styles.css / qc-redesign.css / qc-p2.css 任何一行
+     2. 挂载顺序必须为最后一个 <link>，靠加载顺序 + !important 压过历史补丁
+     3. 只修「破版」，不改设计语言：颜色 / 圆角 / 中国红主题完全不动
+     4. 宽表策略 = 横向滚动（可滑动），而非压缩列宽（防止字挤成一坨）
+   --------------------------------------------------------------------------
+   修复清单：
+     P0-1  平板区间(761–1180px) .app-shell 断点冲突 —— 侧边栏被顶回 220px 双列
+     P0-2  .qc-alert-table{overflow:hidden} —— 678px 宽的行在手机被直接裁掉
+     P1-1  各类宽 grid 表统一横向滚动 + 触摸惯性
+     P1-2  KPI / 卡片网格在窄屏降列（6→3→2→1）
+     P1-3  过滤器区在窄屏堆叠，输入框防 iOS 自动缩放
+     P1-4  全局防溢出兜底（min-width:0 / overflow-wrap）
+   ========================================================================== */
+
+
+/* ==========================================================================
+   P0-1 · 平板断点冲突修复（最致命）
+   --------------------------------------------------------------------------
+   问题：styles.css:505  @media(max-width:1180px){.app-shell{...1fr}}   ← 想单列
+        styles.css:5558 @media(min-width:761px) {.app-shell{...220px}}  ← 后写的补丁
+   在 761–1180px（iPad 竖屏 768 / 横屏 1024 / 多数平板）两条同时命中，
+   后者行号更大而胜出 → 侧边栏顶回 220px 固定宽，主内容被压到 ~540px，
+   而内部图表最小宽 690–1230px → 视觉全面崩坏。
+   本层用「同样 !important + 更后加载」重新夺回单列布局。
+   ========================================================================== */
+@media (max-width: 1180px) {
+  .app-shell,
+  .app-shell.sidebar-expanded,
+  body.home-mode .app-shell,
+  body.home-mode .app-shell.sidebar-expanded {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* 侧边栏改为顶部横向导航条 */
+  .sidebar,
+  .app-shell.sidebar-expanded .sidebar,
+  body.home-mode .app-shell .sidebar,
+  body.home-mode .app-shell.sidebar-expanded .sidebar {
+    position: relative !important;
+    height: auto !important;
+    min-height: 0 !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 12px 14px !important;
+    overflow: visible !important;
+  }
+
+  /* 导航项横向排布并允许滑动，避免换行成三四排把首屏吃光 */
+  .side-nav {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 8px !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    padding-bottom: 2px;
+  }
+  .side-nav > * {
+    flex: 0 0 auto !important;
+    white-space: nowrap;
+  }
+
+  /* 主内容区回收侧边栏让出的宽度 */
+  .dashboard {
+    padding: 14px !important;
+    min-width: 0 !important;
+  }
+}
+
+
+/* ==========================================================================
+   P0-2 · .qc-alert-table 内容被裁切修复
+   --------------------------------------------------------------------------
+   qc-redesign.css:221  .qc-alert-table{overflow:hidden}   ← 为了圆角裁切
+   qc-redesign.css:223  > button{grid-template-columns: 58+180+100+70+72+78+78
+                                 + 6×7gap ≈ 678px}
+   → 手机 390px 屏上，右侧 ~290px 内容既不显示也无法滚动，直接消失。
+   解法：父容器改横向滚动，行给显式 min-width 保证列不被压扁。
+   ========================================================================== */
+@media (max-width: 1024px) {
+  body.qc-redesign-enabled #qc .qc-alert-table {
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  body.qc-redesign-enabled #qc .qc-alert-table > .head,
+  body.qc-redesign-enabled #qc .qc-alert-table > button {
+    min-width: 690px;
+  }
+}
+
+
+/* ==========================================================================
+   P1-1 · 宽 grid 表统一横向滚动
+   --------------------------------------------------------------------------
+   这些表的列宽总和天然超过手机屏宽，压缩列宽只会让文字挤成一团，
+   正确做法是「保持列宽 + 可横向滑动」，符合移动端数据表通用范式。
+   ========================================================================== */
+@media (max-width: 1024px) {
+  body.qc-redesign-enabled #qc .qc-brand-table-wrap,
+  body.qc-redesign-enabled #qc .qc-realtime-staff-table,
+  body.qc-redesign-enabled #qc .qc-realtime-load-table,
+  body.qc-redesign-enabled #qc .qc-matrix-wrap,
+  body.qc-redesign-enabled #qc .p2-person-detail-list,
+  .table-wrap {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    /* 右侧渐隐，暗示「这里还能往右滑」—— 无 JS 的可滑动性提示 */
+    -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 22px), transparent 100%);
+            mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 22px), transparent 100%);
+  }
+
+  /* 滚动条做细，避免在小屏挤占内容高度 */
+  body.qc-redesign-enabled #qc [class*="table"]::-webkit-scrollbar,
+  body.qc-redesign-enabled #qc [class*="wrap"]::-webkit-scrollbar {
+    height: 5px;
+  }
+  body.qc-redesign-enabled #qc [class*="table"]::-webkit-scrollbar-thumb,
+  body.qc-redesign-enabled #qc [class*="wrap"]::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: rgba(200, 16, 46, .28);   /* 中国红主色的低透明度，主题一致 */
+  }
+}
+
+
+/* ==========================================================================
+   P1-2 · KPI / 卡片网格逐级降列
+   --------------------------------------------------------------------------
+   原始为 6 列（.qc-cockpit-kpis）/ 5 列（.qc-redesign-summary-strip），
+   在手机上每列不足 60px，数字和标签会折行错位。
+   ========================================================================== */
+@media (max-width: 900px) {
+  body.qc-redesign-enabled #qc .qc-cockpit-kpis,
+  body.qc-redesign-enabled #qc .qc-redesign-summary-strip {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+  body.qc-redesign-enabled #qc .qc-cockpit-views,
+  body.qc-redesign-enabled #qc .qc-redesign-analysis-grid,
+  body.qc-redesign-enabled #qc .qc-alert-workbench {
+    grid-template-columns: 1fr !important;
+  }
+  body.qc-redesign-enabled #qc .qc-cockpit-drill,
+  body.qc-redesign-enabled #qc .qc-brand-insights {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 600px) {
+  body.qc-redesign-enabled #qc .qc-cockpit-kpis,
+  body.qc-redesign-enabled #qc .qc-redesign-summary-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+  body.qc-redesign-enabled #qc .qc-cockpit-drill,
+  body.qc-redesign-enabled #qc .qc-brand-insights {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* 「洞察」卡片的 190px 图标列在窄屏挤掉正文，改为上下堆叠 */
+  body.qc-redesign-enabled #qc .qc-auto-insight {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+    padding: 12px !important;
+  }
+
+  /* 手机上把过小的辅助字号提到可读区间（原 10px 在高 DPI 屏几乎看不清） */
+  body.qc-redesign-enabled #qc .qc-alert-table,
+  body.qc-redesign-enabled #qc .qc-realtime-staff-table,
+  body.qc-redesign-enabled #qc .p2-efficiency-rank-head {
+    font-size: 11.5px !important;
+  }
+}
+
+@media (max-width: 420px) {
+  body.qc-redesign-enabled #qc .qc-cockpit-kpis,
+  body.qc-redesign-enabled #qc .qc-redesign-summary-strip {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+
+/* ==========================================================================
+   P1-3 · 筛选器区堆叠 + iOS 输入框防自动缩放
+   --------------------------------------------------------------------------
+   iOS Safari 在 input 聚焦时，若 font-size < 16px 会强制放大整个页面，
+   放大后不会自动缩回 —— 这是移动端「点一下就全乱」的经典元凶。
+   ========================================================================== */
+@media (max-width: 760px) {
+  body.qc-redesign-enabled #qc .qc-global-filter .qc-filter-grid,
+  body.qc-redesign-enabled #qc .qc-business-nav {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+  body.qc-redesign-enabled #qc .p2-filter {
+    flex-wrap: wrap !important;
+  }
+}
+
+@media (max-width: 820px) {
+  /* 16px 是 iOS 不触发缩放的临界值，一像素都不能少 */
+  #qc input,
+  #qc select,
+  #qc textarea,
+  .dashboard input,
+  .dashboard select,
+  .dashboard textarea {
+    font-size: 16px !important;
+  }
+
+  /* 触控目标 ≥ 44×44px（WCAG 2.1 AA / Apple HIG 双重要求） */
+  #qc button,
+  #qc .qc-person-options button,
+  .side-nav a,
+  .side-nav button {
+    min-height: 44px;
+  }
+}
+
+
+/* ==========================================================================
+   P1-4 · 全局防溢出兜底
+   --------------------------------------------------------------------------
+   grid/flex 子项默认 min-width:auto，长文本会把容器顶爆导致整页横向滚动。
+   这是「明明每块都做了响应式，整体还是乱」的隐性根因。
+   ========================================================================== */
+@media (max-width: 1024px) {
+  html,
+  body {
+    overflow-x: hidden;          /* 阻断整页级横向滚动，滚动只允许发生在表格内 */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  #qc,
+  .dashboard,
+  .dashboard > *,
+  body.qc-redesign-enabled #qc section,
+  body.qc-redesign-enabled #qc article {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  #qc h1, #qc h2, #qc h3, #qc h4,
+  #qc p, #qc span, #qc b, #qc small {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  /* SVG 图表按容器等比缩放，而非固定尺寸溢出 */
+  body.qc-redesign-enabled #qc svg {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+
+/* ==========================================================================
+   横屏平板微调 —— 保留双列信息密度，仅解决溢出
+   ========================================================================== */
+@media (min-width: 761px) and (max-width: 1180px) and (orientation: landscape) {
+  body.qc-redesign-enabled #qc .qc-cockpit-kpis {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+  body.qc-redesign-enabled #qc .qc-cockpit-views {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+
+/* ==========================================================================
+   无障碍 —— 尊重系统「减少动态效果」
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  body.qc-redesign-enabled #qc *,
+  body.qc-redesign-enabled #qc *::before,
+  body.qc-redesign-enabled #qc *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

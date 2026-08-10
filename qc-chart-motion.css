@@ -1,0 +1,104 @@
+/* Single-entry chart motion with compositor-friendly transforms and scoped cleanup. */
+.qc-chart-motion-positioned{position:relative}
+.qc-chart-motion-bounded{overflow:hidden}
+.qc-chart-motion-fill{transition-property:filter,opacity!important;transition-duration:.2s!important;transition-timing-function:ease!important}
+
+@keyframes qcChartMotionGrowX{
+  0%{opacity:.3;transform:scaleX(0)}
+  72%{opacity:1;transform:scaleX(1.012)}
+  100%{opacity:1;transform:scaleX(1)}
+}
+@keyframes qcChartMotionGrowY{
+  0%{opacity:.28;transform:scaleY(0)}
+  72%{opacity:1;transform:scaleY(1.016)}
+  100%{opacity:1;transform:scaleY(1)}
+}
+@keyframes qcChartMotionSweep{
+  from{transform:translateX(-135%)}
+  to{transform:translateX(135%)}
+}
+@keyframes qcChartMotionLine{
+  from{opacity:.4;stroke-dashoffset:1}
+  to{opacity:1;stroke-dashoffset:0}
+}
+@keyframes qcChartMotionPoint{
+  0%{opacity:0;transform:scale(0)}
+  68%{opacity:1;transform:scale(1.18)}
+  100%{opacity:1;transform:scale(1)}
+}
+@keyframes qcChartMotionRing{
+  0%{opacity:.3;transform:rotate(-10deg) scale(.82)}
+  72%{opacity:1;transform:rotate(1deg) scale(1.018)}
+  100%{opacity:1;transform:none}
+}
+@keyframes qcChartMotionCanvas{
+  from{opacity:.36;transform:translate3d(0,5px,0) scale(.99)}
+  to{opacity:1;transform:none}
+}
+@keyframes qcChartMotionCell{
+  0%{opacity:0;transform:translateY(4px) scale(.97)}
+  72%{opacity:1;transform:translateY(-1px) scale(1.01)}
+  100%{opacity:1;transform:none}
+}
+
+.qc-chart-motion-root.qc-chart-motion-active:not(.qc-chart-motion-finished) .qc-chart-motion-fill-x{
+  transform-origin:left center;
+  will-change:transform,opacity;
+  animation:qcChartMotionGrowX .68s cubic-bezier(.16,.8,.28,1) var(--qc-chart-delay,0ms) 1 both!important;
+}
+.qc-chart-motion-root.qc-chart-motion-active:not(.qc-chart-motion-finished) .qc-chart-motion-fill-y{
+  transform-box:fill-box;
+  transform-origin:center bottom;
+  will-change:transform,opacity;
+  animation:qcChartMotionGrowY .72s cubic-bezier(.16,.8,.28,1) var(--qc-chart-delay,0ms) 1 both!important;
+}
+.qc-chart-motion-root.qc-chart-motion-active:not(.qc-chart-motion-finished) .qc-chart-motion-bounded::after{
+  position:absolute;inset:0;background:linear-gradient(100deg,transparent 18%,rgba(255,255,255,.7) 50%,transparent 82%);content:"";pointer-events:none;transform:translateX(-135%);will-change:transform;animation:qcChartMotionSweep .58s ease calc(var(--qc-chart-delay,0ms) + 250ms) 1 both;
+}
+.qc-chart-motion-fill:hover{filter:saturate(1.12) brightness(1.03)}
+
+.qc-chart-motion-root.qc-chart-motion-active:not(.qc-chart-motion-finished) .qc-chart-motion-line{
+  stroke-dasharray:1;stroke-dashoffset:1;will-change:stroke-dashoffset,opacity;animation:qcChartMotionLine .92s cubic-bezier(.16,.8,.28,1) var(--qc-chart-delay,0ms) 1 both;
+}
+.qc-chart-motion-point{transform-box:fill-box;transform-origin:center}
+.qc-chart-motion-root.qc-chart-motion-active:not(.qc-chart-motion-finished) .qc-chart-motion-point{
+  will-change:transform,opacity;animation:qcChartMotionPoint .34s cubic-bezier(.2,.75,.25,1) var(--qc-chart-delay,400ms) 1 both;
+}
+.qc-chart-motion-ring{transform-origin:center;transition:transform .24s ease,filter .24s ease}
+.qc-chart-motion-root.qc-chart-motion-active:not(.qc-chart-motion-finished) .qc-chart-motion-ring{
+  will-change:transform,opacity;animation:qcChartMotionRing .72s cubic-bezier(.16,.8,.28,1) 0ms 1 both;
+}
+.qc-chart-motion-ring:hover{filter:saturate(1.06) drop-shadow(0 7px 12px rgba(34,75,112,.11));transform:scale(1.02)}
+.qc-chart-motion-root.qc-chart-motion-active:not(.qc-chart-motion-finished):is(.qc-echart,.qc-chart-motion-line,.qc-chart-motion-combo,.qc-chart-motion-donut){
+  will-change:transform,opacity;animation:qcChartMotionCanvas .4s cubic-bezier(.16,.8,.28,1) 0ms 1 both;
+}
+
+.qc-chart-motion-heat-cell{transition:filter .2s ease,transform .2s ease}
+.qc-chart-motion-root.qc-chart-motion-active:not(.qc-chart-motion-finished) .qc-chart-motion-heat-cell{will-change:transform,opacity;animation:qcChartMotionCell .52s cubic-bezier(.16,.8,.28,1) var(--qc-chart-delay,0ms) 1 both}
+.qc-chart-motion-heat-cell:hover{filter:saturate(1.08) brightness(1.025);transform:translateY(-1px)}
+
+#qc .p2-workload-cell.qc-chart-motion-cell{isolation:isolate;background:#f8fafc!important}
+#qc .p2-workload-cell.qc-chart-motion-cell::after{position:absolute;inset:0 auto 0 0;z-index:0;width:var(--fill);background:var(--series);content:"";opacity:.2;transform:scaleX(0);transform-origin:left center}
+#qc .qc-chart-motion-root.qc-chart-motion-active:not(.qc-chart-motion-finished) .p2-workload-cell.qc-chart-motion-cell::after{will-change:transform;animation:qcChartMotionGrowX .64s cubic-bezier(.16,.8,.28,1) var(--qc-chart-delay,0ms) 1 both}
+#qc .qc-chart-motion-root.qc-chart-motion-finished .p2-workload-cell.qc-chart-motion-cell::after{transform:none;will-change:auto}
+
+.qc-chart-motion-root.qc-chart-motion-finished,
+.qc-chart-motion-root.qc-chart-motion-finished .qc-chart-motion-fill-x,
+.qc-chart-motion-root.qc-chart-motion-finished .qc-chart-motion-fill-y,
+.qc-chart-motion-root.qc-chart-motion-finished .qc-chart-motion-line,
+.qc-chart-motion-root.qc-chart-motion-finished .qc-chart-motion-point,
+.qc-chart-motion-root.qc-chart-motion-finished .qc-chart-motion-ring,
+.qc-chart-motion-root.qc-chart-motion-finished .qc-chart-motion-heat-cell{
+  animation:none!important;opacity:1;transform:none;will-change:auto!important
+}
+.qc-chart-motion-root.qc-chart-motion-finished .qc-chart-motion-line{stroke-dashoffset:0}
+.qc-chart-motion-root.qc-chart-motion-finished .qc-chart-motion-bounded::after{content:none;animation:none;will-change:auto}
+
+@media(prefers-reduced-motion:reduce){
+  .qc-chart-motion-root,.qc-chart-motion-root *,
+  .qc-chart-motion-root *::before,.qc-chart-motion-root *::after{
+    animation:none!important;transition-duration:.01ms!important;scroll-behavior:auto!important;will-change:auto!important
+  }
+  .qc-chart-motion-fill-x,.qc-chart-motion-fill-y,.qc-chart-motion-line,.qc-chart-motion-point,.qc-chart-motion-ring,.qc-chart-motion-heat-cell{opacity:1!important;transform:none!important;stroke-dashoffset:0!important}
+  #qc .p2-workload-cell.qc-chart-motion-cell::after{transform:none!important}
+}
