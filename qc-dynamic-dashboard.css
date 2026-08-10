@@ -1,0 +1,279 @@
+/* Dynamic dashboard runtime: ECharts canvas, live controls and DOM transitions. */
+body.qc-redesign-enabled #qc .qc-dynamic-controls {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-left: auto;
+  padding-left: 12px;
+}
+
+body.qc-redesign-enabled #qc .qc-dynamic-status {
+  display: inline-grid;
+  grid-template-columns: 8px auto;
+  grid-template-areas: "dot title" "dot meta";
+  align-items: center;
+  column-gap: 7px;
+  min-width: 154px;
+  color: #172026;
+  font-size: 11px;
+  line-height: 1.25;
+}
+
+body.qc-redesign-enabled #qc .qc-dynamic-status > i {
+  grid-area: dot;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #16a57e;
+  box-shadow: 0 0 0 4px rgba(22, 165, 126, .1);
+}
+
+body.qc-redesign-enabled #qc .qc-dynamic-status > b {
+  grid-area: title;
+  color: #172026;
+  font-size: 11px;
+}
+
+body.qc-redesign-enabled #qc .qc-dynamic-status > em {
+  grid-area: meta;
+  color: #73869a;
+  font-size: 10px;
+  font-style: normal;
+}
+
+body.qc-redesign-enabled #qc .qc-dynamic-status[data-state="loading"] > i {
+  background: #2878e8;
+  box-shadow: 0 0 0 4px rgba(40, 120, 232, .1);
+  animation: qc-dynamic-pulse 1s ease-in-out infinite;
+}
+
+body.qc-redesign-enabled #qc .qc-dynamic-status[data-state="error"] > i {
+  background: #df3c45;
+  box-shadow: 0 0 0 4px rgba(223, 60, 69, .1);
+}
+
+body.qc-redesign-enabled #qc .qc-dynamic-status[data-state="paused"] > i,
+body.qc-redesign-enabled #qc .qc-dynamic-status[data-state="hidden"] > i {
+  background: #b87916;
+  box-shadow: 0 0 0 4px rgba(184, 121, 22, .1);
+}
+
+body.qc-redesign-enabled #qc .qc-dynamic-controls button {
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid #d6e0e9;
+  border-radius: 9px;
+  background: #fff;
+  color: #27394a;
+  font: 700 11px/1 Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
+  cursor: pointer;
+  transition: border-color .2s ease, color .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+body.qc-redesign-enabled #qc .qc-dynamic-controls button:hover {
+  border-color: #d31335;
+  color: #d31335;
+}
+
+body.qc-redesign-enabled #qc .qc-dynamic-controls button[aria-pressed="true"] {
+  border-color: #d31335;
+  background: #d31335;
+  color: #fff;
+}
+
+body.qc-redesign-enabled #qc .qc-dynamic-controls button:focus-visible {
+  outline: 3px solid rgba(40, 120, 232, .25);
+  outline-offset: 2px;
+}
+
+body.qc-redesign-enabled #qc .qc-echart {
+  width: 100%;
+  height: 250px;
+  min-width: 0;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+body.qc-redesign-enabled #qc .qc-echart canvas {
+  cursor: crosshair;
+}
+
+body.qc-redesign-enabled #qc .qc-echart-people {
+  height: 320px;
+}
+
+body.qc-redesign-enabled #qc .qc-echart-complaint {
+  height: 260px;
+  margin-top: 8px;
+}
+
+body.qc-redesign-enabled #qc .qc-echart-complaint.qc-complaint-trend-entering {
+  animation: qc-complaint-trend-enter .42s cubic-bezier(.16,.8,.28,1) both;
+  transform-origin: 50% 55%;
+}
+
+body.qc-redesign-enabled #qc .qc-echart-donut {
+  width: min(240px, 100%);
+  height: 220px;
+  flex: 0 0 min(240px, 100%);
+}
+
+body.qc-redesign-enabled #qc .qc-realtime-line-chart {
+  min-height: 250px;
+}
+
+body.qc-redesign-enabled #qc .qc-dynamic-source-hidden {
+  display: none !important;
+}
+
+body.qc-redesign-enabled #qc .qc-dynamic-entry-pending :is(
+  .qc-cockpit-kpis article strong,
+  #qcRealtimeCards article strong,
+  .qc-brand-summary article strong,
+  .p2-kpi strong,
+  .p1-ew-kpis b,
+  .qc-alert-summary-card strong,
+  .qc-comparison-detail-metrics strong,
+  .qc-complaint-metric strong,
+  .qc-complaint-issue-total strong,
+  .qc-repair-outcomes strong,
+  .qc-horizontal-bars article > div i,
+  .qc-vertical-bars article > div i,
+  .qc-brand-ranking-list > div > i > b,
+  .qc-rank-track i,
+  .qc-trend-track i,
+  .p2-brand-volume i em,
+  .p2-category-ranking article > i > em,
+  .qc-comparison-bar-plot i,
+  .qc-bar-track i,
+  .qc-realtime-load-table > div:not(.head) > span:nth-child(2) > b,
+  .qc-realtime-line-chart,
+  .p2-combo-scroll
+) {
+  visibility: hidden;
+}
+
+body.qc-redesign-enabled #qc :is(
+  .qc-horizontal-bars article > div i,
+  .qc-vertical-bars article > div i,
+  .qc-brand-ranking-list > div > i > b,
+  .qc-rank-track i,
+  .qc-trend-track i,
+  .p2-brand-volume i em,
+  .p2-category-ranking article > i > em,
+  .qc-comparison-bar-plot i,
+  .qc-bar-track i,
+  .qc-realtime-load-table > div:not(.head) > span:nth-child(2) > b
+) {
+  transition-property: width, height;
+  transition-duration: 680ms;
+  transition-delay: var(--dynamic-delay, 0ms);
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.qc-redesign-enabled #qc .qc-dynamic-number-in {
+  font-variant-numeric: tabular-nums;
+}
+
+body.qc-redesign-enabled #qc .qc-dynamic-row-in {
+  animation: qc-dynamic-row-in .18s ease-out var(--dynamic-row-delay, 0ms) both;
+}
+
+@keyframes qc-dynamic-row-in {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes qc-complaint-trend-enter {
+  from { opacity: .2; transform: translateY(5px) scale(.995); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes qc-dynamic-pulse {
+  50% { opacity: .45; transform: scale(.78); }
+}
+
+@media (max-width: 1400px) {
+  body.qc-redesign-enabled #qc .qc-dynamic-controls {
+    width: 100%;
+    justify-content: flex-end;
+    padding: 8px 0 0;
+  }
+}
+
+@media (max-width: 1100px) {
+  body.qc-redesign-enabled #qc .qc-echart {
+    height: 235px;
+  }
+  body.qc-redesign-enabled #qc .qc-echart-people {
+    height: 300px;
+  }
+}
+
+@media (max-width: 720px) {
+  body.qc-redesign-enabled #qc .qc-dynamic-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    justify-content: stretch;
+    gap: 6px;
+  }
+  body.qc-redesign-enabled #qc .qc-dynamic-status {
+    min-width: 0;
+  }
+  body.qc-redesign-enabled #qc .qc-dynamic-controls button {
+    min-height: 38px;
+  }
+  body.qc-redesign-enabled #qc .qc-echart,
+  body.qc-redesign-enabled #qc .qc-echart-complaint {
+    height: 225px;
+  }
+}
+
+@media (max-width: 420px) {
+  body.qc-redesign-enabled #qc .qc-dynamic-controls {
+    grid-template-columns: 1fr 1fr;
+  }
+  body.qc-redesign-enabled #qc .qc-dynamic-status {
+    grid-column: 1 / -1;
+    min-height: 30px;
+  }
+  body.qc-redesign-enabled #qc .qc-echart {
+    height: 210px;
+  }
+  body.qc-redesign-enabled #qc .qc-echart-people {
+    height: 270px;
+  }
+  body.qc-redesign-enabled #qc .qc-echart-donut {
+    width: 100%;
+    height: 205px;
+    flex-basis: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.qc-redesign-enabled #qc *,
+  body.qc-redesign-enabled #qc *::before,
+  body.qc-redesign-enabled #qc *::after {
+    scroll-behavior: auto !important;
+  }
+  body.qc-redesign-enabled #qc .qc-dynamic-row-in,
+  body.qc-redesign-enabled #qc .qc-complaint-trend-entering,
+  body.qc-redesign-enabled #qc .qc-dynamic-status[data-state="loading"] > i {
+    animation: none !important;
+  }
+  body.qc-redesign-enabled #qc :is(
+    .qc-horizontal-bars article > div i,
+    .qc-vertical-bars article > div i,
+    .qc-brand-ranking-list > div > i > b,
+    .qc-rank-track i,
+    .qc-trend-track i,
+    .p2-brand-volume i em,
+    .p2-category-ranking article > i > em,
+    .qc-comparison-bar-plot i,
+  .qc-bar-track i,
+  .qc-realtime-load-table > div:not(.head) > span:nth-child(2) > b
+  ) {
+    transition: none !important;
+  }
+}

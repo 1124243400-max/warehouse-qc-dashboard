@@ -1,4 +1,1098 @@
 const DATASETS = {
+  "2026-07-31": {
+    "key": "2026-07-31",
+    "label": "7月31日",
+    "sourceFile": "仓库人员工作统计_2026-07-31 00~2026-07-31 23_20260801091007_22955421.xlsx",
+    "sourceType": "single-day",
+    "sourceNote": "单日报表，排名按当天数据计算",
+    "rangeLabel": "2026-07-31 00:00 - 2026-07-31 23:00",
+    "generatedAt": "2026-08-01 09:10:07",
+    "totals": {
+      "pickPieces": 13019,
+      "pickTimes": 13018,
+      "pickSkus": 7378,
+      "pickOrders": 10631,
+      "seedOrders": 929,
+      "seedPieces": 2238,
+      "checkTimes": 10988,
+      "checkPieces": 12796,
+      "weighTimes": 8986,
+      "weighPieces": 10397,
+      "shipTimes": 11082,
+      "shipPieces": 13243,
+      "inboundPieces": 6671,
+      "purchaseReturnPieces": 119,
+      "moveTimes": 1603,
+      "movePieces": 3468,
+      "returnTimes": 132,
+      "returnPieces": 132,
+      "shelfPieces": 14732,
+      "shelfTimes": 11204,
+      "packPieces": 444,
+      "qcOrders": 0,
+      "qcPieces": 0,
+      "unpackParcels": 5518,
+      "unpackPieces": 8013,
+      "unpackOrders": 7123,
+      "stocktakeTimes": 0,
+      "stocktakePieces": 0,
+      "auditOrders": 433191,
+      "auditConfirmOrders": 46669,
+      "forceAuditOrders": 509,
+      "smartAuditOrders": 386013,
+      "expressPrints": 11181,
+      "barcodePrints": 3,
+      "barcodePrintTimes": 2,
+      "tagPrints": 994,
+      "tagPrintTimes": 156,
+      "activeWorkers": 45,
+      "totalWorkload": 73968,
+      "roles": 12,
+      "warehouses": 1
+    },
+    "processes": [
+      {
+        "key": "pick",
+        "name": "拣货",
+        "primary": 13019,
+        "secondary": 13018,
+        "unit": "件",
+        "subUnit": "次",
+        "progress": 88,
+        "status": "顺畅"
+      },
+      {
+        "key": "seed",
+        "name": "播种",
+        "primary": 2238,
+        "secondary": 929,
+        "unit": "件",
+        "subUnit": "单",
+        "progress": 15,
+        "status": "积压"
+      },
+      {
+        "key": "check",
+        "name": "验货",
+        "primary": 12796,
+        "secondary": 10988,
+        "unit": "件",
+        "subUnit": "次",
+        "progress": 87,
+        "status": "顺畅"
+      },
+      {
+        "key": "weigh",
+        "name": "称重",
+        "primary": 8986,
+        "secondary": 10397,
+        "unit": "次",
+        "subUnit": "件",
+        "progress": 61,
+        "status": "顺畅"
+      },
+      {
+        "key": "ship",
+        "name": "发货",
+        "primary": 13243,
+        "secondary": 11082,
+        "unit": "件",
+        "subUnit": "次",
+        "progress": 90,
+        "status": "顺畅"
+      },
+      {
+        "key": "inbound",
+        "name": "入库",
+        "primary": 6671,
+        "secondary": 0,
+        "unit": "件",
+        "subUnit": "",
+        "progress": 45,
+        "status": "关注"
+      },
+      {
+        "key": "shelf",
+        "name": "上下架",
+        "primary": 14732,
+        "secondary": 11204,
+        "unit": "件",
+        "subUnit": "次",
+        "progress": 100,
+        "status": "顺畅"
+      },
+      {
+        "key": "unpack",
+        "name": "售后拆包",
+        "primary": 8013,
+        "secondary": 5518,
+        "unit": "件",
+        "subUnit": "包",
+        "progress": 54,
+        "status": "关注"
+      },
+      {
+        "key": "print",
+        "name": "单据打印",
+        "primary": 12178,
+        "secondary": 11181,
+        "unit": "张",
+        "subUnit": "快递单",
+        "progress": 83,
+        "status": "顺畅"
+      }
+    ],
+    "roles": [
+      {
+        "role": "发货",
+        "workers": 13,
+        "workload": 28648,
+        "pickPieces": 2838,
+        "shipPieces": 12581,
+        "checkPieces": 12494,
+        "unpackPieces": 0,
+        "shelfPieces": 23
+      },
+      {
+        "role": "上架",
+        "workers": 9,
+        "workload": 17026,
+        "pickPieces": 1,
+        "shipPieces": 0,
+        "checkPieces": 0,
+        "unpackPieces": 0,
+        "shelfPieces": 13919
+      },
+      {
+        "role": "统计组长",
+        "workers": 1,
+        "workload": 7066,
+        "pickPieces": 0,
+        "shipPieces": 0,
+        "checkPieces": 0,
+        "unpackPieces": 0,
+        "shelfPieces": 0
+      },
+      {
+        "role": "拣货",
+        "workers": 3,
+        "workload": 5626,
+        "pickPieces": 4943,
+        "shipPieces": 177,
+        "checkPieces": 0,
+        "unpackPieces": 0,
+        "shelfPieces": 4
+      },
+      {
+        "role": "拆包",
+        "workers": 6,
+        "workload": 5612,
+        "pickPieces": 1587,
+        "shipPieces": 57,
+        "checkPieces": 0,
+        "unpackPieces": 3864,
+        "shelfPieces": 0
+      },
+      {
+        "role": "售后拆包",
+        "workers": 4,
+        "workload": 3242,
+        "pickPieces": 0,
+        "shipPieces": 0,
+        "checkPieces": 0,
+        "unpackPieces": 3242,
+        "shelfPieces": 0
+      },
+      {
+        "role": "库维员",
+        "workers": 3,
+        "workload": 2916,
+        "pickPieces": 1459,
+        "shipPieces": 9,
+        "checkPieces": 0,
+        "unpackPieces": 0,
+        "shelfPieces": 783
+      },
+      {
+        "role": "配货员",
+        "workers": 2,
+        "workload": 2653,
+        "pickPieces": 2111,
+        "shipPieces": 115,
+        "checkPieces": 0,
+        "unpackPieces": 0,
+        "shelfPieces": 1
+      },
+      {
+        "role": "审单员",
+        "workers": 1,
+        "workload": 1051,
+        "pickPieces": 0,
+        "shipPieces": 302,
+        "checkPieces": 302,
+        "unpackPieces": 0,
+        "shelfPieces": 0
+      },
+      {
+        "role": "异常件处理",
+        "workers": 1,
+        "workload": 106,
+        "pickPieces": 80,
+        "shipPieces": 2,
+        "checkPieces": 0,
+        "unpackPieces": 0,
+        "shelfPieces": 2
+      },
+      {
+        "role": "统计",
+        "workers": 2,
+        "workload": 22,
+        "pickPieces": 0,
+        "shipPieces": 0,
+        "checkPieces": 0,
+        "unpackPieces": 0,
+        "shelfPieces": 0
+      },
+      {
+        "role": "面辅料管理",
+        "workers": 2,
+        "workload": 0,
+        "pickPieces": 0,
+        "shipPieces": 0,
+        "checkPieces": 0,
+        "unpackPieces": 0,
+        "shelfPieces": 0
+      }
+    ],
+    "workers": [
+      {
+        "name": "尤佳辉",
+        "role": "统计组长",
+        "warehouse": "临平仓",
+        "workload": 7066,
+        "actions": 10,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 6647,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 21
+      },
+      {
+        "name": "邹丽玉",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 4620,
+        "actions": 7,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 2310,
+        "shipPieces": 2310,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 2252
+      },
+      {
+        "name": "张妹花",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 4614,
+        "actions": 7,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 2307,
+        "shipPieces": 2307,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 2144
+      },
+      {
+        "name": "曹达禄",
+        "role": "上架",
+        "warehouse": "临平仓",
+        "workload": 3636,
+        "actions": 4,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 2736,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "陈强",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 3392,
+        "actions": 13,
+        "pickPieces": 30,
+        "pickOrders": 15,
+        "pickTimes": 30,
+        "seedPieces": 30,
+        "checkPieces": 1666,
+        "shipPieces": 1666,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 1336
+      },
+      {
+        "name": "庞海春",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 3248,
+        "actions": 11,
+        "pickPieces": 41,
+        "pickOrders": 14,
+        "pickTimes": 41,
+        "seedPieces": 41,
+        "checkPieces": 1583,
+        "shipPieces": 1583,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 1394
+      },
+      {
+        "name": "蒋周鹏",
+        "role": "上架",
+        "warehouse": "临平仓",
+        "workload": 3160,
+        "actions": 4,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 2194,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "郭宝亮",
+        "role": "上架",
+        "warehouse": "临平仓",
+        "workload": 3035,
+        "actions": 4,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 2750,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "胡猛",
+        "role": "上架",
+        "warehouse": "临平仓",
+        "workload": 2943,
+        "actions": 4,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 2163,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "赵银",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 2878,
+        "actions": 7,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 1439,
+        "shipPieces": 1439,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 1270
+      },
+      {
+        "name": "魏浩杰",
+        "role": "上架",
+        "warehouse": "临平仓",
+        "workload": 2839,
+        "actions": 4,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 2697,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "魏文敬",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 2818,
+        "actions": 13,
+        "pickPieces": 32,
+        "pickOrders": 15,
+        "pickTimes": 32,
+        "seedPieces": 32,
+        "checkPieces": 1377,
+        "shipPieces": 1377,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 1066
+      },
+      {
+        "name": "李雯雅",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 2134,
+        "actions": 5,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 1067,
+        "shipPieces": 1067,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 938
+      },
+      {
+        "name": "曹志龙",
+        "role": "拣货",
+        "warehouse": "临平仓",
+        "workload": 1924,
+        "actions": 12,
+        "pickPieces": 1768,
+        "pickOrders": 1566,
+        "pickTimes": 1768,
+        "seedPieces": 118,
+        "checkPieces": 0,
+        "shipPieces": 29,
+        "inboundPieces": 0,
+        "shelfPieces": 2,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "张川",
+        "role": "拣货",
+        "warehouse": "临平仓",
+        "workload": 1855,
+        "actions": 10,
+        "pickPieces": 1591,
+        "pickOrders": 1367,
+        "pickTimes": 1591,
+        "seedPieces": 182,
+        "checkPieces": 0,
+        "shipPieces": 80,
+        "inboundPieces": 0,
+        "shelfPieces": 2,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "易奎",
+        "role": "拣货",
+        "warehouse": "临平仓",
+        "workload": 1847,
+        "actions": 10,
+        "pickPieces": 1584,
+        "pickOrders": 1366,
+        "pickTimes": 1584,
+        "seedPieces": 188,
+        "checkPieces": 0,
+        "shipPieces": 68,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "赵名扬",
+        "role": "配货员",
+        "warehouse": "临平仓",
+        "workload": 1761,
+        "actions": 12,
+        "pickPieces": 1339,
+        "pickOrders": 983,
+        "pickTimes": 1339,
+        "seedPieces": 344,
+        "checkPieces": 0,
+        "shipPieces": 75,
+        "inboundPieces": 0,
+        "shelfPieces": 1,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "董树安",
+        "role": "拆包",
+        "warehouse": "临平仓",
+        "workload": 1748,
+        "actions": 10,
+        "pickPieces": 1587,
+        "pickOrders": 1420,
+        "pickTimes": 1587,
+        "seedPieces": 103,
+        "checkPieces": 0,
+        "shipPieces": 57,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "俞建伟",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 1641,
+        "actions": 12,
+        "pickPieces": 1404,
+        "pickOrders": 1122,
+        "pickTimes": 1404,
+        "seedPieces": 85,
+        "checkPieces": 0,
+        "shipPieces": 61,
+        "inboundPieces": 0,
+        "shelfPieces": 1,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "梁雪丽",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 1628,
+        "actions": 13,
+        "pickPieces": 76,
+        "pickOrders": 31,
+        "pickTimes": 76,
+        "seedPieces": 63,
+        "checkPieces": 744,
+        "shipPieces": 744,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 475
+      },
+      {
+        "name": "魏晏黎",
+        "role": "拆包",
+        "warehouse": "临平仓",
+        "workload": 1130,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 1130,
+        "expressPrints": 0
+      },
+      {
+        "name": "王成",
+        "role": "库维员",
+        "warehouse": "临平仓",
+        "workload": 1106,
+        "actions": 10,
+        "pickPieces": 394,
+        "pickOrders": 241,
+        "pickTimes": 393,
+        "seedPieces": 196,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 515,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "黎白",
+        "role": "审单员",
+        "warehouse": "临平仓",
+        "workload": 1051,
+        "actions": 13,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 302,
+        "shipPieces": 302,
+        "inboundPieces": 2,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 254
+      },
+      {
+        "name": "田世汪",
+        "role": "售后拆包",
+        "warehouse": "临平仓",
+        "workload": 1013,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 1013,
+        "expressPrints": 0
+      },
+      {
+        "name": "李文静",
+        "role": "拆包",
+        "warehouse": "临平仓",
+        "workload": 950,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 950,
+        "expressPrints": 0
+      },
+      {
+        "name": "蒋周斌",
+        "role": "库维员",
+        "warehouse": "临平仓",
+        "workload": 910,
+        "actions": 12,
+        "pickPieces": 419,
+        "pickOrders": 249,
+        "pickTimes": 419,
+        "seedPieces": 202,
+        "checkPieces": 0,
+        "shipPieces": 8,
+        "inboundPieces": 0,
+        "shelfPieces": 268,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "李元",
+        "role": "库维员",
+        "warehouse": "临平仓",
+        "workload": 900,
+        "actions": 8,
+        "pickPieces": 646,
+        "pickOrders": 486,
+        "pickTimes": 646,
+        "seedPieces": 253,
+        "checkPieces": 0,
+        "shipPieces": 1,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "王碧飞",
+        "role": "拆包",
+        "warehouse": "临平仓",
+        "workload": 899,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 899,
+        "expressPrints": 0
+      },
+      {
+        "name": "田立立",
+        "role": "配货员",
+        "warehouse": "临平仓",
+        "workload": 892,
+        "actions": 10,
+        "pickPieces": 772,
+        "pickOrders": 685,
+        "pickTimes": 772,
+        "seedPieces": 62,
+        "checkPieces": 0,
+        "shipPieces": 40,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "李睛丽",
+        "role": "售后拆包",
+        "warehouse": "临平仓",
+        "workload": 854,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 854,
+        "expressPrints": 0
+      },
+      {
+        "name": "韩鹏",
+        "role": "售后拆包",
+        "warehouse": "临平仓",
+        "workload": 850,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 850,
+        "expressPrints": 0
+      },
+      {
+        "name": "裴永俊",
+        "role": "上架",
+        "warehouse": "临平仓",
+        "workload": 844,
+        "actions": 4,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 831,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "王凤龙",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 840,
+        "actions": 8,
+        "pickPieces": 716,
+        "pickOrders": 586,
+        "pickTimes": 716,
+        "seedPieces": 123,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 1,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "盛瑶",
+        "role": "拆包",
+        "warehouse": "临平仓",
+        "workload": 764,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 764,
+        "expressPrints": 0
+      },
+      {
+        "name": "余俊文",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 602,
+        "actions": 10,
+        "pickPieces": 432,
+        "pickOrders": 311,
+        "pickTimes": 432,
+        "seedPieces": 143,
+        "checkPieces": 0,
+        "shipPieces": 25,
+        "inboundPieces": 0,
+        "shelfPieces": 2,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "吴家兴",
+        "role": "上架",
+        "warehouse": "临平仓",
+        "workload": 540,
+        "actions": 4,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 533,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "秦雨婷",
+        "role": "售后拆包",
+        "warehouse": "临平仓",
+        "workload": 525,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 525,
+        "expressPrints": 0
+      },
+      {
+        "name": "宿仙梅",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 155,
+        "actions": 18,
+        "pickPieces": 107,
+        "pickOrders": 101,
+        "pickTimes": 107,
+        "seedPieces": 0,
+        "checkPieces": 1,
+        "shipPieces": 2,
+        "inboundPieces": 0,
+        "shelfPieces": 16,
+        "unpackPieces": 0,
+        "expressPrints": 6
+      },
+      {
+        "name": "杨金玲",
+        "role": "拆包",
+        "warehouse": "临平仓",
+        "workload": 121,
+        "actions": 3,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 121,
+        "expressPrints": 0
+      },
+      {
+        "name": "周吉雨",
+        "role": "异常件处理",
+        "warehouse": "临平仓",
+        "workload": 106,
+        "actions": 16,
+        "pickPieces": 80,
+        "pickOrders": 72,
+        "pickTimes": 80,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 2,
+        "inboundPieces": 0,
+        "shelfPieces": 2,
+        "unpackPieces": 0,
+        "expressPrints": 4
+      },
+      {
+        "name": "肖林",
+        "role": "发货",
+        "warehouse": "临平仓",
+        "workload": 78,
+        "actions": 8,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 73,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 3,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "安佳佳",
+        "role": "统计",
+        "warehouse": "临平仓",
+        "workload": 21,
+        "actions": 1,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 21,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "刘志文",
+        "role": "上架",
+        "warehouse": "临平仓",
+        "workload": 16,
+        "actions": 4,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 14,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "冯建豪",
+        "role": "上架",
+        "warehouse": "临平仓",
+        "workload": 13,
+        "actions": 8,
+        "pickPieces": 1,
+        "pickOrders": 1,
+        "pickTimes": 1,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 1,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "杜婷",
+        "role": "统计",
+        "warehouse": "临平仓",
+        "workload": 1,
+        "actions": 1,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 1,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 0
+      },
+      {
+        "name": "余海女",
+        "role": "面辅料管理",
+        "warehouse": "临平仓",
+        "workload": 0,
+        "actions": 6,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 7
+      },
+      {
+        "name": "何建珍",
+        "role": "面辅料管理",
+        "warehouse": "临平仓",
+        "workload": 0,
+        "actions": 6,
+        "pickPieces": 0,
+        "pickOrders": 0,
+        "pickTimes": 0,
+        "seedPieces": 0,
+        "checkPieces": 0,
+        "shipPieces": 0,
+        "inboundPieces": 0,
+        "shelfPieces": 0,
+        "unpackPieces": 0,
+        "expressPrints": 6
+      }
+    ],
+    "alerts": [
+      {
+        "level": "info",
+        "title": "发货节拍匹配",
+        "desc": "发货 13,243 件，与拣货 13,019 件保持联动。"
+      },
+      {
+        "level": "info",
+        "title": "售后拆包持续作业",
+        "desc": "拆包 8,013 件，包裹 5,518 个。"
+      },
+      {
+        "level": "info",
+        "title": "尤佳辉 产出领先",
+        "desc": "统计组长，累计 7,066 件/次，覆盖 10 类动作。"
+      },
+      {
+        "level": "info",
+        "title": "邹丽玉 产出领先",
+        "desc": "发货，累计 4,620 件/次，覆盖 7 类动作。"
+      },
+      {
+        "level": "info",
+        "title": "张妹花 产出领先",
+        "desc": "发货，累计 4,614 件/次，覆盖 7 类动作。"
+      }
+    ]
+  },
   "2026-07-30": {
     "key": "2026-07-30",
     "label": "7月30日",
@@ -30796,7 +31890,7 @@ const state = {
   workType: "pickPieces",
   dateKey: DEFAULT_DATE_KEY,
   dateMenuOpen: "",
-  page: "home",
+  page: "qc",
   qualityQuery: "",
   qualityCategory: "all",
   qualityType: "all",
@@ -30816,7 +31910,7 @@ const WORK_TYPES = [
 const PAGE_TITLES = {
   home: "仓库作业驾驶舱",
   "warehouse-people": "仓库人员看板",
-  qc: "品控内部统计",
+  qc: "品控驾驶舱",
   alerts: "异常处理中心",
   "quality-list": "\u8d28\u91cf\u6570\u636e\u8868\u7b5b\u9009"
 };
@@ -30916,10 +32010,6 @@ function multiRoleWorkers() {
 
 
 async function fetchJson(path, { retries = 2, retryDelay = 400 } = {}) {
-  // 方案③：数据已内嵌进 window.__QC_INLINE__，命中则直接返回，不再发起网络请求
-  if (typeof window !== 'undefined' && window.__QC_INLINE__ && Object.prototype.hasOwnProperty.call(window.__QC_INLINE__, path)) {
-    return window.__QC_INLINE__[path];
-  }
   let lastError;
   for (let attempt = 0; attempt <= retries; attempt += 1) {
     try {
@@ -31239,19 +32329,13 @@ function renderMultiRoleWorkers() {
 }
 
 function pageFromHash() {
-  const hash = window.location.hash.replace("#", "");
-  if (hash === "warehouse-people" || hash === "people") return "warehouse-people";
-  if (hash === "qc") return "qc";
-  if (hash === "alerts" || hash === "alert") return "alerts";
-  if (hash === "quality-list" || hash === "quality") return "qc";
-  return "home";
+  return "qc";
 }
-
 
 let qcState;
 
-const WORKSPACE_PINNED_TABS = [{ page:'home', view:'', label:'\u9996\u9875' },{ page:'warehouse-people', view:'', label:'\u4ed3\u5e93\u4eba\u5458' },{ page:'qc', view:'overview', label:'\u54c1\u63a7\u603b\u89c8' },{ page:'alerts', view:'', label:'\u5f02\u5e38\u4e2d\u5fc3' }];
-const QC_WORKSPACE_LABELS={overview:'\u54c1\u63a7\u603b\u89c8',realtime:'\u5b9e\u65f6\u4f5c\u4e1a',people:'\u4eba\u5458\u5206\u6790',brands:'\u54c1\u724c\u5206\u6790',quality:'\u8d28\u91cf\u5206\u6790',complaint:'\u5ba2\u8bc9\u5206\u6790',alerts:'\u54c1\u63a7\u5f02\u5e38'};
+const WORKSPACE_PINNED_TABS = [{ page:'qc', view:'overview', label:'品控驾驶舱' }];
+const QC_WORKSPACE_LABELS={overview:'品控驾驶舱',realtime:'实时作业',people:'人员分析',brands:'品牌分析',comparisonDetail:'对比明细',quality:'返修分析',complaint:'客诉分析',alerts:'异常中心'};
 function workspaceKey(page,view=''){return page==='qc'?'qc:'+(view||'overview'):page} function currentWorkspaceView(){return state.page==='qc'&&qcState&&qcState.view?qcState.view:'overview'} function workspaceLabel(page,view=''){return page==='qc'?(QC_WORKSPACE_LABELS[view||'overview']||'\u54c1\u63a7\u7edf\u8ba1'):(PAGE_TITLES[page]||'\u65b0\u9875\u9762')}
 function openWorkspaceTab(page,view=''){const normalized=page==='qc'?(view||'overview'):'';const key=workspaceKey(page,normalized);if(!WORKSPACE_PINNED_TABS.some(tab=>workspaceKey(tab.page,tab.view)===key)&&!state.workspaceTabs.some(tab=>workspaceKey(tab.page,tab.view)===key))state.workspaceTabs.push({page,view:normalized})}
 function setSidebarExpanded(expanded){const shell=document.querySelector('.app-shell'),toggle=document.querySelector('#sidebarToggle');if(!shell||!toggle)return;shell.classList.toggle('sidebar-expanded',expanded);toggle.setAttribute('aria-expanded',String(expanded));try{localStorage.setItem('warehouse-sidebar-expanded',expanded?'1':'0')}catch(_){}}
@@ -31265,10 +32349,10 @@ function renderWorkspaceTabs() {
 }
 
 function setPage(page, options = {}) {
-  state.page = PAGE_TITLES[page] ? page : "home";
+  state.page = "qc";
   openWorkspaceTab(state.page, state.page === "qc" ? currentWorkspaceView() : "");
   if (options.updateHash !== false) {
-    const target = state.page === "home" ? "#home" : `#${state.page}`;
+    const target = "#qc";
     if (window.location.hash !== target) history.pushState(null, "", target);
   }
   renderPageChrome();
@@ -31406,13 +32490,34 @@ function setActiveDataset(key) {
   if (search) search.value = "";
 }
 
+function sidebarDateLabel(value) {
+  const match = String(value || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  return match ? String(Number(match[2])) + '\u6708' + String(Number(match[3])) + '\u65e5' : String(value || '');
+}
+function qcSidebarSource() {
+  if (state.page !== 'qc' || !qcState) return null;
+  if (qcState.view === 'complaint' && qcState.complaints) {
+    const available = qcState.complaints.availableRange || {};
+    const start = qcState.complaintStart || available.start || '';
+    const end = qcState.complaintEnd || available.end || '';
+    return { label: sidebarDateLabel(end), note: '\u5ba2\u8bc9\u5468\u4f1a \u00b7 ' + start + ' \u81f3 ' + end };
+  }
+  if (!qcState.data) return null;
+  const available = qcState.data.availableRange || {};
+  const scope = ['people', 'brands', 'quality'].includes(qcState.view) ? qcState.view : '';
+  const selected = scope ? qcState.moduleRanges?.[scope] : null;
+  const start = selected?.start || qcState.start || available.start || '';
+  const end = selected?.end || qcState.end || available.end || '';
+  return { label: sidebarDateLabel(end), note: '\u54c1\u63a7\u90e8\u6570\u636e\u6c47\u603b \u00b7 ' + start + ' \u81f3 ' + end };
+}
 function renderHeader() {
   const sourceName = $('#sourceName');
   const sourceRange = $('#sourceRange');
   const stamp = $('#dataStamp');
-  if (sourceName) sourceName.textContent = DATA.label;
-  if (sourceRange) sourceRange.textContent = DATA.sourceNote || DATA.rangeLabel;
-  if (stamp) stamp.textContent = DATA.rangeLabel + ' \u00b7 \u751f\u6210 ' + DATA.generatedAt;
+  const scoped = qcSidebarSource();
+  if (sourceName) sourceName.textContent = scoped?.label || DATA.label;
+  if (sourceRange) sourceRange.textContent = scoped?.note || DATA.sourceNote || DATA.rangeLabel;
+  if (stamp) stamp.textContent = scoped?.note || (DATA.rangeLabel + ' \u00b7 \u751f\u6210 ' + DATA.generatedAt);
 }
 function renderKpis() {
   const t = DATA.totals;
@@ -31749,21 +32854,24 @@ function bindEvents() {
     });
   });
 
-  const qcSideToggle = document.querySelector('#qcSideToggle');
-  if (qcSideToggle) qcSideToggle.addEventListener('click', () => {
-    const menu = document.querySelector('#qcSideSubnav');
-    setSidebarExpanded(true);
-    setPage('qc', { scrollTop: false });
-    setQcSideMenu(!menu?.classList.contains('is-open'));
-  });
-  const qcSideSubnav = document.querySelector('#qcSideSubnav');
-  if (qcSideSubnav) qcSideSubnav.addEventListener('click', (event) => {
+  const qcPlatformNav = document.querySelector('.qc-platform-nav');
+  if (qcPlatformNav) qcPlatformNav.addEventListener('click', (event) => {
+    const sectionToggle = event.target.closest('[data-qc-side-section-toggle]');
+    if (sectionToggle) {
+      const section = sectionToggle.closest('.qc-side-section');
+      const list = section?.querySelector('.qc-side-subnav');
+      if (!section || !list) return;
+      const expanded = !list.classList.contains('is-open');
+      list.classList.toggle('is-open', expanded);
+      section.classList.toggle('is-collapsed', !expanded);
+      sectionToggle.setAttribute('aria-expanded', String(expanded));
+      return;
+    }
     const button = event.target.closest('[data-qc-side-view]');
     if (!button) return;
     setPage('qc', { scrollTop: false });
     qcSetBusinessView(button.dataset.qcSideView);
-  });
-  const qcBusinessNav = document.querySelector('#qcBusinessNav');
+  });  const qcBusinessNav = document.querySelector('#qcBusinessNav');
   if (qcBusinessNav) qcBusinessNav.addEventListener('click', (event) => {
     const button = event.target.closest('[data-qc-view]');
     if (!button) return;
@@ -31789,11 +32897,10 @@ function bindEvents() {
   });
 
   window.addEventListener("hashchange", () => {
-    state.page = pageFromHash();
+    state.page = "qc";
+    if (window.location.hash !== "#qc") history.replaceState(null, "", "#qc");
     renderPageChrome();
-    if (state.page === "quality-list") renderQualityDataPage();
   });
-
   document.addEventListener("click", (event) => {
     if (!state.dateMenuOpen || event.target.closest("[data-date-switch]")) return;
     state.dateMenuOpen = "";
@@ -31847,7 +32954,7 @@ function renderAll() {
 }
 
 state.page = pageFromHash();
-renderAll();
+if (window.location.hash !== "#qc") history.replaceState(null, "", "#qc");renderAll();
 bindEvents();
 setInterval(setClock, 1000);
 setInterval(renderKpis, 3200);
@@ -31894,6 +33001,7 @@ qcState = {
   brands: [],
   person: 'all',
   repairPerson: 'all',
+  repairBrand: '鹭青一',
   complaintGranularity: 'week',
   complaintStart: '2026-01-01',
   complaintEnd: '',
@@ -31912,6 +33020,8 @@ qcState = {
   view: 'overview',
   filtersBound: false,
 };
+
+let qcPersonSearchQuery = '';
 
 function qcApplyPanelSelection() {
   const validPanels = ['people', 'brands', 'quality'];
@@ -31932,33 +33042,42 @@ function qcApplyPanelSelection() {
 }
 
 function qcApplyBusinessView() {
-  const validViews = ['overview', 'realtime', 'people', 'brands', 'quality', 'complaint', 'alerts'];
+  const validViews = ['overview', 'realtime', 'people', 'brands', 'comparisonDetail', 'quality', 'complaint', 'alerts'];
   if (!validViews.includes(qcState.view)) qcState.view = 'overview';
   document.querySelectorAll('[data-qc-view-section]').forEach((section) => {
     const views = String(section.dataset.qcViewSection || '').split(/\s+/);
     section.hidden = !views.includes(qcState.view);
   });
+  const navigationView = qcState.view;
   document.querySelectorAll('[data-qc-view]').forEach((button) => {
-    const active = button.dataset.qcView === qcState.view;
+    const active = button.dataset.qcView === navigationView;
     button.classList.toggle('active', active);
     button.setAttribute('aria-current', active ? 'page' : 'false');
   });
   document.querySelectorAll('[data-qc-side-view]').forEach((button) => {
-    const active = button.dataset.qcSideView === qcState.view;
+    const active = button.dataset.qcSideView === navigationView;
     button.classList.toggle('active', active);
     button.setAttribute('aria-current', active ? 'page' : 'false');
   });
+  const activeSideButton = document.querySelector('[data-qc-side-view].active');
+  const activeSection = activeSideButton?.closest('.qc-side-section');
+  if (activeSection) {
+    activeSection.classList.remove('is-collapsed');
+    activeSection.querySelector('.qc-side-subnav')?.classList.add('is-open');
+    activeSection.querySelector('[data-qc-side-section-toggle]')?.setAttribute('aria-expanded', 'true');
+  }
 }
 
 function qcSetBusinessView(view, options = {}) {
-  const validViews = ['overview', 'realtime', 'people', 'brands', 'quality', 'complaint', 'alerts'];
+  const validViews = ['overview', 'realtime', 'people', 'brands', 'comparisonDetail', 'quality', 'complaint', 'alerts'];
   if (!validViews.includes(view)) return;
   qcState.view = view;
   openWorkspaceTab('qc', view);
   qcApplyBusinessView();
+  renderHeader();
   renderWorkspaceTabs();
   if (options.scrollToView !== false) {
-    const viewTargets = { overview: '#qc', realtime: '#qcRealtimeTitle', people: '#qcEfficiencyTitle', brands: '#qcBrandTitle', quality: '#qcQualityTitle', complaint: '#qcComplaintTitle', alerts: '#qcIssueRanking' };
+    const viewTargets = { overview: '#qc', realtime: '#qcRealtimeTitle', people: '#qcEfficiencyTitle', brands: '#qcBrandTitle', comparisonDetail: '#qcComparisonDetailTitle', quality: '#qcQualityTitle', complaint: '#qcComplaintTitle', alerts: '#qcAlertCenterTitle' };
     const target = document.querySelector(viewTargets[view]);
     if (target) window.scrollTo({ top: Math.max(0, window.scrollY + target.getBoundingClientRect().top - 76), behavior: 'auto' });
   }
@@ -32143,7 +33262,7 @@ function qcFilterRows(rows, range, options = {}) {
   const filterPerson = options.person !== false;
   return (rows || []).filter((row) => {
     if (row.d < range.start || row.d > range.end) return false;
-    if (options.brand !== false && row.b != null && !qcBrandMatches(row.b)) return false;
+    if (options.brand !== false && !qcBrandMatches(row.b)) return false;
     if (filterPerson && qcState.person !== 'all' && row.n !== qcState.person && row.rn !== qcState.person && row.qn !== qcState.person) return false;
     return true;
   });
@@ -32153,6 +33272,21 @@ function qcSum(rows, field) {
   return rows.reduce((total, row) => total + (Number(row[field]) || 0), 0);
 }
 
+function qcSecondRepairMetrics(rows) {
+  const returned = qcSum(rows, 'w');
+  const rechecked = qcSum(rows, 'q');
+  return {
+    returned,
+    rechecked,
+    rate: rechecked > 0 ? returned / rechecked : null,
+  };
+}
+
+function qcSecondRepairPercent(value, fallback = '—') {
+  if (value === null || value === undefined || value === '') return fallback;
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? String(Math.round(numeric * 100)) : fallback;
+}
 function qcCapacityMetrics(rows) {
   return {
     qc: qcSum(rows, 'q'),
@@ -32245,8 +33379,22 @@ function qcBars(items, emptyText) {
   `).join('') : `<p class="qc-empty">${qcEscape(emptyText)}</p>`;
 }
 
+function qcApplyPersonSearch() {
+  const keyword = qcPersonSearchQuery.trim().toLocaleLowerCase('zh-CN');
+  const options = [...document.querySelectorAll('#qcPersonOptions [data-qc-person-value]')];
+  let visibleCount = 0;
+  options.forEach((button) => {
+    const value = button.dataset.qcPersonValue || '';
+    const visible = !keyword || (value !== 'all' && value.toLocaleLowerCase('zh-CN').includes(keyword));
+    button.hidden = !visible;
+    if (visible) visibleCount += 1;
+  });
+  const empty = $('#qcPersonEmpty');
+  if (empty) empty.hidden = visibleCount > 0;
+}
+
 function qcRefreshPersonOptions() {
-  const rows = (qcState.data?.capacity || []).filter((row) => row.d >= qcState.start && row.d <= qcState.end);
+  const rows = (qcState.data?.capacity || []).filter((row) => row.d >= qcState.start && row.d <= qcState.end && qcBrandMatches(row.b));
   const people = new Map();
   rows.forEach((row) => {
     if (!row.n) return;
@@ -32262,6 +33410,18 @@ function qcRefreshPersonOptions() {
   })).sort((a, b) => b.output - a.output || a.name.localeCompare(b.name, 'zh-CN'));
   if (qcState.person !== 'all' && !people.has(qcState.person)) ranked.push({ name: qcState.person, output: 0, brands: [] });
   $('#qcPersonFilter').innerHTML = '<option value="all">全部人员</option>' + ranked.map((person) => `<option value="${qcEscape(person.name)}">${qcEscape(person.name)}</option>`).join('');
+  const personOptions = $('#qcPersonOptions');
+  if (personOptions) {
+    const allSelected = qcState.person === 'all';
+    personOptions.innerHTML = `<button type="button" data-qc-person-value="all" role="option" aria-selected="${allSelected}" class="${allSelected ? 'is-selected' : ''}"><span>全部人员</span><small>${qcNumber(ranked.length, '0')} 人</small></button>` + ranked.map((person) => {
+      const selected = qcState.person === person.name;
+      return `<button type="button" data-qc-person-value="${qcEscape(person.name)}" role="option" aria-selected="${selected}" class="${selected ? 'is-selected' : ''}"><span>${qcEscape(person.name)}</span><small>${qcNumber(person.output, '0')} 件</small></button>`;
+    }).join('');
+    $('#qcPersonPickerSummary').textContent = allSelected ? '全部人员' : qcState.person;
+    const search = $('#qcPersonSearch');
+    if (search && search.value !== qcPersonSearchQuery) search.value = qcPersonSearchQuery;
+    qcApplyPersonSearch();
+  }
 }
 
 function qcRenderFilterState() {
@@ -32497,7 +33657,7 @@ function renderQCBrandGroups(data, rows) {
   if (!root) return;
   const preferred = QC_MAIN_BRANDS;
   const brandTotals = new Map();
-  (data.capacityByBrand || rows).forEach((row) => brandTotals.set(row.b, (brandTotals.get(row.b) || 0) + row.q + row.pk + row.rrp + row.ir));
+  rows.forEach((row) => brandTotals.set(row.b, (brandTotals.get(row.b) || 0) + row.q + row.pk + row.rrp + row.ir));
   let brands = qcState.brands.length
     ? qcState.brands.filter((brand) => brandTotals.has(brand))
     : preferred.filter((brand) => brandTotals.has(brand));
@@ -32505,7 +33665,7 @@ function renderQCBrandGroups(data, rows) {
     [...brandTotals.entries()].sort((a, b) => b[1] - a[1]).forEach(([brand]) => { if (brands.length < 3 && !brands.includes(brand)) brands.push(brand); });
   }
   root.innerHTML = brands.length ? brands.map((brand, index) => {
-    const brandRows = (data.capacityByBrand || rows).filter((row) => row.b === brand);
+    const brandRows = rows.filter((row) => row.b === brand);
     const modeKey = qcState.brandModes[brand] || 'qc';
     const mode = QC_WORK_MODES.find((item) => item.key === modeKey) || QC_WORK_MODES[0];
     const subModeKey = qcState.brandQcSubModes[brand] || 'all';
@@ -32513,7 +33673,7 @@ function renderQCBrandGroups(data, rows) {
       ? QC_QC_SUBMODES.find((item) => item.key === subModeKey) || QC_QC_SUBMODES[0]
       : mode;
     const modeLabel = mode.key === 'qc' ? subMode.label : mode.label;
-    const ranking = (brandRows.some((r) => r.n) ? qcAggregateRanking(qcRowsForRoleMode(brandRows, subMode), mode.field) : []).slice(0, 15);
+    const ranking = qcAggregateRanking(qcRowsForRoleMode(brandRows, subMode), mode.field).slice(0, 15);
     const max = Math.max(1, ...ranking.map((row) => row.value));
     const open = Object.prototype.hasOwnProperty.call(qcState.brandOpen, brand) ? qcState.brandOpen[brand] : index === 0;
     const totals = qcCapacityMetrics(brandRows);
@@ -32694,28 +33854,88 @@ table.innerHTML = brands.length ? `
     <strong>\u8d28\u68c0\u95ee\u9898\u5ba2\u8bc9\u7387 = \u672c\u671f\u8d28\u68c0\u95ee\u9898\u6570 \u00f7 \u672c\u671f\u53d1\u8d27\u6570</strong>
     <p>\u4e24\u9879\u5ba2\u8bc9\u7387\u5747\u6309\u5468\u62a5\u540c\u4e00\u884c\u53e3\u5f84\u8ba1\u7b97\uff1b\u5468\u5ea6\u6309\u540c\u5468\u671f\u53d1\u8d27\uff0c\u6708\u5ea6\u6309\u540c\u6708\u53d1\u8d27\u3002</p>
     <dl><div><dt>\u5f53\u524d\u5468\u671f</dt><dd>${qcComplaintPeriodLabel(currentPeriod, granularity)}</dd></div><div><dt>\u672c\u671f\u5ba2\u8bc9</dt><dd>${qcNumber(selected.complaints, '0')} \u4ef6</dd></div><div><dt>\u672c\u671f\u8d28\u68c0\u95ee\u9898</dt><dd>${qcNumber(selected.qualityIssues, '0')} \u4ef6</dd></div><div><dt>\u540c\u884c\u53d1\u8d27</dt><dd>${qcNumber(currentShipment, '0')} \u5355</dd></div><div><dt>\u7b5b\u9009\u54c1\u724c</dt><dd>${qcState.complaintBrand === 'all' ? '\u5168\u90e8\u54c1\u724c' : qcEscape(qcState.complaintBrand)}</dd></div></dl>`;
-}function qcWarehouseDifference(item) {
-  const difference = (Number(item.outbound) || 0) - (Number(item.inbound) || 0);
-  const direction = difference > 0 ? 'outbound-surplus' : (difference < 0 ? 'inbound-surplus' : 'balanced');
-  const signedDifference = (difference > 0 ? '+' : '') + qcNumber(difference, '0');
-  return '<p class=qc-weekly-warehouse-difference-' + direction + '>\uFF08\u51FA\u4ED3\uFF0D\u8FDB\u4ED3\uFF09\uFF1A' + signedDifference + '\u4EF6</p>';
+}function qcWarehouseAggregate(warehouse) {
+  if (!warehouse) return null;
+  if (warehouse.total) return { ...warehouse.total, name: '合计' };
+  const brands = Array.isArray(warehouse.brands) ? warehouse.brands : [];
+  if (!brands.length) return null;
+  const inbound = brands.reduce((sum, item) => sum + (Number(item.inbound) || 0), 0);
+  const outbound = brands.reduce((sum, item) => sum + (Number(item.outbound) || 0), 0);
+  const weightedReturns = brands.reduce((sum, item) => sum + (Number(item.inbound) || 0) * (Number(item.inboundReturnRate) || 0), 0);
+  return { name: '合计', inbound, outbound, inboundReturnRate: inbound ? weightedReturns / inbound : null };
 }
-function qcRenderWeeklyWarehouse(rangeValue) {
+function qcWarehouseComparison(current, previous, isRate = false) {
+  const currentValue = Number(current);
+  const previousValue = Number(previous);
+  if (!Number.isFinite(currentValue) || !Number.isFinite(previousValue)) return '<span class="qc-warehouse-compare neutral">上周暂无</span>';
+  const delta = currentValue - previousValue;
+  const previousText = isRate ? qcDecimal(previousValue * 100, 2) + '%' : qcNumber(previousValue, '0') + ' 件';
+  const deltaText = isRate ? qcDecimal(Math.abs(delta) * 100, 2) + ' 个百分点' : qcNumber(Math.abs(delta), '0') + ' 件';
+  const tone = delta > 0 ? 'increase' : (delta < 0 ? 'decrease' : 'neutral');
+  const sign = delta > 0 ? '+' : (delta < 0 ? '−' : '');
+  return '<span class="qc-warehouse-compare ' + tone + '">上周 ' + previousText + ' · 差异 ' + sign + deltaText + '</span>';
+}
+function qcWarehouseMetric(label, current, previous, isRate = false) {
+  const numeric = Number(current);
+  const value = Number.isFinite(numeric) ? (isRate ? qcDecimal(numeric * 100, 2) : qcNumber(numeric, '0')) : '—';
+  const unit = Number.isFinite(numeric) ? (isRate ? '%' : '件') : '';
+  return '<div><dt>' + label + '</dt><dd>' + value + '<small>' + unit + '</small></dd>' + qcWarehouseComparison(current, previous, isRate) + '</div>';
+}
+function qcRenderWeeklyWarehouse(rangeValue, repairRows = [], allRepairRows = repairRows) {
   const root = $('#qcWeeklyWarehouse');
   const rangeLabel = $('#qcWeeklyWarehouseRange');
   if (!root || !rangeLabel) return;
-  const reports = (qcState.complaints?.weekly || []).filter((item) => item?.warehouse?.brands?.length && item.start <= rangeValue.end && item.end >= rangeValue.start);
-  const report = reports.at(-1);
+  const selectedBrand = qcState.repairBrand || 'all';
+  const selectedLabel = selectedBrand === 'all' ? '全部品牌' : selectedBrand;
+  const { returned: secondRepairCount, rate: secondRepairRate } = qcSecondRepairMetrics(repairRows);
+  const brandMap = new Map();
+  allRepairRows.forEach((row) => {
+    const brand = String(row.b || '').trim() || '未标记品牌';
+    if (!brandMap.has(brand)) brandMap.set(brand, { brand, recheck: 0, returned: 0 });
+    const item = brandMap.get(brand);
+    item.recheck += Number(row.q) || 0;
+    item.returned += Number(row.w) || 0;
+  });
+  const brandRows = [...brandMap.values()].map((item) => ({ ...item, rate: item.recheck ? item.returned / item.recheck : null })).sort((a, b) => b.returned - a.returned || a.brand.localeCompare(b.brand, 'zh-CN'));
+  const brandDetail = brandRows.length ? '<section class="qc-brand-second-repair"><div class="qc-brand-second-repair-title"><strong>品牌二次返修明细</strong><span>'+rangeValue.start+' ～ '+rangeValue.end+' · 返修明细数据</span></div><div class="qc-brand-second-repair-head"><span>品牌</span><span>二次返修数量</span><span>二次返修率</span></div><div class="qc-brand-second-repair-rows">'+brandRows.map((item) => '<article'+(item.brand === selectedBrand ? ' class="selected"' : '')+'><strong>'+qcEscape(item.brand)+'</strong><b>'+qcNumber(item.returned, '0')+'<small>件</small></b><em>'+qcSecondRepairPercent(item.rate)+'<small>%</small></em></article>').join('')+'</div></section>' : '<p class="qc-empty">当前日期范围暂无品牌二次返修明细</p>';
+  const secondarySummary = '<section class="qc-weekly-secondary-repair"><div><span>'+qcEscape(selectedLabel)+'·二次返修</span><strong>'+qcNumber(secondRepairCount, '0')+'<small>件</small></strong></div><div><span>二次返修率</span><strong>'+qcSecondRepairPercent(secondRepairRate)+'<small>%</small></strong></div><p>数据源：品控部数据汇总·返修明细数据；口径：退返修仓合计 ÷ 质检复检量合计。</p></section>';
+  const weeklyWarehouseSources = [
+    ...(qcState.complaints?.weekly || []).filter((item) => item?.warehouse?.brands?.length),
+    ...(qcState.complaints?.warehouseWeekly || []).filter((item) => item?.warehouse?.brands?.length),
+  ];
+  const warehouseReports = [...new Map(weeklyWarehouseSources.map((item) => [item.start + '|' + item.end, item])).values()].sort((a, b) => a.end.localeCompare(b.end));
+  const overlapping = warehouseReports.filter((item) => item.start <= rangeValue.end && item.end >= rangeValue.start);
+  const report = overlapping.at(-1) || warehouseReports.filter((item) => item.end <= rangeValue.end).at(-1) || warehouseReports.at(-1);
   if (!report) {
-    rangeLabel.textContent = '\u4ed3\u50a8\u5468\u62a5\u6682\u65e0\u5bf9\u5e94\u533a\u95f4';
-    root.innerHTML = '<p class="qc-empty">\u5f53\u524d\u8d28\u91cf\u5206\u6790\u533a\u95f4\u6682\u65e0\u4ed3\u50a8\u5468\u62a5\u51fa\u5165\u4ed3\u6570\u636e</p>';
+    rangeLabel.textContent = '仓储周报暂无数据';
+    root.innerHTML = '<p class="qc-empty">当前暂无可用的返修进出仓周报数据</p>' + secondarySummary + brandDetail;
     return;
   }
-  const brands = report.warehouse.brands.filter((item) => qcBrandMatches(item.name));
-  rangeLabel.textContent = '\u4ed3\u50a8\u5468\u62a5 ' + report.start + ' \uff5e ' + report.end;
-  root.innerHTML = brands.length ? '<div class="qc-weekly-warehouse-grid">' + brands.map((item) => '<article><strong>' + qcEscape(item.name) + '</strong><dl><div><dt>\u8fdb\u4ed3</dt><dd>' + qcNumber(item.inbound, '\u2014') + '<small>\u4ef6</small></dd></div><div><dt>\u8fdb\u4ed3\u9500\u9000\u5360\u6bd4</dt><dd>' + qcPercent(item.inboundReturnRate) + '<small>%</small></dd></div><div><dt>\u51fa\u4ed3</dt><dd>' + qcNumber(item.outbound, '\u2014') + '<small>\u4ef6</small></dd></div></dl>' + qcWarehouseDifference(item) + '</article>').join('') + '</div><p class="qc-weekly-warehouse-source">\u6570\u636e\u6765\u6e90\uff1a\u4ed3\u50a8\u5468\u62a5\uff08\u4e0d\u4f7f\u7528\u54c1\u63a7\u90e8\u6570\u636e\u6c47\u603b\u8868\u8ba1\u7b97\uff09</p>' : '<p class="qc-empty">\u5f53\u524d\u54c1\u724c\u7b5b\u9009\u672a\u547d\u4e2d\u4ed3\u50a8\u5468\u62a5\u51fa\u5165\u4ed3\u6570\u636e</p>';
-}
-function qcRenderQuality(issueRows, repairRows, capacityRows, rangeValue) {
+  const reportIndex = warehouseReports.indexOf(report);
+  const previousReport = reportIndex > 0 ? warehouseReports[reportIndex - 1] : null;
+  const previousBrands = new Map((previousReport?.warehouse?.brands || []).map((item) => [item.name, item]));
+  const currentBrands = (report.warehouse.brands || []).filter((item) => selectedBrand === 'all' || item.name === selectedBrand);
+  const displayRows = currentBrands.slice();
+  if (selectedBrand === 'all') {
+    const total = qcWarehouseAggregate(report.warehouse);
+    if (total) displayRows.push(total);
+  }
+  const previousTotal = qcWarehouseAggregate(previousReport?.warehouse);
+  const warehouseHtml = displayRows.length ? '<div class="qc-weekly-warehouse-grid">' + displayRows.map((item) => {
+    const previous = item.name === '合计' ? previousTotal : previousBrands.get(item.name);
+    const currentDifference = (Number(item.outbound) || 0) - (Number(item.inbound) || 0);
+    const previousDifference = previous ? (Number(previous.outbound) || 0) - (Number(previous.inbound) || 0) : null;
+    return '<article class="' + (item.name === '合计' ? 'total' : '') + '"><strong>' + qcEscape(item.name) + '</strong><dl>' +
+      qcWarehouseMetric('进仓', item.inbound, previous?.inbound) +
+      qcWarehouseMetric('进仓销退占比', item.inboundReturnRate, previous?.inboundReturnRate, true) +
+      qcWarehouseMetric('出仓', item.outbound, previous?.outbound) +
+      qcWarehouseMetric('出仓 − 进仓', currentDifference, previousDifference) +
+      '</dl></article>';
+  }).join('') + '</div>' : '<p class="qc-empty">当前品牌暂无返修进出仓周报数据</p>';
+  const isOverlapping = report.start <= rangeValue.end && report.end >= rangeValue.start;
+  rangeLabel.textContent = (isOverlapping ? '仓储周报 ' : '最近可用周报 ') + report.start + ' ～ ' + report.end;
+  root.innerHTML = warehouseHtml + '<p class="qc-weekly-warehouse-source">进出仓及进仓销退占比来自仓储周报；每项同时展示上周值和本周差异。二次返修数据仍独立使用返修明细数据计算。</p>' + secondarySummary + brandDetail;
+}function qcRenderQuality(issueRows, repairRows, capacityRows, rangeValue) {
   const range = qcRangeLabel(rangeValue);
   $('#qcQualityRange').textContent = `${range} 累计`;
   $('#qcRepairRange').textContent = `${range} 累计`;
@@ -32728,14 +33948,14 @@ function qcRenderQuality(issueRows, repairRows, capacityRows, rangeValue) {
   const responsibilityMap = new Map();
   issueRows.forEach((row) => responsibilityMap.set(row.a || '未标注', (responsibilityMap.get(row.a || '未标注') || 0) + (row.x || 0)));
   const responsibilities = [...responsibilityMap.entries()].map(([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value);
-  const repairTotal = qcSum(repairRows, 'r');
-  const qcTotal = qcSum(repairRows, 'q');
+  const { returned: warehouse, rechecked: qcTotal, rate: secondRepairRate } = qcSecondRepairMetrics(repairRows);
+
   const onsite = qcSum(repairRows, 'o');
-  const warehouse = qcSum(repairRows, 'w');
+
   const repairCapacityRows = capacityRows.filter((row) => Number(row.rrp) > 0);
   const repairCapacity = qcSum(repairCapacityRows, 'rrp');
-  const repairDefectRate = qcTotal ? Math.round(warehouse / qcTotal * 100) : 0;
-  const secondRepairRate = qcTotal ? warehouse / qcTotal : 0;
+
+
 
   const repairEffectivePeople = new Map();
   repairCapacityRows.forEach((row) => {
@@ -32773,7 +33993,7 @@ function qcRenderQuality(issueRows, repairRows, capacityRows, rangeValue) {
   const dailyEffectiveRepairCapacity = workdays ? effectiveRepairCapacity / workdays : 0;
   const renderRepairEffectivePeople = (rows) => rows.length ?
     '<div class="qc-repair-effective-table-head"><span>人员</span><span>进返修间</span><span>二次返修率</span><span>有效产能</span><span>日均有效产能</span><span>工作日</span></div>' +
-    rows.map((person) => '<div class="qc-repair-effective-table-row' + (person.secondRate !== null && person.secondRate > 0.15 ? ' warning' : '') + '"><strong>' + qcEscape(person.name) + '</strong><span>' + qcNumber(person.capacity, '0') + ' 件</span><span>' + (person.secondRate === null ? '待核对' : qcPercent(person.secondRate) + '%') + '</span><b>' + (person.effective === null ? '待核对' : qcDecimal(person.effective, 2) + ' 件') + '</b><b>' + (person.effective === null || !person.days ? '—' : qcDecimal(person.daily, 2) + ' 件/天') + '</b><span>' + qcNumber(person.days, '0') + ' 天</span></div>').join('') : '<p class="qc-empty">当前筛选下暂无进返修间有效产能记录</p>';
+    rows.map((person) => '<div class="qc-repair-effective-table-row' + (person.secondRate !== null && person.secondRate > 0.15 ? ' warning' : '') + '"><strong>' + qcEscape(person.name) + '</strong><span>' + qcNumber(person.capacity, '0') + ' 件</span><span>' + (person.secondRate === null ? '待核对' : qcSecondRepairPercent(person.secondRate) + '%') + '</span><b>' + (person.effective === null ? '待核对' : qcDecimal(person.effective, 2) + ' 件') + '</b><b>' + (person.effective === null || !person.days ? '—' : qcDecimal(person.daily, 2) + ' 件/天') + '</b><span>' + qcNumber(person.days, '0') + ' 天</span></div>').join('') : '<p class="qc-empty">当前筛选下暂无进返修间有效产能记录</p>';
   $('#qcQualitySummary').innerHTML = `
     <article class="qc-quality-metric"><span>抽检数</span><strong>${qcNumber(samples, '0')}<small>件</small></strong></article>
     <article class="qc-quality-metric"><span>次品数</span><strong>${qcNumber(defects, '0')}<small>件</small></strong></article>
@@ -32815,7 +34035,7 @@ function qcRenderQuality(issueRows, repairRows, capacityRows, rangeValue) {
         <article class="qc-repair-effective"><span>进返修间有效产能</span><strong>${qcDecimal(effectiveRepairCapacity, 2)}<small>件</small></strong></article>
         <article class="qc-repair-effective"><span>日均有效产能</span><strong>${qcDecimal(dailyEffectiveRepairCapacity, 2)}<small>件/天</small></strong></article>
       </div>
-      <article class="qc-repair-rate"><span>二次返修率</span><strong>${repairDefectRate}<small>%</small></strong></article>
+      <article class="qc-repair-rate"><span>二次返修率（返修明细）</span><strong>${qcSecondRepairPercent(secondRepairRate)}<small>%</small></strong></article>
     </div>`;
   $('#qcRepairEffectivePersonal').innerHTML = renderRepairEffectivePeople(repairEffectiveRows);
 }
@@ -32825,9 +34045,9 @@ function qcRenderAlertCenter({ range, operationIssueRows, qualityIssueRows, qual
   const samples = qcSum(qualityIssueRows, 's');
   const defects = qcSum(qualityIssueRows, 'x');
   const defectRate = samples ? defects / samples : 0;
-  const repairTotal = qcSum(qualityRepairRows, 'r');
-  const returnedRepair = qcSum(qualityRepairRows, 'w');
-  const secondRepair = repairTotal ? returnedRepair / repairTotal : 0;
+  const { returned: returnedRepair, rechecked: repairRecheckTotal, rate: secondRepair } = qcSecondRepairMetrics(qualityRepairRows);
+
+
   const latestComplaint = qcState.complaints?.weekly?.at(-1);
   const complaintRate = latestComplaint ? qcComplaintRate(latestComplaint.complaints, latestComplaint.shipment) : null;
   const issueMap = new Map();
@@ -32836,7 +34056,7 @@ function qcRenderAlertCenter({ range, operationIssueRows, qualityIssueRows, qual
   const anomalies = [];
   if (complaintRate !== null && complaintRate >= 0.02) anomalies.push({ level: '高', label: '客诉率超阈值', value: `${qcComplaintPercent(complaintRate)}%`, detail: '超过 2% 预警阈值，需要复盘客诉品牌与问题分类。', target: 'complaint' });
   if (defectRate > 0.02) anomalies.push({ level: '高', label: '质量问题率偏高', value: `${qcPercent(defectRate)}%`, detail: `${qcNumber(defects, '0')} 次问题 / ${qcNumber(samples, '0')} 抽检。`, target: 'quality' });
-  if (secondRepair > 0.15) anomalies.push({ level: '中', label: '二次返修率偏高', value: `${qcPercent(secondRepair)}%`, detail: `${qcNumber(returnedRepair, '0')} 件退返修 / ${qcNumber(repairTotal, '0')} 件返修。`, target: 'quality' });
+  if (secondRepair !== null && secondRepair > 0.15) anomalies.push({ level: '中', label: '二次返修率偏高', value: `${qcSecondRepairPercent(secondRepair)}%`, detail: `${qcNumber(returnedRepair, '0')} 件退返修仓 / ${qcNumber(repairRecheckTotal, '0')} 件质检复检（返修明细数据）。`, target: 'quality' });
   if (efficiency.coverage < 100) anomalies.push({ level: '中', label: '在岗时长缺失', value: `${qcDecimal(efficiency.coverage, 1)}%`, detail: `${qcNumber(efficiency.groups.length - efficiency.validGroups.length, '0')} 个人天缺少有效工时，影响人效判断。`, target: 'people' });
   if (topIssue) anomalies.push({ level: '提示', label: '重点问题待复盘', value: `${qcEscape(topIssue[0])} · ${qcNumber(topIssue[1], '0')} 次`, detail: `${qcRangeLabel(range)} 内问题分类 Top 1。`, target: 'quality' });
   root.innerHTML = `
@@ -32844,7 +34064,7 @@ function qcRenderAlertCenter({ range, operationIssueRows, qualityIssueRows, qual
     <div class="qc-alert-summary-cards">${[
       ['客诉率', complaintRate === null ? '暂无' : `${qcPercent(complaintRate)}%`, complaintRate !== null && complaintRate >= 0.02 ? 'risk' : 'normal'],
       ['质量问题率', `${qcPercent(defectRate)}%`, defectRate > 0.02 ? 'risk' : 'normal'],
-      ['二次返修率', `${qcPercent(secondRepair)}%`, secondRepair > 0.15 ? 'warn' : 'normal'],
+      ['二次返修率', `${qcSecondRepairPercent(secondRepair)}%`, secondRepair !== null && secondRepair > 0.15 ? 'warn' : 'normal'],
       ['工时完整性', `${qcDecimal(efficiency.coverage, 1)}%`, efficiency.coverage < 100 ? 'warn' : 'normal'],
     ].map(([label, value, tone]) => `<article class="qc-alert-summary-card ${tone}"><span>${label}</span><strong>${value}</strong><p>点击下方异常查看处理入口</p></article>`).join('')}</div>
     <div class="qc-alert-list">${anomalies.length ? anomalies.map((item) => `<article class="qc-alert-row level-${item.level === '高' ? 'high' : item.level === '中' ? 'medium' : 'info'}"><span class="qc-alert-level">${item.level}</span><div><strong>${item.label}</strong><p>${item.detail}</p></div><b>${item.value}</b><button type="button" data-qc-alert-jump="${item.target}">查看详情</button></article>`).join('') : '<div class="qc-alert-empty"><strong>当前筛选范围没有达到阈值的异常</strong><p>可继续查看质量分析、人员分析和客诉分析的明细。</p></div>'}</div>`;
@@ -32854,6 +34074,7 @@ function qcRenderAlertCenter({ range, operationIssueRows, qualityIssueRows, qual
   const data = qcState.data;
   qcApplyPanelSelection();
   qcApplyBusinessView();
+  renderHeader();
   if (!root || !data || !qcState.start || !qcState.end) return;
 
   const operationRange = { start: qcState.start, end: qcState.end };
@@ -32909,7 +34130,7 @@ function qcRenderAlertCenter({ range, operationIssueRows, qualityIssueRows, qual
   }).join('');
   $('#qcCompareGrid').innerHTML = '';
   const efficiency = qcEfficiencySummary(operationRows, null, operationRange);
-  qcRenderAlertCenter({ range: operationRange, operationIssueRows: operationIssueRows, qualityIssueRows: qualityIssueRows, qualityRepairRows: qualityRepairRows, efficiency });
+
   const qualitySamples = qcSum(operationIssueRows, 's');
   const qualityDefects = qcSum(operationIssueRows, 'x');
   const notes = [
@@ -32927,18 +34148,31 @@ function qcRenderAlertCenter({ range, operationIssueRows, qualityIssueRows, qual
   qcRenderEfficiency(peopleRows, peopleRange);
   qcRenderInsights(peopleRows, peopleRange);
   renderQCBrandGroups(data, brandRows);
-  const repairPeople = [...new Set(qualityCapacityRows.filter((row) => Number(row.rrp) > 0 && row.n).map((row) => row.n))].sort((a, b) => a.localeCompare(b, 'zh-CN'));
+  const repairBaseRows = qcFilterRows(data.repairs, qualityRange, { brand: false, person: false });
+  const repairBaseCapacityRows = qcFilterRows(data.capacity, qualityRange, { brand: false, person: false });
+  const repairBrands = [...new Set(repairBaseRows.map((row) => String(row.b || '').trim()).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'zh-CN'));
+  if (qcState.repairBrand !== 'all' && !repairBrands.includes(qcState.repairBrand)) qcState.repairBrand = 'all';
+  const repairBrandSelect = $('#qcRepairBrandFilter');
+  if (repairBrandSelect) {
+    repairBrandSelect.innerHTML = '<option value="all">\u5168\u90e8\u54c1\u724c</option>' + repairBrands.map((brand) => '<option value="' + qcEscape(brand) + '">' + qcEscape(brand) + '</option>').join('');
+    repairBrandSelect.value = qcState.repairBrand;
+  }
+  const matchesRepairBrand = (row) => qcState.repairBrand === 'all' || row.b === qcState.repairBrand;
+  const repairRowsForBrand = repairBaseRows.filter(matchesRepairBrand);
+  qcRenderAlertCenter({ range: operationRange, operationIssueRows: operationIssueRows, qualityIssueRows: qualityIssueRows, qualityRepairRows: repairRowsForBrand, efficiency });
+  const capacityRowsForBrand = repairBaseCapacityRows.filter(matchesRepairBrand);
+  const repairPeople = [...new Set(capacityRowsForBrand.filter((row) => Number(row.rrp) > 0 && row.n).map((row) => row.n))].sort((a, b) => a.localeCompare(b, 'zh-CN'));
   if (qcState.repairPerson !== 'all' && !repairPeople.includes(qcState.repairPerson)) qcState.repairPerson = 'all';
   const repairPersonSelect = $('#qcRepairPersonFilter');
   if (repairPersonSelect) {
-    repairPersonSelect.innerHTML = '<option value="all">全部返修人员</option>' + repairPeople.map((name) => `<option value="${qcEscape(name)}">${qcEscape(name)}</option>`).join('');
+    repairPersonSelect.innerHTML = '<option value="all">\u5168\u90e8\u8fd4\u4fee\u4eba\u5458</option>' + repairPeople.map((name) => '<option value="' + qcEscape(name) + '">' + qcEscape(name) + '</option>').join('');
     repairPersonSelect.value = qcState.repairPerson;
   }
   const matchesRepairPerson = (row) => qcState.repairPerson === 'all' || [row.n, row.rn, row.qn].includes(qcState.repairPerson);
-  const scopedRepairRows = qualityRepairRows.filter(matchesRepairPerson);
-  const scopedCapacityRows = qualityCapacityRows.filter(matchesRepairPerson);
+  const scopedRepairRows = repairRowsForBrand.filter(matchesRepairPerson);
+  const scopedCapacityRows = capacityRowsForBrand.filter(matchesRepairPerson);
   qcRenderQuality(qualityIssueRows, scopedRepairRows, scopedCapacityRows, qualityRange);
-  qcRenderWeeklyWarehouse(qualityRange);
+  qcRenderWeeklyWarehouse(qualityRange, repairRowsForBrand, repairBaseRows);
   qcRenderComplaints();
 }
 
@@ -32965,7 +34199,7 @@ function qcBindFilters() {
   });
 
   const brandTotals = new Map();
-  (data.capacityByBrand || data.capacity).forEach((row) => brandTotals.set(row.b, (brandTotals.get(row.b) || 0) + qcEfficiencyOutput(row, null)));
+  data.capacity.forEach((row) => brandTotals.set(row.b, (brandTotals.get(row.b) || 0) + qcEfficiencyOutput(row, null)));
   const brands = [...brandTotals.keys()].filter(Boolean).sort((a, b) => {
     const aMain = QC_MAIN_BRANDS.indexOf(a);
     const bMain = QC_MAIN_BRANDS.indexOf(b);
@@ -33045,7 +34279,38 @@ function qcBindFilters() {
     renderQCDashboard();
   });
   $('#qcPersonFilter').addEventListener('change', (event) => { qcState.person = event.target.value; renderQCDashboard(); });
+  $('#qcPersonOptions')?.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-qc-person-value]');
+    if (!button) return;
+    qcState.person = button.dataset.qcPersonValue || 'all';
+    qcPersonSearchQuery = '';
+    $('#qcPersonPicker').open = false;
+    renderQCDashboard();
+  });
+  $('#qcPersonSearch')?.addEventListener('input', (event) => {
+    qcPersonSearchQuery = event.target.value;
+    qcApplyPersonSearch();
+  });
+  $('#qcPersonSearch')?.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      $('#qcPersonPicker').open = false;
+      $('#qcPersonPickerSummary').focus();
+      return;
+    }
+    if (event.key !== 'Enter') return;
+    const firstMatch = [...document.querySelectorAll('#qcPersonOptions [data-qc-person-value]')].find((button) => !button.hidden);
+    if (firstMatch) {
+      event.preventDefault();
+      firstMatch.click();
+    }
+  });
+  $('#qcPersonPicker')?.addEventListener('toggle', (event) => {
+    if (!event.target.open) return;
+    requestAnimationFrame(() => $('#qcPersonSearch')?.focus());
+  });
   $('#qcRepairPersonFilter').addEventListener('change', (event) => { qcState.repairPerson = event.target.value; renderQCDashboard(); });
+  $('#qcRepairBrandFilter').addEventListener('change', (event) => { qcState.repairBrand = event.target.value; qcState.repairPerson = 'all'; renderQCDashboard(); });
   $('#qcComplaintToolbar').addEventListener('click', (event) => {
     const button = event.target.closest('[data-qc-complaint-granularity]');
     if (!button) return;
@@ -33056,16 +34321,29 @@ function qcBindFilters() {
   const complaintEnd = $('#qcComplaintEndDate');
   const complaintBrand = $('#qcComplaintBrandFilter');
   const complaintReset = $('#qcComplaintReset');
-  const updateComplaintFilter = (customRange = false) => {
+  const animateComplaintBrandSwitch = () => {
+    const complaintWorkbench = $('#p2Complaint');
+    if (!complaintWorkbench || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    complaintWorkbench.classList.remove('is-brand-switching');
+    void complaintWorkbench.offsetWidth;
+    complaintWorkbench.classList.add('is-brand-switching');
+    complaintWorkbench.addEventListener('animationend', () => {
+      complaintWorkbench.classList.remove('is-brand-switching');
+    }, { once: true });
+  };
+  const updateComplaintFilter = (customRange = false, brandChanged = false) => {
     qcState.complaintStart = complaintStart?.value || '2026-01-01';
     qcState.complaintEnd = complaintEnd?.value || qcState.complaints?.availableRange?.end || '';
-    qcState.complaintBrand = complaintBrand?.value || 'all';
+    const nextBrand = complaintBrand?.value || 'all';
+    qcState.complaintBrand = nextBrand;
+    if (brandChanged) qcState.complaintCompareBrands = nextBrand === 'all' ? null : [nextBrand];
     if (customRange) qcState.complaintRangePreset = 'custom';
     renderQCDashboard();
+    if (brandChanged) animateComplaintBrandSwitch();
   };
   complaintStart?.addEventListener('change', () => updateComplaintFilter(true));
   complaintEnd?.addEventListener('change', () => updateComplaintFilter(true));
-  complaintBrand?.addEventListener('change', () => updateComplaintFilter(false));
+  complaintBrand?.addEventListener('change', () => updateComplaintFilter(false, true));
   complaintReset?.addEventListener('click', () => {
     qcState.complaintStart = qcState.complaints?.availableRange?.start || '2026-01-01';
     qcState.complaintEnd = qcState.complaints?.availableRange?.end || '';

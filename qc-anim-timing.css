@@ -1,0 +1,61 @@
+/* ===================================================================
+ * 井唐服饰品控看板 —— 数据可视化动画时长优化覆盖层 (qc-anim-timing.css)
+ * 自动维护，零侵入：在 index.html 中 qc-theme-cn-red.css 之后追加本文件即可生效，
+ *   删除该 link 即恢复原始动画时长。
+ *
+ * 目标：把图表 / 可视化组件的【过渡、入场、数据更新】动画在现有基础上延长约 100%，
+ *   同时保留 GPU 友好属性(transform/opacity)并加 will-change 提示，
+ *   确保延长时长后仍维持 60fps 平滑过渡，兼容主流浏览器与不同性能设备。
+ *
+ * 改动对照(全部就地延长，不改原始 CSS 文件)：
+ *   - 横向条形图入场(qcBarSettle)        .36s -> .72s
+ *   - 指标弹层入场(qcMetricPop)          .14s -> .28s
+ *   - 实时折线图数据点(半径过渡)          .14s -> .28s
+ *   - 工作量条形(高度过渡)               .20s -> .40s
+ *   - 组合图柱(填充/透明过渡)            .16s -> .32s
+ *   - 组合图散点(半径过渡)               .16s -> .32s
+ *   - 竖向条形(高度, 原为即时)          新增 .40s 平滑增长
+ *   - 实时负荷条(宽度, 原为即时)        新增 .40s 平滑增长
+ * =================================================================== */
+
+/* 1) 横向条形图入场动画：延长一倍，并提升为合成层 */
+body.qc-redesign-enabled #qc .qc-horizontal-bars article[data-qc-horizontal-module] div i{
+  animation-duration:.72s!important;
+  will-change:transform;
+}
+
+/* 2) 指标弹层入场动画：延长一倍，合成层 */
+body.qc-redesign-enabled #qc .qc-metric-popover{
+  animation-duration:.28s!important;
+  will-change:transform,opacity;
+}
+
+/* 3) 实时折线图数据点：半径/滤镜过渡延长一倍 */
+body.qc-redesign-enabled #qc .qc-realtime-line-chart circle[data-qc-trend-point]{
+  transition-duration:.28s!important;
+}
+
+/* 4) 工作量条形：高度/透明过渡延长一倍 */
+body.qc-redesign-enabled #qc .p2-workload-bar{
+  transition-duration:.4s!important;
+}
+
+/* 5) 组合图柱：填充/透明等过渡延长一倍 */
+body.qc-redesign-enabled #qc .p2-people-combo-chart .bars rect{
+  transition-duration:.32s!important;
+}
+
+/* 6) 组合图散点：半径等过渡延长一倍 */
+body.qc-redesign-enabled #qc .p2-people-combo-chart .points circle{
+  transition-duration:.32s!important;
+}
+
+/* 7) 竖向条形：原为即时出现，新增平滑高度增长(与整体节奏一致) */
+body.qc-redesign-enabled #qc .qc-vertical-bars article>div i{
+  transition:height .4s ease!important;
+}
+
+/* 8) 实时负荷条：原为即时出现，新增平滑宽度增长 */
+body.qc-redesign-enabled #qc .qc-realtime-load-table b{
+  transition:width .4s ease!important;
+}
