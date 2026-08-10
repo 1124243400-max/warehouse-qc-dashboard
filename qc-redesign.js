@@ -124,6 +124,7 @@
   }
 
   function redesignInstallControlDock() {
+    return; // 已撤回移动端目录折叠条，恢复原始侧栏布局（nav/filter 留在原始位置）
     const nav = document.querySelector('#qcBusinessNav');
     const filter = document.querySelector('#qc .qc-global-filter');
     if (!nav || !filter) return;
