@@ -1,3 +1,13 @@
+/* =========================================================================
+   qc-mobile-v3.css · 强制 mobile 布局（不依赖媒体查询）
+   --------------------------------------------------------------------------
+   v3 与 v1/v2 关键差别：所有 @media 媒体查询块都被脱壳成 html.qc-mobile-on 类驱动，
+   即使支付宝 / 微信 / QQ 等内置 WebView 强制将视口拉到 980px（desktop mode），
+   mobile 布局依然生效。激活方式：在 head 末尾 inline JS，命中条件时
+   document.documentElement.classList.add('qc-mobile-on')。
+   - 命中条件：(window.innerWidth <= 1200) OR 内置 WebView UA(Alipay/Wechat/QQ)
+   ========================================================================= */
+
 /* ==========================================================================
    qc-mobile.css — 移动端 / 平板响应式适配覆盖层
    --------------------------------------------------------------------------
@@ -22,14 +32,20 @@
 /* ==========================================================================
    P0-1 · 平板断点冲突修复（最致命）
    --------------------------------------------------------------------------
-   问题：styles.css:505  @media(max-width:1180px){.app-shell{...1fr}}   ← 想单列
-        styles.css:5558 @media(min-width:761px) {.app-shell{...220px}}  ← 后写的补丁
+   问题：styles.css:505  
+/* qc-mobile-v3 · media-bypass · 由 JS 加 .qc-mobile-on 类触发 */
+html.qc-mobile-on .app-shell{...1fr}   ← 想单列
+        styles.css:5558 
+/* qc-mobile-v3 · media-bypass · 由 JS 加 .qc-mobile-on 类触发 */
+html.qc-mobile-on .app-shell{...220px}  ← 后写的补丁
    在 761–1180px（iPad 竖屏 768 / 横屏 1024 / 多数平板）两条同时命中，
    后者行号更大而胜出 → 侧边栏顶回 220px 固定宽，主内容被压到 ~540px，
    而内部图表最小宽 690–1230px → 视觉全面崩坏。
    本层用「同样 !important + 更后加载」重新夺回单列布局。
    ========================================================================== */
-@media (max-width: 1180px) {
+
+/* qc-mobile-v3 · media-bypass · 由 JS 加 .qc-mobile-on 类触发 */
+
   .app-shell,
   .app-shell.sidebar-expanded,
   body.home-mode .app-shell,
@@ -43,7 +59,7 @@
   .sidebar,
   .app-shell.sidebar-expanded .sidebar,
   body.home-mode .app-shell .sidebar,
-  body.home-mode .app-shell.sidebar-expanded .sidebar {
+  body.home-mode .app-shell.sidebar-expanded html.qc-mobile-on .sidebar {
     position: sticky !important;
     top: 0 !important;
     z-index: 50 !important;
@@ -60,7 +76,7 @@
   }
 
   /* 品牌行：紧凑化，标题小一号 */
-  .sidebar .brand {
+  .sidebar html.qc-mobile-on .brand {
     padding-bottom: 4px !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
   }
@@ -74,7 +90,7 @@
   }
 
   /* 导航项横向排布并允许滑动，避免换行成三四排把首屏吃光 */
-  .side-nav {
+  html.qc-mobile-on .side-nav {
     display: flex !important;
     flex-wrap: nowrap !important;
     gap: 6px !important;
@@ -91,15 +107,15 @@
   /* 导航里的"分组标题"（品控系统/作业分析…）在 mobile 下隐藏，
      因为目录横向排时标题只会撑高度、零信息量 */
   .sidebar .qc-nav-root-label,
-  .sidebar .qc-side-section-title {
+  .sidebar html.qc-mobile-on .qc-side-section-title {
     display: none !important;
   }
-  .sidebar .qc-side-section {
+  .sidebar html.qc-mobile-on .qc-side-section {
     background: transparent !important;
     padding: 0 !important;
     border: none !important;
   }
-  .sidebar .qc-side-subnav {
+  .sidebar html.qc-mobile-on .qc-side-subnav {
     display: contents !important;   /* 让 chip 直接落在父级 flex 上，扁平 */
   }
 
@@ -125,17 +141,17 @@
   }
 
   /* 数据源说明在 mobile 下隐藏（占首屏） */
-  .sidebar .source-box {
+  .sidebar html.qc-mobile-on .source-box {
     display: none !important;
   }
 
   /* 主内容区回收侧边栏让出的宽度；同时给主内容加 padding-top
      让首次加载时不会被 sticky 的 sidebar 遮挡。 */
-  .dashboard {
+  html.qc-mobile-on .dashboard {
     padding: 14px !important;
     min-width: 0 !important;
   }
-}
+
 
 
 /* ==========================================================================
@@ -146,14 +162,16 @@
       节约首屏高度，让目录往更靠上的视觉位次
    ③ 实时作业 KPI 网格在 ≤420 改为单列大卡，避免小卡碎片化
    ========================================================================== */
-@media (max-width: 720px) {
-  .sidebar {
+
+/* qc-mobile-v3 · media-bypass · 由 JS 加 .qc-mobile-on 类触发 */
+
+  html.qc-mobile-on .sidebar {
     padding: 8px 12px 6px !important;
   }
   .sidebar .brand > div {
     display: none !important;       /* 隐藏"仓储品控运营平台 / QC Operations"文字 */
   }
-  .sidebar .brand-mark {
+  .sidebar html.qc-mobile-on .brand-mark {
     width: 28px !important;
     height: 28px !important;
   }
@@ -163,7 +181,7 @@
      把 PC 端的侧栏（目录）和全局筛选（开始/结束日期/品牌/人员/对比方式...）
      收进同一个折叠区，mobile 下默认折叠 → 目录被藏起来。
      修法：mobile 下直接展开 + 顶部 sticky 让目录和筛选条件始终在手边。 */
-  #qcControlDock {
+  html.qc-mobile-on #qcControlDock {
     position: sticky !important;
     top: 64px !important;                /* 紧贴 sidebar 下方 */
     z-index: 40 !important;
@@ -178,14 +196,14 @@
     overflow-y: auto !important;         /* 内容太长时可滚动 */
   }
   /* 强制展开（撤销 is-collapsed 状态） */
-  #qcControlDock.is-collapsed .qc-control-content {
+  #qcControlDock.is-collapsed html.qc-mobile-on .qc-control-content {
     display: block !important;
   }
   /* 收起"展开/收起"按钮 —— 已常驻可见，无需再折叠 */
   #qcControlDock .qc-control-toggle b {
     display: none !important;
   }
-  #qcControlDock .qc-control-toggle {
+  #qcControlDock html.qc-mobile-on .qc-control-toggle {
     pointer-events: none !important;     /* 不响应点击，避免误触 */
   }
   #qcControlDock .qc-control-toggle > i {
@@ -193,7 +211,7 @@
   }
 
   /* dock 内的目录（业务目录）和全局筛选紧凑化 */
-  #qcControlContent {
+  html.qc-mobile-on #qcControlContent {
     display: flex !important;
     flex-direction: column !important;
     gap: 8px !important;
@@ -241,21 +259,21 @@
   /* 撤销上轮折叠策略：内部 details/grid/presets 全部恢复可见 */
   .qc-filter-panel.panel details,
   .qc-filter-panel.panel .qc-filter-grid,
-  .qc-filter-panel.panel .qc-filter-presets {
+  .qc-filter-panel.panel html.qc-mobile-on .qc-filter-presets {
     display: revert !important;
   }
   /* 头部"全局筛选 / 查看范围与对比口径"在 mobile 下隐藏（节省空间） */
-  .qc-filter-panel.panel .qc-filter-head {
+  .qc-filter-panel.panel html.qc-mobile-on .qc-filter-head {
     display: none !important;
   }
   /* 筛选字段网格 2 列布局（紧凑） */
-  .qc-filter-panel.panel .qc-filter-grid {
+  .qc-filter-panel.panel html.qc-mobile-on .qc-filter-grid {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 8px !important;
   }
   .qc-filter-panel.panel label,
-  .qc-filter-panel.panel .qc-filter-field {
+  .qc-filter-panel.panel html.qc-mobile-on .qc-filter-field {
     font-size: 12px !important;
   }
   .qc-filter-panel.panel input,
@@ -266,14 +284,16 @@
     font-size: 13px !important;
   }
   /* "重置筛选"按钮紧凑 */
-  #qcResetFilters {
+  html.qc-mobile-on #qcResetFilters {
     height: 30px !important;
     padding: 0 12px !important;
     font-size: 12px !important;
   }
-}
 
-@media (max-width: 420px) {
+
+
+/* qc-mobile-v3 · media-bypass · 由 JS 加 .qc-mobile-on 类触发 */
+
   /* 实时作业 KPI / 临时导航条更紧凑 */
   .sidebar .qc-side-dashboard,
   .sidebar .qc-side-subnav button {
@@ -282,12 +302,11 @@
     font-size: 12px !important;
   }
   /* 实时作业 5+5 卡片改单列大卡，避免被压扁 */
-  #qc .qc-kpi-grid,
-  .qc-kpi-grid {
+  #qc html.qc-mobile-on .qc-kpi-grid, html.qc-mobile-on .qc-kpi-grid {
     grid-template-columns: 1fr !important;
     gap: 10px !important;
   }
-}
+
 
 
 /* ==========================================================================
@@ -299,8 +318,10 @@
    → 手机 390px 屏上，右侧 ~290px 内容既不显示也无法滚动，直接消失。
    解法：父容器改横向滚动，行给显式 min-width 保证列不被压扁。
    ========================================================================== */
-@media (max-width: 1024px) {
-  body.qc-redesign-enabled #qc .qc-alert-table {
+
+/* qc-mobile-v3 · media-bypass · 由 JS 加 .qc-mobile-on 类触发 */
+
+  body.qc-redesign-enabled #qc html.qc-mobile-on .qc-alert-table {
     overflow-x: auto !important;
     overflow-y: visible !important;
     -webkit-overflow-scrolling: touch;
@@ -309,7 +330,7 @@
   body.qc-redesign-enabled #qc .qc-alert-table > button {
     min-width: 690px;
   }
-}
+
 
 
 /* ==========================================================================
@@ -318,13 +339,14 @@
    这些表的列宽总和天然超过手机屏宽，压缩列宽只会让文字挤成一团，
    正确做法是「保持列宽 + 可横向滑动」，符合移动端数据表通用范式。
    ========================================================================== */
-@media (max-width: 1024px) {
+
+/* qc-mobile-v3 · media-bypass · 由 JS 加 .qc-mobile-on 类触发 */
+
   body.qc-redesign-enabled #qc .qc-brand-table-wrap,
   body.qc-redesign-enabled #qc .qc-realtime-staff-table,
   body.qc-redesign-enabled #qc .qc-realtime-load-table,
   body.qc-redesign-enabled #qc .qc-matrix-wrap,
-  body.qc-redesign-enabled #qc .p2-person-detail-list,
-  .table-wrap {
+  body.qc-redesign-enabled #qc html.qc-mobile-on .p2-person-detail-list, html.qc-mobile-on .table-wrap {
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
@@ -343,7 +365,7 @@
     border-radius: 3px;
     background: rgba(200, 16, 46, .28);   /* 中国红主色的低透明度，主题一致 */
   }
-}
+
 
 
 /* ==========================================================================
@@ -352,35 +374,39 @@
    原始为 6 列（.qc-cockpit-kpis）/ 5 列（.qc-redesign-summary-strip），
    在手机上每列不足 60px，数字和标签会折行错位。
    ========================================================================== */
-@media (max-width: 900px) {
+
+/* qc-mobile-v3 · media-bypass · 由 JS 加 .qc-mobile-on 类触发 */
+
   body.qc-redesign-enabled #qc .qc-cockpit-kpis,
-  body.qc-redesign-enabled #qc .qc-redesign-summary-strip {
+  body.qc-redesign-enabled #qc html.qc-mobile-on .qc-redesign-summary-strip {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
   body.qc-redesign-enabled #qc .qc-cockpit-views,
   body.qc-redesign-enabled #qc .qc-redesign-analysis-grid,
-  body.qc-redesign-enabled #qc .qc-alert-workbench {
+  body.qc-redesign-enabled #qc html.qc-mobile-on .qc-alert-workbench {
     grid-template-columns: 1fr !important;
   }
   body.qc-redesign-enabled #qc .qc-cockpit-drill,
-  body.qc-redesign-enabled #qc .qc-brand-insights {
+  body.qc-redesign-enabled #qc html.qc-mobile-on .qc-brand-insights {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
-}
 
-@media (max-width: 600px) {
+
+
+/* qc-mobile-v3 · media-bypass · 由 JS 加 .qc-mobile-on 类触发 */
+
   body.qc-redesign-enabled #qc .qc-cockpit-kpis,
-  body.qc-redesign-enabled #qc .qc-redesign-summary-strip {
+  body.qc-redesign-enabled #qc html.qc-mobile-on .qc-redesign-summary-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 8px !important;
   }
   body.qc-redesign-enabled #qc .qc-cockpit-drill,
-  body.qc-redesign-enabled #qc .qc-brand-insights {
+  body.qc-redesign-enabled #qc html.qc-mobile-on .qc-brand-insights {
     grid-template-columns: 1fr !important;
   }
 
   /* 「洞察」卡片的 190px 图标列在窄屏挤掉正文，改为上下堆叠 */
-  body.qc-redesign-enabled #qc .qc-auto-insight {
+  body.qc-redesign-enabled #qc html.qc-mobile-on .qc-auto-insight {
     grid-template-columns: 1fr !important;
     gap: 8px !important;
     padding: 12px !important;
@@ -389,17 +415,19 @@
   /* 手机上把过小的辅助字号提到可读区间（原 10px 在高 DPI 屏几乎看不清） */
   body.qc-redesign-enabled #qc .qc-alert-table,
   body.qc-redesign-enabled #qc .qc-realtime-staff-table,
-  body.qc-redesign-enabled #qc .p2-efficiency-rank-head {
+  body.qc-redesign-enabled #qc html.qc-mobile-on .p2-efficiency-rank-head {
     font-size: 11.5px !important;
   }
-}
 
-@media (max-width: 420px) {
+
+
+/* qc-mobile-v3 · media-bypass · 由 JS 加 .qc-mobile-on 类触发 */
+
   body.qc-redesign-enabled #qc .qc-cockpit-kpis,
-  body.qc-redesign-enabled #qc .qc-redesign-summary-strip {
+  body.qc-redesign-enabled #qc html.qc-mobile-on .qc-redesign-summary-strip {
     grid-template-columns: 1fr !important;
   }
-}
+
 
 
 /* ==========================================================================
@@ -408,18 +436,22 @@
    iOS Safari 在 input 聚焦时，若 font-size < 16px 会强制放大整个页面，
    放大后不会自动缩回 —— 这是移动端「点一下就全乱」的经典元凶。
    ========================================================================== */
-@media (max-width: 760px) {
+
+/* qc-mobile-v3 · media-bypass · 由 JS 加 .qc-mobile-on 类触发 */
+
   body.qc-redesign-enabled #qc .qc-global-filter .qc-filter-grid,
-  body.qc-redesign-enabled #qc .qc-business-nav {
+  body.qc-redesign-enabled #qc html.qc-mobile-on .qc-business-nav {
     grid-template-columns: 1fr !important;
     gap: 8px !important;
   }
-  body.qc-redesign-enabled #qc .p2-filter {
+  body.qc-redesign-enabled #qc html.qc-mobile-on .p2-filter {
     flex-wrap: wrap !important;
   }
-}
 
-@media (max-width: 820px) {
+
+
+/* qc-mobile-v3 · media-bypass · 由 JS 加 .qc-mobile-on 类触发 */
+
   /* 16px 是 iOS 不触发缩放的临界值，一像素都不能少 */
   #qc input,
   #qc select,
@@ -437,7 +469,7 @@
   .side-nav button {
     min-height: 44px;
   }
-}
+
 
 
 /* ==========================================================================
@@ -446,7 +478,9 @@
    grid/flex 子项默认 min-width:auto，长文本会把容器顶爆导致整页横向滚动。
    这是「明明每块都做了响应式，整体还是乱」的隐性根因。
    ========================================================================== */
-@media (max-width: 1024px) {
+
+/* qc-mobile-v3 · media-bypass · 由 JS 加 .qc-mobile-on 类触发 */
+
   html,
   body {
     overflow-x: hidden;          /* 阻断整页级横向滚动，滚动只允许发生在表格内 */
@@ -473,7 +507,7 @@
     max-width: 100%;
     height: auto;
   }
-}
+
 
 
 /* ==========================================================================
@@ -492,7 +526,9 @@
 /* ==========================================================================
    无障碍 —— 尊重系统「减少动态效果」
    ========================================================================== */
-@media (prefers-reduced-motion: reduce) {
+
+/* qc-mobile-v3 · media-bypass · 由 JS 加 .qc-mobile-on 类触发 */
+
   body.qc-redesign-enabled #qc *,
   body.qc-redesign-enabled #qc *::before,
   body.qc-redesign-enabled #qc *::after {
@@ -501,4 +537,4 @@
     transition-duration: .01ms !important;
     scroll-behavior: auto !important;
   }
-}
+

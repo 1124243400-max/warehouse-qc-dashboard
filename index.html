@@ -2,18 +2,38 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
     <title>仓储品控运营平台</title>
+    <script>
+      /* ----- 强制 mobile 布局激活（防内置 WebView 强制 desktop mode） -----
+         触发条件二选一：
+           1. 浏览器实际视口 ≤ 1200（含平板/手机/小窗）
+           2. 检测到支付宝 / 微信 / QQ / 抖音 / 钉钉 等内置 WebView UA
+              （这些内置浏览器经常把视口强制拉到 980px 渲染，单纯靠媒体查询会失效）
+         命中时给 <html> 加 qc-mobile-on 类，qc-mobile-v3.css 中所有
+         mobile 规则都以该类为前缀，绝不依赖 max-width 媒体查询，必定生效。 */
+      (function () {
+        try {
+          var w = window.innerWidth || document.documentElement.clientWidth;
+          var ua = navigator.userAgent || "";
+          var inApp = /AlipayClient|micromessenger|MicroMessenger|QQ\//.test(ua) ||
+                       /\bDingTalk\b|\bDingTalk\b|aweme|byteim\.com|TikTok|baidu/i.test(ua);
+          if (w <= 1200 || inApp) {
+            document.documentElement.classList.add("qc-mobile-on");
+          }
+        } catch (e) {}
+      })();
+    </script>
     <link rel="stylesheet" href="./styles.css?v=repair-warehouse-v2-20260802&restore=netlify-original-v1" />
     <link rel="stylesheet" href="./qc-redesign.css?v=bars-single-entry-v7-20260810" />
-    <link rel="stylesheet" href="./qc-p2.css?v=p2-brand-combo-v14-20260810" />
+    <link rel="stylesheet" href="./qc-p2.css?v=p2-complaint-month-v15-20260810" />
     <link rel="stylesheet" href="./qc-employee-workload.css?v=p1-person-search-v1-20260806" />
     <link rel="stylesheet" href="./qc-theme-cn-red.css?v=cn-red-v2" />
     <link rel="stylesheet" href="./qc-theme-live-refinement.css?v=brand-checkbox-focus-v1-20260810" />
     <link rel="stylesheet" href="./qc-dynamic-dashboard.css?v=dynamic-dashboard-v9-single-entry-20260810" />
     <link rel="stylesheet" href="./qc-anim-timing.css?v=qc-anim-timing-v9-motion-owner-20260810" />
     <link rel="stylesheet" href="./qc-chart-motion.css?v=single-entry-perf-v2-20260810" />
-    <link rel="stylesheet" href="./qc-mobile.css?v=mobile-v1" />
+    <link rel="stylesheet" href="./qc-mobile-v3.css?v=mobile-v3-force-20260810" />
   </head>
   <body class="qc-mode">
     <div class="app-shell">
@@ -341,7 +361,7 @@
 </script>
     <script src="./app.js?v=qc-sampling-attribute-v1-20260810"></script>
     <script src="./qc-redesign.js?v=cockpit-core-metrics-v5-weekly-qc-total-20260808"></script>
-    <script src="./qc-p2.js?v=p2-brand-combo-v14-20260810"></script>
+    <script src="./qc-p2.js?v=p2-complaint-month-v15-20260810"></script>
     <script src="./qc-employee-workload.js?v=p1-department-split-v1-20260806"></script>
     <script src="./vendor/echarts.min.js?v=5.5.0"></script>
     <script src="./qc-dynamic-chart-kit.js?v=single-entry-perf-v2-20260810"></script>
