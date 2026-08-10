@@ -10,6 +10,8 @@
    修复清单：
      P0-1  平板区间(761–1180px) .app-shell 断点冲突 —— 侧边栏被顶回 220px 双列
      P0-2  .qc-alert-table{overflow:hidden} —— 678px 宽的行在手机被直接裁掉
+     P0-3  qc-redesign.js 默认把目录+筛选收进 #qcControlDock（折叠卡片）
+            —— 移动端撤销折叠并 sticky 顶部，让目录 / 模块选项 / 筛选条件常驻可见
      P1-1  各类宽 grid 表统一横向滚动 + 触摸惯性
      P1-2  KPI / 卡片网格在窄屏降列（6→3→2→1）
      P1-3  过滤器区在窄屏堆叠，输入框防 iOS 自动缩放
@@ -156,28 +158,118 @@
     height: 28px !important;
   }
 
-  /* 把全局筛选卡片变成 sticky 的"筛选 ▾"条 —— 只露头部可点击展开 */
-  .qc-filter-panel.panel {
+  /* ----- "品控导航与筛选"折叠卡片（#qcControlDock）—— 撤销折叠 -----
+     真实问题：qc-redesign.js:132 动态注入了一个 default-collapsed 的折叠卡片，
+     把 PC 端的侧栏（目录）和全局筛选（开始/结束日期/品牌/人员/对比方式...）
+     收进同一个折叠区，mobile 下默认折叠 → 目录被藏起来。
+     修法：mobile 下直接展开 + 顶部 sticky 让目录和筛选条件始终在手边。 */
+  #qcControlDock {
     position: sticky !important;
-    top: 64px !important;             /* 紧贴 sidebar 下方 */
+    top: 64px !important;                /* 紧贴 sidebar 下方 */
     z-index: 40 !important;
-    padding: 10px 14px !important;
-    margin: 0 !important;
-    background: rgba(255, 255, 255, 0.94) !important;
-    backdrop-filter: blur(8px) !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    backdrop-filter: blur(10px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(150%) !important;
     border-radius: 0 0 14px 14px !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+    margin: 0 !important;
+    padding: 8px 14px 10px !important;
+    max-height: calc(100vh - 72px) !important;
+    overflow-y: auto !important;         /* 内容太长时可滚动 */
   }
-  /* 让所有内部 details 默认收起 —— 节约首屏 */
+  /* 强制展开（撤销 is-collapsed 状态） */
+  #qcControlDock.is-collapsed .qc-control-content {
+    display: block !important;
+  }
+  /* 收起"展开/收起"按钮 —— 已常驻可见，无需再折叠 */
+  #qcControlDock .qc-control-toggle b {
+    display: none !important;
+  }
+  #qcControlDock .qc-control-toggle {
+    pointer-events: none !important;     /* 不响应点击，避免误触 */
+  }
+  #qcControlDock .qc-control-toggle > i {
+    display: none !important;            /* 隐藏 ☰ 图标，节约首屏 */
+  }
+
+  /* dock 内的目录（业务目录）和全局筛选紧凑化 */
+  #qcControlContent {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+  /* 目录 nav：横向滚动 chips */
+  #qcControlDock .qc-platform-nav,
+  #qcControlDock .qc-business-nav,
+  #qcControlDock .qc-business-nav-cluster,
+  #qcControlDock .qc-business-nav-cluster > div {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    gap: 6px !important;
+    padding: 2px 0 !important;
+  }
+  /* 业务目录标题"系统首页"等隐藏 */
+  #qcControlDock .qc-business-nav-cluster > span,
+  #qcControlDock .qc-business-nav-cluster.is-home > span {
+    display: none !important;
+  }
+  /* 业务目录按钮 + 筛选按钮紧凑化 */
+  #qcControlDock button {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    height: 30px !important;
+    padding: 0 12px !important;
+    border-radius: 15px !important;
+    font-size: 12px !important;
+    line-height: 1 !important;
+  }
+
+  /* ----- 全局筛选区（.qc-filter-panel.panel）保留展开 -----
+     不再折叠；只做紧凑 grid，让筛选字段一行多列可见。 */
+  .qc-filter-panel.panel {
+    position: static !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    padding: 4px 0 0 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+  /* 撤销上轮折叠策略：内部 details/grid/presets 全部恢复可见 */
   .qc-filter-panel.panel details,
   .qc-filter-panel.panel .qc-filter-grid,
   .qc-filter-panel.panel .qc-filter-presets {
+    display: revert !important;
+  }
+  /* 头部"全局筛选 / 查看范围与对比口径"在 mobile 下隐藏（节省空间） */
+  .qc-filter-panel.panel .qc-filter-head {
     display: none !important;
   }
-  /* 给个"筛选 ▾"点击触发 — 用伪元素冒名替代，但因不能加 JS 交互，
-     这里只把头部保留 + 视觉提示；如需点开展开，需补一行 JS（不在本次范围） */
-  .qc-filter-panel.panel .qc-filter-head {
-    margin: 0 !important;
+  /* 筛选字段网格 2 列布局（紧凑） */
+  .qc-filter-panel.panel .qc-filter-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+  .qc-filter-panel.panel label,
+  .qc-filter-panel.panel .qc-filter-field {
+    font-size: 12px !important;
+  }
+  .qc-filter-panel.panel input,
+  .qc-filter-panel.panel select,
+  .qc-filter-panel.panel summary {
+    height: 32px !important;
+    padding: 0 10px !important;
+    font-size: 13px !important;
+  }
+  /* "重置筛选"按钮紧凑 */
+  #qcResetFilters {
+    height: 30px !important;
+    padding: 0 12px !important;
+    font-size: 12px !important;
   }
 }
 
