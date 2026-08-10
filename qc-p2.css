@@ -78,7 +78,7 @@ body.qc-redesign-enabled #qc #qcComplaintFilters input,
 body.qc-redesign-enabled #qc #qcComplaintFilters select{height:38px;padding:0 11px;border:1px solid #cfdae5;border-radius:8px;background:#fff;color:#203449;font:inherit}
 body.qc-redesign-enabled #qc #qcComplaintFilters button{height:38px;padding:0 18px;border:1px solid #b9d3ef;border-radius:8px;background:#edf6ff;color:#176fe5;font-weight:750;cursor:pointer}
 body.qc-redesign-enabled #qc .complaint-top{grid-template-columns:minmax(0,1.6fr) minmax(340px,.8fr)}
-body.qc-redesign-enabled #qc .complaint-mid{grid-template-columns:1fr 1fr 1.1fr}
+body.qc-redesign-enabled #qc .complaint-mid{grid-template-columns:minmax(0,1fr)}
 body.qc-redesign-enabled #qc .p2-card.full{width:100%}
 body.qc-redesign-enabled #qc .p2-trend{position:relative;height:230px;margin-top:14px;padding:8px 0 30px;border-bottom:1px solid #d8e3ed;background:repeating-linear-gradient(to top,transparent 0,transparent 43px,#eef2f6 44px)}
 body.qc-redesign-enabled #qc .p2-trend>.warn{position:absolute;top:var(--warn);right:0;left:0;z-index:2;border-top:1px dashed #ee4048}
@@ -450,7 +450,7 @@ body.qc-redesign-enabled #qc .p2-people-controls{grid-template-columns:minmax(15
 @media(max-width:900px){body.qc-redesign-enabled #qc .p2-people-controls{grid-template-columns:1fr 1fr}body.qc-redesign-enabled #qc .p2-people-controls .p2-person-picker{grid-column:1/-1}}
 @media(max-width:760px){body.qc-redesign-enabled #qc .p2-people-controls{grid-template-columns:1fr}body.qc-redesign-enabled #qc .p2-people-controls .p2-person-picker,body.qc-redesign-enabled #qc .p2-people-controls em{grid-column:auto}}
 /* Complaint clarity and synchronized issue categories v11 */
-body.qc-redesign-enabled #qc .complaint-mid{grid-template-columns:minmax(0,1.35fr) minmax(320px,.65fr)}
+body.qc-redesign-enabled #qc .complaint-mid{grid-template-columns:minmax(0,1fr)}
 body.qc-redesign-enabled #qc .p2-coverage-note{margin:14px 0 0;padding:9px 11px;border:1px solid #d7e7f7;border-radius:8px;background:#f5faff;color:#58738d;font-size:10px;line-height:1.55}
 body.qc-redesign-enabled #qc .p2-brand-compare-table{margin-top:12px;border:1px solid #dfe9f2;border-radius:10px;overflow:hidden}
 body.qc-redesign-enabled #qc .p2-brand-compare-table>.head,
@@ -604,3 +604,16 @@ body.qc-redesign-enabled #qc .p2-brand-combo-meta small{grid-column:1/-1;justify
 body.qc-redesign-enabled #qc .p2-brand-combo-meta small.risk{background:#fff0f1;color:#dc3e4b}.p2-brand-combo-meta small.good{background:#e8f8f0;color:#07845e}.p2-brand-combo-meta small.neutral{background:#f1f4f7;color:#73879a}
 @media(max-width:760px){body.qc-redesign-enabled #qc .p2-brand-combo-legend{justify-content:flex-start}.p2-brand-combo-meta article{padding:7px}.p2-brand-combo-meta span{text-align:left}}
 @media(prefers-reduced-motion:reduce){body.qc-redesign-enabled #qc .p2-brand-combo-chart .bars rect{transition:none!important}}
+body.qc-redesign-enabled #qc .p2-range-cumulative{grid-column:1/-1;background:linear-gradient(135deg,rgba(200,16,46,.06),rgba(225,65,79,.02));border:1px solid rgba(200,16,46,.18);border-radius:16px;padding:18px 20px;margin-bottom:14px}
+body.qc-redesign-enabled #qc .p2-range-cumulative header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+body.qc-redesign-enabled #qc .p2-range-cumulative header strong{font-size:16px;color:var(--qc-primary,#c8102e)}
+body.qc-redesign-enabled #qc .p2-range-cumulative header span{font-size:12px;color:#71879c}
+body.qc-redesign-enabled #qc .p2-range-cumulative-body{display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin-top:10px}
+body.qc-redesign-enabled #qc .p2-range-hero strong{font-size:34px;font-weight:800;line-height:1;color:#17233a}
+body.qc-redesign-enabled #qc .p2-range-hero small{display:block;margin-top:4px;font-size:12px;color:#71879c}
+body.qc-redesign-enabled #qc .p2-range-stats{display:grid;grid-template-columns:repeat(3,minmax(120px,1fr));gap:8px 22px;list-style:none;margin:0;padding:0;flex:1;min-width:260px}
+body.qc-redesign-enabled #qc .p2-range-stats li{display:flex;justify-content:space-between;font-size:13px;border-bottom:1px dashed #e6ebf1;padding:3px 0}
+body.qc-redesign-enabled #qc .p2-range-stats span{color:#71879c}
+body.qc-redesign-enabled #qc .p2-range-note{margin:10px 0 0;font-size:12px;color:#51607a;line-height:1.5}
+body.qc-redesign-enabled #qc .p2-snapshot-tag{font-size:11px;color:#71879c;margin-bottom:6px;letter-spacing:.02em}
+@media(max-width:640px){body.qc-redesign-enabled #qc .p2-range-stats{grid-template-columns:repeat(2,1fr)}body.qc-redesign-enabled #qc .p2-range-hero strong{font-size:28px}}
