@@ -33272,6 +33272,14 @@ function qcSum(rows, field) {
   return rows.reduce((total, row) => total + (Number(row[field]) || 0), 0);
 }
 
+function qcIssueAttributeMatches(row, expected) {
+  return String(row?.attr || '')
+    .split(/\s*(?:\/|、|,|，)\s*/)
+    .map((value) => value.trim())
+    .filter(Boolean)
+    .includes(expected);
+}
+
 function qcSecondRepairMetrics(rows) {
   const returned = qcSum(rows, 'w');
   const rechecked = qcSum(rows, 'q');
@@ -34000,16 +34008,19 @@ function qcRenderWeeklyWarehouse(rangeValue, repairRows = [], allRepairRows = re
     <article class="qc-quality-metric"><span>问题率</span><strong>${defectRate}<small>%</small></strong></article>
     <article class="qc-quality-metric"><span>问题记录</span><strong>${qcNumber(issueRows.length, '0')}<small>条</small></strong></article>
 `;
-  const bulkSampleCount = qcSum(issueRows, 's');
-  const bulkDefectCount = qcSum(issueRows, 'x');
+  const bulkIssueRows = issueRows.filter((row) => qcIssueAttributeMatches(row, '大货抽检'));
+  const returnIssueRows = issueRows.filter((row) => qcIssueAttributeMatches(row, '销退抽检'));
+  const bulkSampleCount = qcSum(bulkIssueRows, 's');
+  const bulkDefectCount = qcSum(bulkIssueRows, 'x');
   const bulkIssueRate = bulkSampleCount ? bulkDefectCount / bulkSampleCount : null;
-  const returnSampleCount = qcSum(capacityRows, 'ret');
-  const returnSummaryCount = qcSum(capacityRows, 'rq');
+  const returnSampleCount = qcSum(returnIssueRows, 's');
+  const returnDefectCount = qcSum(returnIssueRows, 'x');
+  const returnIssueRate = returnSampleCount ? returnDefectCount / returnSampleCount : null;
   const samplingRoot = document.querySelector('#qcSamplingBreakdown');
   if (samplingRoot) {
     samplingRoot.innerHTML = '<div class="qc-sampling-grid">' +
       '<article class="qc-sampling-item bulk"><span>大货抽检</span><strong>' + qcNumber(bulkSampleCount, '0') + '<small>件</small></strong><p>问题 ' + qcNumber(bulkDefectCount, '0') + ' 件 · 问题率 ' + (bulkIssueRate === null ? '—' : qcPercent(bulkIssueRate) + '%') + '</p></article>' +
-      '<article class="qc-sampling-item return"><span>销退抽检</span><strong>' + qcNumber(returnSampleCount, '0') + '<small>件</small></strong><p>销退质检汇总 ' + qcNumber(returnSummaryCount, '0') + ' 件</p><em>当前数据未提供销退次品明细，暂不计算问题率</em></article>' +
+      '<article class="qc-sampling-item return"><span>销退抽检</span><strong>' + qcNumber(returnSampleCount, '0') + '<small>件</small></strong><p>问题 ' + qcNumber(returnDefectCount, '0') + ' 件 · 问题率 ' + (returnIssueRate === null ? '—' : qcPercent(returnIssueRate) + '%') + '</p></article>' +
       '</div>';
   }  $('#qcIssueRanking').innerHTML = qcBars(issueItems, '当前条件下暂无可计数的质量问题');
   $('#qcResponsibility').innerHTML = qcBars(responsibilities, '当前条件下暂无已标注责任方的问题');

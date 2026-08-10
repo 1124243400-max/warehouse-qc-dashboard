@@ -571,3 +571,36 @@ body.qc-redesign-enabled #qc .qc-auto-insight li:first-child::before{background:
 .p2-brand-compare-table>article>strong::before,.p2-brand-color-legend i{content:"";display:inline-block;flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:var(--series)}
 .p2-brand-color-legend{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin:10px 0 8px;color:#54708f;font-size:12px}
 .p2-brand-color-legend span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+
+/* Brand complaint comparison: columns show volume, lines show current and previous rates. */
+body.qc-redesign-enabled #qc .p2-brand-combo-chart{min-width:0;margin-top:10px;overflow-x:auto;scrollbar-width:thin}
+body.qc-redesign-enabled #qc .p2-brand-combo-legend{display:flex;justify-content:flex-end;align-items:center;gap:16px;min-width:620px;margin:0 0 2px;color:#617991;font-size:10px;font-weight:750}
+body.qc-redesign-enabled #qc .p2-brand-combo-legend span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+body.qc-redesign-enabled #qc .p2-brand-combo-legend i{position:relative;display:inline-block;flex:0 0 auto;width:20px;height:7px}
+body.qc-redesign-enabled #qc .p2-brand-combo-legend i.bar{border-radius:3px;background:linear-gradient(90deg,#176fe5 0 33%,#16a57e 33% 66%,#f19122 66%)}
+body.qc-redesign-enabled #qc .p2-brand-combo-legend i.current::before,body.qc-redesign-enabled #qc .p2-brand-combo-legend i.previous::before{position:absolute;top:3px;left:0;width:100%;border-top:2px solid #ef4652;content:""}
+body.qc-redesign-enabled #qc .p2-brand-combo-legend i.current::after,body.qc-redesign-enabled #qc .p2-brand-combo-legend i.previous::after{position:absolute;top:0;left:8px;width:6px;height:6px;border:1px solid #fff;border-radius:50%;background:#ef4652;content:""}
+body.qc-redesign-enabled #qc .p2-brand-combo-legend i.previous::before{border-color:#93a8bb;border-top-style:dashed}
+body.qc-redesign-enabled #qc .p2-brand-combo-legend i.previous::after{background:#93a8bb}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart svg{display:block;width:100%;min-width:620px;height:auto;overflow:visible}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .grid line{stroke:#e5edf4;stroke-width:1;stroke-dasharray:4 4}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .grid text{fill:#7890a4;font-size:9px;font-weight:650}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .axis-title{fill:#536f89;font-size:10px;font-weight:850}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .bars rect{opacity:.92;filter:drop-shadow(0 5px 7px rgba(43,78,108,.13));transition:opacity .2s ease,filter .2s ease}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .p2-brand-combo-bar:hover rect{opacity:1;filter:drop-shadow(0 7px 9px rgba(43,78,108,.2)) saturate(1.08)}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .bar-value{fill:#29455e;font-size:10px;font-weight:900}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .brand-name{fill:#2b465f;font-size:10px;font-weight:900}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .current-line,body.qc-redesign-enabled #qc .p2-brand-combo-chart .previous-line{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:3}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .current-line{stroke:#ef4652}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .previous-line{stroke:#93a8bb;stroke-width:2;stroke-dasharray:7 7}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .current-point{fill:#ef4652;stroke:#fff;stroke-width:2;filter:drop-shadow(0 2px 3px rgba(202,42,55,.25))}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .previous-point{fill:#93a8bb;stroke:#fff;stroke-width:2}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .current-label{fill:#df3543;font-size:10px;font-weight:900}.p2-brand-combo-chart .previous-label{fill:#7d91a5;font-size:9px;font-weight:800}
+body.qc-redesign-enabled #qc .p2-brand-combo-meta{display:grid;grid-template-columns:repeat(var(--brand-count),minmax(150px,1fr));gap:8px;min-width:620px;margin-top:2px;padding-top:9px;border-top:1px solid #e7eef4}
+body.qc-redesign-enabled #qc .p2-brand-combo-meta article{display:grid;grid-template-columns:auto 1fr;gap:5px 9px;align-items:center;padding:8px 10px;border:1px solid #e4ecf3;border-radius:9px;background:#f9fbfd}
+body.qc-redesign-enabled #qc .p2-brand-combo-meta strong{display:flex;align-items:center;gap:6px;color:#29455e;font-size:10px}.p2-brand-combo-meta strong i{width:8px;height:8px;border-radius:50%;background:var(--series)}
+body.qc-redesign-enabled #qc .p2-brand-combo-meta span{color:#6d8499;font-size:9px;text-align:right;white-space:nowrap}
+body.qc-redesign-enabled #qc .p2-brand-combo-meta small{grid-column:1/-1;justify-self:center;padding:4px 8px;border-radius:999px;font-size:9px;font-weight:850;white-space:nowrap}
+body.qc-redesign-enabled #qc .p2-brand-combo-meta small.risk{background:#fff0f1;color:#dc3e4b}.p2-brand-combo-meta small.good{background:#e8f8f0;color:#07845e}.p2-brand-combo-meta small.neutral{background:#f1f4f7;color:#73879a}
+@media(max-width:760px){body.qc-redesign-enabled #qc .p2-brand-combo-legend{justify-content:flex-start}.p2-brand-combo-meta article{padding:7px}.p2-brand-combo-meta span{text-align:left}}
+@media(prefers-reduced-motion:reduce){body.qc-redesign-enabled #qc .p2-brand-combo-chart .bars rect{transition:none!important}}

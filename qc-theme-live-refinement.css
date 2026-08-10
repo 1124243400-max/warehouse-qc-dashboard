@@ -97,6 +97,17 @@ body.qc-redesign-enabled #qc :focus-visible {
   outline-offset: 2px !important;
 }
 
+/* Brand checkboxes use a quiet row highlight instead of the global red focus ring. */
+body.qc-redesign-enabled #qc #qcBrandOptions input[type="checkbox"]:focus,
+body.qc-redesign-enabled #qc #qcBrandOptions input[type="checkbox"]:focus-visible {
+  outline: none !important;
+  outline-offset: 0 !important;
+  box-shadow: none !important;
+}
+body.qc-redesign-enabled #qc #qcBrandOptions label:has(input[type="checkbox"]:focus-visible) {
+  background: #edf5fc;
+}
+
 @media (prefers-reduced-motion: reduce) {
   body.qc-redesign-enabled #qc *,
   body.qc-redesign-enabled #qc *::before,

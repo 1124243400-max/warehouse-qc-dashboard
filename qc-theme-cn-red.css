@@ -774,7 +774,7 @@ body.qc-redesign-enabled #qc .qc-comparison-bar-plot i.tone-compare{background:l
 body.qc-redesign-enabled #qc .qc-comparison-bar-plot i b{color:#932528}
 body.qc-redesign-enabled #qc .qc-comparison-bar>strong{color:#932528}
 
-/* ---- 源自 qc-p2.css (190 条规则) ---- */
+/* ---- 源自 qc-p2.css (208 条规则) ---- */
 /* P2 detail workbenches: spacious, calm and data-honest. */
 body.qc-redesign-enabled #qc .p2-filter{border:1px solid #f4d8d9;background:#f7dcdd}
 body.qc-redesign-enabled #qc .p2-filter label{border-right:1px solid #f4dada}
@@ -970,6 +970,24 @@ body.qc-redesign-enabled #qc .p2-people-combo-chart [data-p2-person-link]:focus-
 /* 品牌客诉对比：品牌颜色固定，排序不会改变颜色含义。 */
 .p2-brand-compare-table>article.brand-luqing,.p2-brand-color-legend .brand-luqing{--series:#ed4a50}
 .p2-brand-color-legend{color:#932528}
+body.qc-redesign-enabled #qc .p2-brand-combo-legend{color:#e35459}
+body.qc-redesign-enabled #qc .p2-brand-combo-legend i.bar{background:linear-gradient(90deg,#ed4a50 0 33%,#16a57e 33% 66%,#f19122 66%)}
+body.qc-redesign-enabled #qc .p2-brand-combo-legend i.previous::before{border-color:#f0cacb}
+body.qc-redesign-enabled #qc .p2-brand-combo-legend i.previous::after{background:#f0cacb}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .grid line{stroke:#f4dadb}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .grid text{fill:#e35459}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .axis-title{fill:#932528}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .bars rect{filter:drop-shadow(0 5px 7px rgba(147,37,40,.13))}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .p2-brand-combo-bar:hover rect{filter:drop-shadow(0 7px 9px rgba(147,37,40,.2)) saturate(1.08)}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .bar-value{fill:#932528}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .brand-name{fill:#932528}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .previous-line{stroke:#f0cacb}
+body.qc-redesign-enabled #qc .p2-brand-combo-chart .previous-point{fill:#f0cacb}
+.p2-brand-combo-chart .previous-label{fill:#e35459}
+body.qc-redesign-enabled #qc .p2-brand-combo-meta{border-top:1px solid #f4dadb}
+body.qc-redesign-enabled #qc .p2-brand-combo-meta article{border:1px solid #f4dadb;background:#f5ddde}
+body.qc-redesign-enabled #qc .p2-brand-combo-meta strong{color:#932528}
+.p2-brand-combo-meta small.neutral{background:#f5dcdc}
 
 /* ---- 源自 qc-employee-workload.css (22 条规则) ---- */
 body.qc-redesign-enabled #qc .p1-employee-workload-filter{border:1px solid #f4d8d9;background:#f7dcdd}
