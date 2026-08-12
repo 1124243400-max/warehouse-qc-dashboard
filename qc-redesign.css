@@ -681,6 +681,22 @@ body.qc-redesign-enabled #qc .qc-control-content .qc-filter-grid{position:relati
 body.qc-redesign-enabled #qc .qc-control-content .qc-filter-brand{position:relative;z-index:40}
 body.qc-redesign-enabled #qc .qc-control-content .qc-multi-menu{z-index:400;max-height:min(420px,55vh);overflow:auto}
 body.qc-redesign-enabled #qc .qc-local-brand-menu{max-height:min(360px,52vh);overflow:auto}
+
+/* Keep navigation and filters anchored in the QC module layout, never as scroll-following layers. */
+body.qc-redesign-enabled #qc .qc-business-nav,
+body.qc-redesign-enabled #qc .qc-global-filter{
+  position:static!important;
+  inset:auto!important;
+  top:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  left:auto!important;
+  z-index:auto!important;
+  align-self:stretch;
+  transform:none!important;
+  translate:none!important;
+  will-change:auto;
+}
 body.qc-redesign-enabled #qc .qc-cockpit-kpis article>b{grid-column:2;display:block;max-width:100%;padding-right:54px;color:#7a8999;font-size:9.5px;font-weight:600;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 body.qc-redesign-enabled #qc .qc-source-note{margin:10px 0 0;padding:8px 10px;border-radius:8px;background:#f5f8fb;color:#687b8f;font-size:10.5px;line-height:1.45}
 /* Click-to-reveal data notes and chart values. */

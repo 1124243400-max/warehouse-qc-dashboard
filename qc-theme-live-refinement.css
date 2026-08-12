@@ -117,6 +117,13 @@ body.qc-redesign-enabled #qc #qcBrandOptions label:has(input[type="checkbox"]:fo
   }
 }
 /* Readability correction for the white sidebar and wine topbar. */
+body.qc-mode.home-mode .app-shell .sidebar,
+body.qc-mode.home-mode .sidebar {
+  background: #ffffff !important;
+  border-right: 1px solid #eadde0 !important;
+  box-shadow: 8px 0 26px rgba(95, 25, 39, 0.07) !important;
+}
+
 body.qc-mode .topbar > div:first-child .eyebrow {
   color: #ffe5ea !important;
   font-weight: 700;

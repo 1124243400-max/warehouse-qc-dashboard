@@ -78,7 +78,7 @@ body.qc-redesign-enabled #qc #qcComplaintFilters input,
 body.qc-redesign-enabled #qc #qcComplaintFilters select{height:38px;padding:0 11px;border:1px solid #cfdae5;border-radius:8px;background:#fff;color:#203449;font:inherit}
 body.qc-redesign-enabled #qc #qcComplaintFilters button{height:38px;padding:0 18px;border:1px solid #b9d3ef;border-radius:8px;background:#edf6ff;color:#176fe5;font-weight:750;cursor:pointer}
 body.qc-redesign-enabled #qc .complaint-top{grid-template-columns:minmax(0,1.6fr) minmax(340px,.8fr)}
-body.qc-redesign-enabled #qc .complaint-mid{grid-template-columns:minmax(0,1fr)}
+body.qc-redesign-enabled #qc .complaint-mid{grid-template-columns:1fr 1fr 1.1fr}
 body.qc-redesign-enabled #qc .p2-card.full{width:100%}
 body.qc-redesign-enabled #qc .p2-trend{position:relative;height:230px;margin-top:14px;padding:8px 0 30px;border-bottom:1px solid #d8e3ed;background:repeating-linear-gradient(to top,transparent 0,transparent 43px,#eef2f6 44px)}
 body.qc-redesign-enabled #qc .p2-trend>.warn{position:absolute;top:var(--warn);right:0;left:0;z-index:2;border-top:1px dashed #ee4048}
@@ -450,7 +450,7 @@ body.qc-redesign-enabled #qc .p2-people-controls{grid-template-columns:minmax(15
 @media(max-width:900px){body.qc-redesign-enabled #qc .p2-people-controls{grid-template-columns:1fr 1fr}body.qc-redesign-enabled #qc .p2-people-controls .p2-person-picker{grid-column:1/-1}}
 @media(max-width:760px){body.qc-redesign-enabled #qc .p2-people-controls{grid-template-columns:1fr}body.qc-redesign-enabled #qc .p2-people-controls .p2-person-picker,body.qc-redesign-enabled #qc .p2-people-controls em{grid-column:auto}}
 /* Complaint clarity and synchronized issue categories v11 */
-body.qc-redesign-enabled #qc .complaint-mid{grid-template-columns:minmax(0,1fr)}
+body.qc-redesign-enabled #qc .complaint-mid{grid-template-columns:minmax(0,1.35fr) minmax(320px,.65fr)}
 body.qc-redesign-enabled #qc .p2-coverage-note{margin:14px 0 0;padding:9px 11px;border:1px solid #d7e7f7;border-radius:8px;background:#f5faff;color:#58738d;font-size:10px;line-height:1.55}
 body.qc-redesign-enabled #qc .p2-brand-compare-table{margin-top:12px;border:1px solid #dfe9f2;border-radius:10px;overflow:hidden}
 body.qc-redesign-enabled #qc .p2-brand-compare-table>.head,

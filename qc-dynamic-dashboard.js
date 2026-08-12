@@ -14,10 +14,9 @@
     ...(window.QC_DYNAMIC_CONFIG || {}),
     triggers: {
       timer: false,
-      manual: true,
+      manual: false,
       visibility: false,
       websocket: false,
-      ...(window.QC_DYNAMIC_CONFIG?.triggers || {}),
     },
   };
   const service = new dataModule.DataService(config);
@@ -27,6 +26,7 @@
   const numberFormatters = new Map();
   let lastEnhancedView = '';
   let pendingEntryView = '';
+  let initialNumbersPresented = false;
 
   function parseNumber(value) {
     const match = String(value || '').replace(/,/g, '').match(/-?\d+(?:\.\d+)?/);
@@ -339,7 +339,7 @@
     const shouldAnimate = entryRequested && hasEntryContent;
     if (shouldAnimate) window.QCAnimationTiming?.markViewEntry?.(view);
     charts.prune();
-    animateNumbers(roots, shouldAnimate);
+    animateNumbers(roots, shouldAnimate && initialNumbersPresented);
     roots.forEach((root) => {
       animateProgress(root, shouldAnimate);
       fadeRows(root, shouldAnimate);
@@ -353,7 +353,10 @@
       roots.forEach((root) => root.classList.remove('qc-dynamic-entry-pending'));
       if (pendingEntryView === view) pendingEntryView = '';
     }
-    if (hasEntryContent) lastEnhancedView = view;
+    if (hasEntryContent) {
+      lastEnhancedView = view;
+      initialNumbersPresented = true;
+    }
   }
 
   function prepareViewEntry(view) {
@@ -389,11 +392,11 @@
     controls.className = 'qc-dynamic-controls';
     controls.innerHTML = `
       <span class="qc-dynamic-status" role="status" aria-live="polite"><i aria-hidden="true"></i><b>${refreshLabel}</b><em>自动轮询已暂停</em></span>
-      <button type="button" data-dynamic-refresh>立即刷新</button>
+      ${config.triggers.manual ? '<button type="button" data-dynamic-refresh>立即刷新</button>' : ''}
       ${config.triggers.timer ? '<button type="button" data-dynamic-pause aria-pressed="false">暂停</button>' : ''}
     `;
     host.append(controls);
-    controls.querySelector('[data-dynamic-refresh]').addEventListener('click', () => service.refresh('manual'));
+    controls.querySelector('[data-dynamic-refresh]')?.addEventListener('click', () => service.refresh('manual'));
     controls.querySelector('[data-dynamic-pause]')?.addEventListener('click', (event) => {
       const paused = event.currentTarget.getAttribute('aria-pressed') === 'true';
       if (paused) service.resume();
@@ -432,7 +435,6 @@
   service.on('update', ({ changed, at }) => {
     const time = new Date(at).toLocaleTimeString('zh-CN', { hour12: false });
     setStatus('success', `${time}${changed ? ' 已更新' : ' 无变化'}`);
-    scheduleEnhance();
   });
   service.on('error', ({ error }) => setStatus('error', error?.message || '保留当前真实数据'));
 

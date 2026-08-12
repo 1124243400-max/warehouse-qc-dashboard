@@ -68,7 +68,7 @@
       compareLabel?.classList.add('qc-filter-compare');
       const presets = filter.querySelector('.qc-filter-presets');
       if (presets && !presets.querySelector('.qc-redesign-presets')) {
-        presets.insertAdjacentHTML('afterbegin', `<div class="qc-redesign-presets"><button type="button" data-qc-redesign-range="latestDay">今日</button><button type="button" data-qc-redesign-range="currentWeek">本周</button><button type="button" data-qc-redesign-range="previousWeek">上周</button><button type="button" data-qc-redesign-range="custom">自定义区间</button></div><span class="qc-filter-synced"><i class="ui-line-icon icon-sync has-svg" aria-hidden="true">${redesignBusinessIcon('sync')}</i>筛选已同步到 URL</span>`);
+        presets.insertAdjacentHTML('afterbegin', `<div class="qc-redesign-presets"><button type="button" data-qc-redesign-range="latestDay">今日</button><button type="button" data-qc-redesign-range="currentWeek">本周</button><button type="button" data-qc-redesign-range="previousWeek">上周</button><button type="button" data-qc-redesign-range="custom">自定义区间</button></div>`);
       }
     }
 

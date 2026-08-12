@@ -34419,7 +34419,13 @@ async function loadQCDashboard(retryCount = 0) {
     ({ start: qcState.start, end: qcState.end } = qcCompleteWeekRange(data.availableRange.end));
     qcSyncModuleRanges();
     qcBindFilters();
+    await new Promise((resolve) => {
+      const renderOnNextFrame = () => requestAnimationFrame(resolve);
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', renderOnNextFrame, { once: true });
+      else renderOnNextFrame();
+    });
     renderQCDashboard();
+    document.documentElement.dataset.qcInitialMetricsReady = 'true';
   } catch (error) {
     const status = $('#qcDataStatus');
     if (status) {

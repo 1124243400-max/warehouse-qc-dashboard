@@ -4,7 +4,7 @@
   const DEFAULT_CONFIG = {
     interval: 86400000,
     requestTimeout: 15000,
-    triggers: { timer: false, manual: true, visibility: false, websocket: false },
+    triggers: { timer: false, manual: false, visibility: false, websocket: false },
     endpoints: {
       dashboard: './data/qc-dashboard.json',
       complaints: './data/qc-complaints.json',
@@ -39,6 +39,7 @@
       this.timer = null;
       this.inFlight = null;
       this.signature = '';
+      this.sourceHashes = {};
       this.cache = new Map();
       this.userPaused = false;
       this.visibilityPaused = false;
@@ -82,6 +83,10 @@
 
     resume() {
       this.userPaused = false;
+      if (!this.config.triggers.timer) {
+        this.emit('state', { state: 'paused', at: Date.now() });
+        return;
+      }
       if (this.visibilityPaused) {
         this.emit('state', { state: 'hidden', at: Date.now() });
         return;
@@ -148,6 +153,13 @@
         dashboard: dashboard.data,
         complaints: complaints.data,
         warehouse: { overview: overview.data, exceptions: exceptions.data, inbound: inbound.data },
+        sourceHashes: {
+          dashboard: dashboard.hash,
+          complaints: complaints.hash,
+          warehouseOverview: overview.hash,
+          warehouseExceptions: exceptions.hash,
+          warehouseInbound: inbound.hash,
+        },
         signature: [dashboard.hash, complaints.hash, overview.hash, exceptions.hash, inbound.hash].join(':'),
       };
     }
@@ -162,13 +174,14 @@
       if (!overview || !exceptions || !inbound) throw new Error('仓储实时数据结构校验失败');
     }
 
-    apply(payload, trigger) {
+    apply(payload, trigger, sources = []) {
       if (typeof qcState === 'undefined' || !qcState?.data) return false;
-      qcState.data = payload.dashboard;
-      qcState.complaints = payload.complaints;
+      const changed = new Set(sources);
+      if (changed.has('dashboard')) qcState.data = payload.dashboard;
+      if (changed.has('complaints')) qcState.complaints = payload.complaints;
 
-      const range = payload.dashboard.availableRange;
-      if (!qcState.start || !qcState.end || qcState.start < range.start || qcState.end > range.end || qcState.start > qcState.end) {
+      const range = qcState.data.availableRange;
+      if (changed.has('dashboard') && (!qcState.start || !qcState.end || qcState.start < range.start || qcState.end > range.end || qcState.start > qcState.end)) {
         const safe = typeof qcCompleteWeekRange === 'function'
           ? qcCompleteWeekRange(range.end)
           : { start: range.start, end: range.end };
@@ -177,33 +190,44 @@
       }
 
       if (typeof realtimeState !== 'undefined') {
-        realtimeState.overview = payload.warehouse.overview;
-        realtimeState.exceptions = payload.warehouse.exceptions;
-        realtimeState.inbound = payload.warehouse.inbound;
+        if (changed.has('warehouseOverview')) realtimeState.overview = payload.warehouse.overview;
+        if (changed.has('warehouseExceptions')) realtimeState.exceptions = payload.warehouse.exceptions;
+        if (changed.has('warehouseInbound')) realtimeState.inbound = payload.warehouse.inbound;
       }
-      if (typeof renderRealtimeModules === 'function') renderRealtimeModules();
-      if (typeof renderQCDashboard === 'function') renderQCDashboard();
 
       window.dispatchEvent(new CustomEvent('qc:data-updated', {
-        detail: { trigger, at: Date.now(), availableRange: range },
+        detail: { trigger, at: Date.now(), availableRange: range, sources: [...changed] },
       }));
       return true;
     }
 
     async refresh(trigger = 'manual') {
-      if (trigger === 'manual' && !this.config.triggers.manual) return null;
+      const triggerEnabled = {
+        manual: this.config.triggers.manual,
+        timer: this.config.triggers.timer,
+        resume: this.config.triggers.timer,
+        'visibility-resume': this.config.triggers.visibility,
+        websocket: this.config.triggers.websocket,
+      };
+      if (!triggerEnabled[trigger]) return null;
       if (this.inFlight) return this.inFlight;
       if ((this.userPaused || this.visibilityPaused) && trigger !== 'manual') return null;
 
       this.emit('state', { state: 'loading', trigger, at: Date.now() });
       this.inFlight = this.fetchAll()
         .then((payload) => {
-          const changed = payload.signature !== this.signature;
-          const applied = changed ? this.apply(payload, trigger) : true;
-          if (changed && applied) this.signature = payload.signature;
+          const sources = Object.entries(payload.sourceHashes)
+            .filter(([source, hash]) => this.sourceHashes[source] !== hash)
+            .map(([source]) => source);
+          const changed = sources.length > 0;
+          const applied = changed ? this.apply(payload, trigger, sources) : true;
+          if (changed && applied) {
+            this.signature = payload.signature;
+            this.sourceHashes = { ...payload.sourceHashes };
+          }
           this.lastSuccessAt = Date.now();
           this.lastError = null;
-          this.emit('update', { changed: changed && applied, trigger, at: this.lastSuccessAt });
+          this.emit('update', { changed: changed && applied, sources: applied ? sources : [], trigger, at: this.lastSuccessAt });
           return payload;
         })
         .catch((error) => {

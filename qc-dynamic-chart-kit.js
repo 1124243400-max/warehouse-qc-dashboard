@@ -277,6 +277,32 @@
       return chart;
     }
 
+    update(key, option, settings = {}) {
+      if (!key || !option) return 0;
+      let updated = 0;
+      this.items.forEach((item, element) => {
+        if (item.key !== key || !element.isConnected || item.chart.isDisposed?.()) return;
+        item.chart.setOption(option, {
+          notMerge: settings.notMerge === true,
+          lazyUpdate: settings.lazyUpdate !== false,
+          silent: settings.silent === true,
+          replaceMerge: settings.replaceMerge || ['series', 'xAxis', 'yAxis', 'legend', 'graphic'],
+        });
+        item.option = option;
+        element.dataset.dynamicChartUpdatedAt = String(Date.now());
+        updated += 1;
+      });
+      return updated;
+    }
+
+    has(key) {
+      return [...this.items.values()].some((item) => item.key === key);
+    }
+
+    keys() {
+      return [...new Set([...this.items.values()].map((item) => item.key))];
+    }
+
     prune() {
       this.items.forEach((item, element) => {
         if (element.isConnected) return;
