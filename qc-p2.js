@@ -7,13 +7,62 @@ function refreshPeopleChartLink(section){
  if(name&&!hasMatch)qcState.peopleLinkedPerson='';
  const active=hasMatch?name:'';
  linked.forEach(node=>{const selected=Boolean(active)&&node.dataset.p2PersonLink===active;node.classList.toggle('is-person-linked',selected);node.setAttribute('aria-pressed',selected?'true':'false')});
- qa('[data-p2-person-link-status]',section).forEach(node=>{node.textContent=active?'\u5df2\u5b9a\u4f4d\uff1a'+active+'\uff1b\u70b9\u51fb\u53ef\u5207\u6362\u4eba\u5458':'\u70b9\u51fb\u6392\u884c\u3001\u67f1\u5f62\u6216\u6298\u7ebf\u70b9\uff0c\u53cc\u5411\u540c\u6b65\u5b9a\u4f4d'});
+ const activeNode=active?linked.find(node=>node.dataset.p2PersonLink===active):null;
+ const activeBrands=String(activeNode?.dataset.p2PersonBrands||'').trim();
+ qa('[data-p2-person-link-status]',section).forEach(node=>{node.textContent=active?'\u5df2\u5b9a\u4f4d\uff1a'+active+(activeBrands?' \u00b7 '+activeBrands:'')+'\uff1b\u70b9\u51fb\u53ef\u5207\u6362\u4eba\u5458':'\u70b9\u51fb\u5de6\u4fa7\u6392\u884c\u6216\u53f3\u4fa7\u67f1\u5f62\u3001\u6298\u7ebf\u70b9\u3001\u59d3\u540d\uff0c\u53cc\u5411\u540c\u6b65\u5b9a\u4f4d'});
+ qa('[data-p2-person-focus-summary]',section).forEach(summary=>{
+  summary.hidden=!active;
+  if(!active)return;
+  const set=(selector,value)=>{const target=summary.querySelector(selector);if(target)target.textContent=value};
+  set('[data-p2-focus-name]',active);
+  set('[data-p2-focus-brand]',activeBrands||'\u672a\u767b\u8bb0\u54c1\u724c');
+  const output=String(activeNode?.dataset.p2PersonOutput||'\u2014'),hours=String(activeNode?.dataset.p2PersonHours||'\u2014'),rate=String(activeNode?.dataset.p2PersonRate||'\u2014');
+  set('[data-p2-focus-metrics]','\u6709\u6548\u4ea7\u51fa '+output+' \u4ef6 \u00b7 \u6709\u6548\u5de5\u65f6 '+hours+' \u5c0f\u65f6 \u00b7 \u7efc\u5408\u4eba\u6548 '+rate+' \u4ef6/\u4eba\u65f6');
+ });
+}
+function pulsePeopleChartTarget(section,name,reduced){
+ const chart=section.querySelector('.p2-people-comparison-card .p2-people-combo-chart');
+ if(!chart)return;
+ qa('[data-p2-person-link]',chart).forEach(node=>node.classList.remove('is-person-arrived'));
+ if(section._peopleLinkPulseTimer)window.clearTimeout(section._peopleLinkPulseTimer);
+ const matched=qa('[data-p2-person-link]',chart).filter(node=>node.dataset.p2PersonLink===name);
+ matched.forEach(node=>node.classList.add('is-person-arrived'));
+ section._peopleLinkPulseTimer=window.setTimeout(()=>matched.forEach(node=>node.classList.remove('is-person-arrived')),reduced?0:760);
+}
+function revealPeopleChartPerson(section,name,reduced){
+ const chart=section.querySelector('.p2-people-comparison-card .p2-people-combo-chart');
+ const scroller=chart?.closest('.p2-combo-scroll');
+ const focusBand=chart?qa('.p2-person-focus-band[data-p2-person-link]',chart).find(node=>node.dataset.p2PersonLink===name):null;
+ const fallback=chart?qa('[data-p2-person-link]',chart).find(node=>node.dataset.p2PersonLink===name):null;
+ const target=focusBand||fallback;
+ if(!chart||!scroller||!target)return;
+ const viewBoxWidth=chart.viewBox?.baseVal?.width||Number(chart.getAttribute('viewBox')?.split(/\s+/)[2])||chart.clientWidth||1;
+ const scale=chart.clientWidth/viewBoxWidth;
+ const targetX=focusBand
+  ?(Number(focusBand.getAttribute('x'))+Number(focusBand.getAttribute('width'))/2)*scale
+  :(target.getBoundingClientRect().left+target.getBoundingClientRect().width/2-chart.getBoundingClientRect().left);
+ const maxLeft=Math.max(0,scroller.scrollWidth-scroller.clientWidth);
+ const left=Math.min(maxLeft,Math.max(0,targetX-scroller.clientWidth/2));
+ scroller.scrollTo({left,behavior:reduced?'auto':'smooth'});
+ const card=scroller.closest('.p2-people-comparison-card');
+ if(card){
+  const rect=card.getBoundingClientRect();
+  if(rect.top<0||rect.bottom>window.innerHeight)card.scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest'});
+ }
+ pulsePeopleChartTarget(section,name,reduced);
 }
 function togglePeopleChartLink(section,name,fromChart){
- const next=String(name||'').trim()===String(qcState.peopleLinkedPerson||'').trim()?'':String(name||'').trim();
+ const next=String(name||'').trim();
+ if(!next)return;
  qcState.peopleLinkedPerson=next;
  refreshPeopleChartLink(section);
- if(next&&fromChart){const row=qa('[data-p2-person-link]',section).find(node=>node.dataset.p2PersonLink===next&&node.classList.contains('p2-efficiency-rank'));row?.scrollIntoView({behavior:'smooth',block:'nearest',inline:'nearest'})}
+ const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+ if(fromChart){
+  const row=qa('[data-p2-person-link]',section).find(node=>node.dataset.p2PersonLink===next&&node.classList.contains('p2-efficiency-rank'));
+  row?.scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest',inline:'nearest'});
+  return;
+ }
+ requestAnimationFrame(()=>revealPeopleChartPerson(section,next,reduced));
 }const q=(s,r=document)=>r.querySelector(s),qa=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v).toLocaleString('zh-CN',{minimumFractionDigits:d,maximumFractionDigits:d}):'—';
@@ -129,7 +178,7 @@ function people(){
   const roleOptions='<option value="all">全部工种</option>'+roles.map(value=>'<option value="'+esc(value)+'"'+(value===role?' selected':'')+'>'+esc(value)+'</option>').join('');
   const selectionLabel=selected.length?(selected.length<=2?selected.map(esc).join('、'):'已选 '+selected.length+' 人'):'全部人员（汇总）';
   const choices=peopleNames.map(value=>'<label><input type="checkbox" data-p2-people-choice="'+esc(value)+'"'+(selected.includes(value)?' checked':'')+' /><span>'+esc(value)+'</span></label>').join('');
-  controls.innerHTML='<label class="p2-people-brand"><span>品牌</span><select data-p2-people-filter="brand">'+brandOptions+'</select></label><label class="p2-people-role"><span>工种</span><select data-p2-people-filter="role">'+roleOptions+'</select></label><div class="p2-person-picker"><span>人员（可连续多选）</span><details><summary><b>'+selectionLabel+'</b><small>共 '+peopleNames.length+' 人</small></summary><div class="p2-person-picker-panel"><div class="p2-person-picker-actions"><input type="search" data-p2-people-search placeholder="搜索人员" aria-label="搜索人员" /><button type="button" data-p2-people-action="all">全选当前条件</button><button type="button" data-p2-people-action="clear">清空</button></div><div class="p2-person-picker-options">'+choices+'</div></div></details></div><em>人效口径：有效产出 ÷（在岗时长 − 其他计时）</em>';
+  controls.innerHTML='<label class="p2-people-brand"><span>品牌</span><select data-p2-people-filter="brand">'+brandOptions+'</select></label><label class="p2-people-role"><span>工种</span><select data-p2-people-filter="role">'+roleOptions+'</select></label><div class="p2-person-picker"><span>人员（可连续多选）</span><details><summary><b>'+selectionLabel+'</b><small>共 '+peopleNames.length+' 人</small></summary><div class="p2-person-picker-panel"><div class="p2-person-picker-actions"><input type="search" data-p2-people-search placeholder="搜索人员" aria-label="搜索人员" /><button type="button" data-p2-people-action="all">全选当前条件</button><button type="button" data-p2-people-action="clear">清空</button></div><div class="p2-person-picker-options">'+choices+'</div></div></details></div><em>人效口径：（主表产量 + 备注产量）÷（在岗时长 − 销退抽检计时）</em>';
   const details=controls.querySelector('details');
   if(details&&pickerWasOpen)details.open=true;
   const searchInput=controls.querySelector('[data-p2-people-search]');
@@ -174,9 +223,10 @@ function people(){
    if(!row.n)return;
    const name=String(row.n).trim();
    let item=stats.get(name);
-   if(!item){item={name,out:0,days:new Map(),roles:new Set()};stats.set(name,item)}
-   item.out+=qcEfficiencyOutput(row);
-   if(row.r)item.roles.add(row.r);
+    if(!item){item={name,out:0,days:new Map(),roles:new Set(),brands:new Set()};stats.set(name,item)}
+    item.out+=qcEfficiencyOutput(row);
+    if(row.r)item.roles.add(row.r);
+    if(row.b)item.brands.add(String(row.b).trim());
    const hours=qcEffectiveHours(row);
    if(row.d&&hours>(item.days.get(row.d)||0))item.days.set(row.d,hours);
   });
@@ -186,8 +236,11 @@ function people(){
    return item;
   }).filter(item=>item.hours>0).sort((a,b)=>(b.rate||0)-(a.rate||0));
  };
- const roleRanking=aggregatePeople(roleRows);
- const filteredRanking=selected.length?aggregatePeople(rows):roleRanking;
+  const roleRanking=aggregatePeople(roleRows);
+  const filteredRanking=selected.length?aggregatePeople(rows):roleRanking;
+  const orderedPersonBrands=item=>[...item.brands].sort((a,b)=>{const ai=brands.indexOf(a),bi=brands.indexOf(b);return(ai<0?99:ai)-(bi<0?99:bi)||a.localeCompare(b,'zh-CN')});
+  const personBrandText=item=>orderedPersonBrands(item).join(' / ')||'\u672a\u767b\u8bb0\u54c1\u724c';
+  const personBrandTags=item=>orderedPersonBrands(item).map(name=>'<small class="p2-person-brand '+(complaintBrandTones[name]||'brand-default')+'">'+esc(name)+'</small>').join('')||'<small class="p2-person-brand brand-default">\u672a\u767b\u8bb0\u54c1\u724c</small>';
  const brandLabel=brand==='all'?'全部品牌':brand;
  const roleLabel=role==='all'?'全部工种':role;
  const title=q('#qcRankingTitle');
@@ -196,7 +249,7 @@ function people(){
  if(rankRoot){
   const max=Math.max(1,...roleRanking.map(item=>item.rate||0));
   const tierSize=Math.max(1,Math.ceil(roleRanking.length*.2));
-  rankRoot.innerHTML=roleRanking.length?'<div class="p2-efficiency-rank-head"><span>人员 / 工种</span><span>有效产出</span><span>有效工时</span><span>综合人效</span></div><div class="qc-ranking-rows">'+roleRanking.map((item,index)=>{const tone=index<tierSize?'tone-good':index>=roleRanking.length-tierSize?'tone-risk':'tone-mid';return'<article class="qc-rank-row p2-efficiency-rank '+tone+'" data-p2-person-link="'+esc(item.name)+'" tabindex="0" role="button" aria-label="\u9009\u62e9 '+esc(item.name)+'\uff0c\u540c\u6b65\u67e5\u770b\u53f3\u4fa7\u56fe\u8868"><span class="qc-rank-no">'+(index+1)+'</span><div class="qc-rank-main"><div class="qc-rank-meta"><strong>'+esc(item.name)+'</strong><span>'+esc([...item.roles].join(' / ')||'未登记工种')+'</span></div><div class="qc-rank-track"><i style="width:'+Math.max(5,(item.rate||0)/max*100)+'%"></i></div></div><em>'+num(item.out)+' 件</em><em>'+num(item.hours,1)+' 小时</em><b class="qc-rank-score">'+num(item.rate,1)+'<small>件/人时</small></b></article>'}).join('')+'</div>':'<p class="qc-empty">当前工种没有可计算人效的人员记录</p>';
+  rankRoot.innerHTML=roleRanking.length?'<div class="p2-efficiency-rank-head"><span>人员 / 品牌 / 工种</span><span>有效产出</span><span>有效工时</span><span>综合人效</span></div><div class="qc-ranking-rows">'+roleRanking.map((item,index)=>{const tone=index<tierSize?'tone-good':index>=roleRanking.length-tierSize?'tone-risk':'tone-mid',brandText=personBrandText(item),outputText=num(item.out),hoursText=num(item.hours,1),rateText=num(item.rate,1);return'<article class="qc-rank-row p2-efficiency-rank '+tone+'" data-p2-person-link="'+esc(item.name)+'" data-p2-person-brands="'+esc(brandText)+'" data-p2-person-output="'+esc(outputText)+'" data-p2-person-hours="'+esc(hoursText)+'" data-p2-person-rate="'+esc(rateText)+'" tabindex="0" role="button" aria-label="\u9009\u62e9 '+esc(item.name)+'\uff0c\u54c1\u724c '+esc(brandText)+'\uff0c\u540c\u6b65\u67e5\u770b\u53f3\u4fa7\u56fe\u8868"><span class="qc-rank-no">'+(index+1)+'</span><div class="qc-rank-main"><div class="qc-rank-meta"><strong>'+esc(item.name)+'</strong><span>'+esc([...item.roles].join(' / ')||'未登记工种')+'</span></div><div class="p2-person-brand-tags" aria-label="相关品牌">'+personBrandTags(item)+'</div><div class="qc-rank-track"><i style="width:'+Math.max(5,(item.rate||0)/max*100)+'%"></i></div></div><em>'+outputText+' 件</em><em>'+hoursText+' 小时</em><b class="qc-rank-score">'+rateText+'<small>件/人时</small></b></article>'}).join('')+'</div>':'<p class="qc-empty">当前工种没有可计算人效的人员记录</p>';
  } const datePeople=new Map();
  rows.forEach(row=>{
   if(!row.d||!row.n)return;
@@ -243,11 +296,13 @@ function people(){
     const rateY=value=>top+plotHeight-(Number(value)||0)/rateMax*plotHeight;
     const ticks=[0,.25,.5,.75,1];
     const grid=ticks.map(step=>{const y=top+plotHeight-step*plotHeight;return'<line x1="'+left+'" y1="'+y+'" x2="'+(chartWidth-right)+'" y2="'+y+'"></line><text class="axis output" x="'+(left-7)+'" y="'+(y+3)+'">'+num(outputMax*step)+'</text><text class="axis rate" x="'+(chartWidth-right+7)+'" y="'+(y+3)+'">'+num(rateMax*step,1)+'</text>'}).join('');
-    const bars=chartRows.map((item,index)=>{const x=xAt(index)-barWidth/2,y=outputY(item.out),height=top+plotHeight-y;return'<g class="p2-combo-bar"><rect x="'+x+'" y="'+y+'" width="'+barWidth+'" height="'+Math.max(1,height)+'" rx="4" data-p2-person-link="'+esc(item.name)+'" tabindex="0" role="button" aria-label="\u9009\u62e9 '+esc(item.name)+'\uff0c\u540c\u6b65\u5b9a\u4f4d\u5de6\u4fa7\u6392\u884c"><title>'+esc(item.name+' · 有效产出 '+num(item.out)+' 件')+'</title></rect><text class="bar-value" x="'+xAt(index)+'" y="'+Math.max(16,y-7)+'">'+num(item.out)+'</text></g>'}).join('');
+    const focusBandWidth=Math.max(36,Math.min(52,plotWidth/chartRows.length*.82));
+    const focusBands=chartRows.map((item,index)=>{const x=xAt(index)-focusBandWidth/2;return'<rect class="p2-person-focus-band" x="'+x+'" y="'+(top-7)+'" width="'+focusBandWidth+'" height="'+(plotHeight+34)+'" rx="8" data-p2-person-link="'+esc(item.name)+'" data-p2-person-brands="'+esc(personBrandText(item))+'" aria-hidden="true"></rect>'}).join('');
+    const bars=chartRows.map((item,index)=>{const x=xAt(index)-barWidth/2,y=outputY(item.out),height=top+plotHeight-y,brandText=personBrandText(item);return'<g class="p2-combo-bar"><rect x="'+x+'" y="'+y+'" width="'+barWidth+'" height="'+Math.max(1,height)+'" rx="4" data-p2-person-link="'+esc(item.name)+'" data-p2-person-brands="'+esc(brandText)+'" tabindex="0" role="button" aria-label="\u9009\u62e9 '+esc(item.name)+'\uff0c\u54c1\u724c '+esc(brandText)+'\uff0c\u540c\u6b65\u5b9a\u4f4d\u5de6\u4fa7\u6392\u884c"><title>'+esc(item.name+' · '+brandText+' · 有效产出 '+num(item.out)+' 件')+'</title></rect><text class="bar-value" x="'+xAt(index)+'" y="'+Math.max(16,y-7)+'">'+num(item.out)+'</text></g>'}).join('');
     const linePoints=chartRows.map((item,index)=>xAt(index)+','+rateY(item.rate)).join(' ');
-    const points=chartRows.map((item,index)=>'<circle cx="'+xAt(index)+'" cy="'+rateY(item.rate)+'" r="4" data-p2-person-link="'+esc(item.name)+'" tabindex="0" role="button" aria-label="\u9009\u62e9 '+esc(item.name)+'\uff0c\u540c\u6b65\u5b9a\u4f4d\u5de6\u4fa7\u6392\u884c"><title>'+esc(item.name+' · 综合人效 '+num(item.rate,1)+' 件/人时')+'</title></circle>').join('');
-    const labels=chartRows.map((item,index)=>{const x=xAt(index),y=chartHeight-18;return'<text class="person" x="'+x+'" y="'+y+'" transform="rotate(-35 '+x+' '+y+')">'+esc(item.name)+'</text>'}).join('');
-    comparisonRoot.innerHTML='<div class="p2-combo-legend"><span class="p2-combo-link-hint" data-p2-person-link-status>\u70b9\u51fb\u6392\u884c\u3001\u67f1\u5f62\u6216\u6298\u7ebf\u70b9\uff0c\u53cc\u5411\u540c\u6b65\u5b9a\u4f4d</span><span class="bar"><i></i>柱形：有效产出（件）</span><span class="line"><i></i>折线：综合人效（件/人时）</span></div><div class="p2-combo-scroll"><svg class="p2-people-combo-chart" viewBox="0 0 '+chartWidth+' '+chartHeight+'" style="width:'+chartWidth+'px" role="img" aria-label="人员有效产出与综合人效组合图"><g class="grid">'+grid+'</g><g class="bars">'+bars+'</g><polyline class="efficiency-line" points="'+linePoints+'"></polyline><g class="points">'+points+'</g><g class="labels">'+labels+'</g><text class="axis-title output" x="4" y="14">有效产出</text><text class="axis-title rate" x="'+(chartWidth-4)+'" y="14">综合人效</text></svg></div>';
+    const points=chartRows.map((item,index)=>{const brandText=personBrandText(item);return'<circle cx="'+xAt(index)+'" cy="'+rateY(item.rate)+'" r="4" data-p2-person-link="'+esc(item.name)+'" data-p2-person-brands="'+esc(brandText)+'" tabindex="0" role="button" aria-label="\u9009\u62e9 '+esc(item.name)+'\uff0c\u54c1\u724c '+esc(brandText)+'\uff0c\u540c\u6b65\u5b9a\u4f4d\u5de6\u4fa7\u6392\u884c"><title>'+esc(item.name+' · '+brandText+' · 综合人效 '+num(item.rate,1)+' 件/人时')+'</title></circle>'}).join('');
+    const labels=chartRows.map((item,index)=>{const x=xAt(index),y=chartHeight-18,brandText=personBrandText(item);return'<text class="person" x="'+x+'" y="'+y+'" transform="rotate(-35 '+x+' '+y+')" data-p2-person-link="'+esc(item.name)+'" data-p2-person-brands="'+esc(brandText)+'" tabindex="0" role="button" aria-label="\u9009\u62e9 '+esc(item.name)+'\uff0c\u54c1\u724c '+esc(brandText)+'">'+esc(item.name)+'<title>'+esc(item.name+' · '+brandText)+'</title></text>'}).join('');
+    comparisonRoot.innerHTML='<div class="p2-combo-legend"><span class="p2-combo-link-hint" data-p2-person-link-status>\u70b9\u51fb\u5de6\u4fa7\u6392\u884c\u6216\u53f3\u4fa7\u67f1\u5f62\u3001\u6298\u7ebf\u70b9\u3001\u59d3\u540d\uff0c\u53cc\u5411\u540c\u6b65\u5b9a\u4f4d</span><span class="bar"><i></i>柱形：有效产出（件）</span><span class="line"><i></i>折线：综合人效（件/人时）</span></div><div class="p2-person-focus-summary" data-p2-person-focus-summary hidden><span>\u5df2\u8054\u52a8\u4eba\u5458</span><strong data-p2-focus-name></strong><em data-p2-focus-brand></em><small data-p2-focus-metrics></small></div><div class="p2-combo-scroll"><svg class="p2-people-combo-chart" viewBox="0 0 '+chartWidth+' '+chartHeight+'" style="width:'+chartWidth+'px" role="img" aria-label="人员有效产出与综合人效组合图"><g class="focus-bands">'+focusBands+'</g><g class="grid">'+grid+'</g><g class="bars">'+bars+'</g><polyline class="efficiency-line" points="'+linePoints+'"></polyline><g class="points">'+points+'</g><g class="labels">'+labels+'</g><text class="axis-title output" x="4" y="14">有效产出</text><text class="axis-title rate" x="'+(chartWidth-4)+'" y="14">综合人效</text></svg></div>';
    }
   }
   if(!comparisonCard.dataset.filterBound){

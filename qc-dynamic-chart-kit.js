@@ -299,6 +299,10 @@
       return [...this.items.values()].some((item) => item.key === key);
     }
 
+    hasPlayed(key) {
+      return this.playedKeys.has(key);
+    }
+
     keys() {
       return [...new Set([...this.items.values()].map((item) => item.key))];
     }

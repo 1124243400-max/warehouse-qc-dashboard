@@ -1145,13 +1145,46 @@
     const scopeLabel = brandLabel + ' · ' + roleLabel;
     const cards = [
       ['people', '在岗人数', qcNumber(people, '0') + ' 人', 'blue', scopeLabel + '当前有作业记录的人员'],
-      ['clock', '有效在岗时长', qcNumber(efficiency.hours, '0') + ' 小时', 'green', '已扣除其他计时'],
+      ['clock', '有效在岗时长', qcNumber(efficiency.hours, '0') + ' 小时', 'green', '仅扣除销退抽检计时'],
       ['efficiency', '综合人效', efficiency.rate === null ? '待核对' : qcDecimal(efficiency.rate, 1) + ' 件/人时', 'violet', '有效产出 ÷ 有效在岗时长'],
       ['star', '最高人效', top ? qcDecimal(top.rate, 1) + ' · ' + top.name : '暂无', 'amber', top ? top.name + '为当前筛选范围最高人效' : '暂无有效人员数据'],
       ['clock', '工时完整性', qcDecimal(efficiency.coverage, 1) + '%', 'teal', '有有效工时的人天占比'],
       ['alert', '需关注人效', qcNumber(attention.length, '0') + ' 人', 'red', attention.length ? '当前筛选范围人效后位：' + attention.map((item) => item.name).join('、') : '暂无需关注人员'],
     ];
-    root.innerHTML = cards.map(([icon, label, value, tone, detail]) => `<article class="tone-${tone}" title="${qcEscape(detail)}"><i class="qc-people-icon icon-${icon} has-svg" aria-hidden="true">${redesignBusinessIcon(icon)}</i><span>${label}</span><strong>${value}</strong></article>`).join('');
+    root.innerHTML = cards.map(([icon, label, value, tone, detail], index) => `<article class="tone-${tone}" title="${qcEscape(detail)}" data-qc-people-kpi="${icon}" data-qc-scene-group="people-summary" data-qc-scene-order="${index}" tabindex="0" role="button" aria-label="${qcEscape(`${label} ${value}。${detail}`)}"><i class="qc-people-icon icon-${icon} has-svg" aria-hidden="true">${redesignBusinessIcon(icon)}</i><span>${label}</span><strong>${value}</strong></article>`).join('');
+    if (!root.dataset.kpiMotionBound) {
+      root.dataset.kpiMotionBound = 'true';
+      const reduced = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+      const setOrigin = (card, event) => {
+        const rect = card.getBoundingClientRect();
+        const x = Number.isFinite(event?.clientX) && event.clientX ? event.clientX - rect.left : rect.width / 2;
+        const y = Number.isFinite(event?.clientY) && event.clientY ? event.clientY - rect.top : rect.height / 2;
+        card.style.setProperty('--qc-kpi-press-x', `${x}px`);
+        card.style.setProperty('--qc-kpi-press-y', `${y}px`);
+      };
+      const activate = (card, event) => {
+        if (!card || reduced()) return;
+        setOrigin(card, event);
+        card.classList.remove('is-kpi-rippling');
+        void card.offsetWidth;
+        card.classList.add('is-kpi-pressed', 'is-kpi-rippling');
+        window.setTimeout(() => card.classList.remove('is-kpi-pressed'), 150);
+        window.setTimeout(() => card.classList.remove('is-kpi-rippling'), 520);
+      };
+      root.addEventListener('pointerdown', (event) => {
+        const card = event.target.closest('[data-qc-people-kpi]');
+        if (card) setOrigin(card, event);
+      });
+      root.addEventListener('click', (event) => activate(event.target.closest('[data-qc-people-kpi]'), event));
+      root.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        const card = event.target.closest('[data-qc-people-kpi]');
+        if (!card) return;
+        event.preventDefault();
+        card.click();
+      });
+    }
+    requestAnimationFrame(() => window.QCSceneMotion?.scan(root));
   }
   function redesignRenderComplaintTrend() {
     const root = document.querySelector('#qcComplaintTrend');

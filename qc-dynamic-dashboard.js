@@ -155,6 +155,36 @@
     return element;
   }
 
+  function mountRealtimeValueMotion(element, chart, dateLabels, series, finalOption) {
+    const layer = document.createElement('div');
+    layer.className = 'qc-realtime-value-motion-layer';
+    layer.setAttribute('aria-hidden', 'true');
+    series.forEach((item, seriesIndex) => {
+      item.data.forEach((value, dataIndex) => {
+        if (!Number.isFinite(Number(value))) return;
+        const pixel = chart.convertToPixel(
+          { xAxisIndex: 0, yAxisIndex: 0 },
+          [dateLabels[dataIndex], Number(value)],
+        );
+        if (!Array.isArray(pixel) || !pixel.every(Number.isFinite)) return;
+        const label = document.createElement('span');
+        label.className = 'qc-realtime-value-pop';
+        label.textContent = Number(value).toLocaleString('zh-CN');
+        label.style.left = `${pixel[0]}px`;
+        label.style.top = `${pixel[1] + (seriesIndex % 2 === 0 ? -14 : 16)}px`;
+        label.style.setProperty('--qc-value-color', item.color || kit.PALETTE[seriesIndex]);
+        label.style.setProperty('--qc-value-delay', `${220 + dataIndex * 110 + seriesIndex * 24}ms`);
+        layer.append(label);
+      });
+    });
+    element.append(layer);
+    setTimeout(() => {
+      if (!element.isConnected || chart.isDisposed?.()) return;
+      chart.setOption(finalOption, { notMerge: false, lazyUpdate: false });
+      requestAnimationFrame(() => layer.remove());
+    }, 1480);
+  }
+
   function enhanceRealtimeTrend(root, shouldAnimate) {
     root.querySelectorAll('.qc-realtime-line-chart:not([data-dynamic-ready])').forEach((container) => {
       const svg = container.querySelector('svg');
@@ -177,9 +207,67 @@
       container.dataset.dynamicReady = 'true';
       container.innerHTML = '';
       container.append(element);
-      const option = { ...kit.lineOption(dates.map((date) => date.slice(5)), series, { showPointLabels: true }), aria: { enabled: true } };
-      if (!shouldAnimate) option.animation = false;
-      charts.render('realtime-trend', element, option);
+      const chartKey = 'realtime-trend';
+      const dateLabels = dates.map((date) => date.slice(5));
+      const targetBase = kit.lineOption(dateLabels, series, { showPointLabels: true });
+      const targetOption = {
+        ...targetBase,
+        animation: true,
+        animationDuration: 1040,
+        animationDurationUpdate: 980,
+        animationEasing: 'cubicInOut',
+        animationEasingUpdate: 'cubicOut',
+        aria: { enabled: true },
+        series: targetBase.series.map((item, index) => ({
+          ...item,
+          animationDuration: 1040,
+          animationDurationUpdate: 980,
+          animationEasing: 'cubicInOut',
+          animationEasingUpdate: 'cubicOut',
+          animationDelay: index * 70,
+          animationDelayUpdate: index * 70,
+        })),
+      };
+      const playEntryMotion = shouldAnimate && !kit.reducedMotion.matches && !charts.hasPlayed(chartKey);
+      const initialSeries = series.map((item) => ({ ...item, data: item.data.map(() => 0) }));
+      const initialBase = kit.lineOption(dateLabels, initialSeries, { showPointLabels: false });
+      const initialOption = {
+        ...initialBase,
+        animation: false,
+        aria: { enabled: true },
+        series: initialBase.series.map((item) => ({ ...item, animation: false })),
+      };
+      const finalOption = {
+        ...targetOption,
+        animation: false,
+        series: targetOption.series.map((item) => ({
+          ...item,
+          animation: false,
+          animationDuration: 0,
+          animationDurationUpdate: 0,
+        })),
+      };
+      const motionOption = {
+        ...targetOption,
+        series: targetOption.series.map((item) => ({
+          ...item,
+          label: { ...item.label, show: false },
+        })),
+      };
+      const staticOption = playEntryMotion ? initialOption : finalOption;
+      const chart = charts.render(chartKey, element, staticOption);
+      if (playEntryMotion) {
+        element.dataset.dynamicEntryMotion = 'baseline-wave';
+        element.dataset.dynamicValueMotion = 'left-to-right-pop';
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          if (!element.isConnected || !chart || chart.isDisposed?.()) return;
+          chart.setOption(motionOption, { notMerge: false, lazyUpdate: false });
+          requestAnimationFrame(() => {
+            if (!element.isConnected || chart.isDisposed?.()) return;
+            mountRealtimeValueMotion(element, chart, dateLabels, series, finalOption);
+          });
+        }));
+      }
     });
   }
 

@@ -33545,18 +33545,85 @@ function qcPrimaryField(row) {
   return 'q';
 }
 function qcPrimaryOutput(row) {
-  return Number(row[qcPrimaryField(row)]) || 0;
+  return (Number(row[qcPrimaryField(row)]) || 0) + qcRemarkProductionOutput(row, null);
+}
+
+function qcRemarkText(row) {
+  return String(row?.note || row?.remark || '');
+}
+
+function qcRemarkProductionEntries(row) {
+  const text = qcRemarkText(row);
+  const entries = [];
+  const quantityPattern = /([^,，;；。\n\r]*?)(\d[\d,]*(?:\.\d+)?)\s*件/g;
+  let match;
+  while ((match = quantityPattern.exec(text)) !== null) {
+    const context = match[1];
+    const quantity = Number(match[2].replaceAll(',', '')) || 0;
+    let field = qcPrimaryField(row);
+    if (/\u5305\u88c5/.test(context)) field = 'pk';
+    else if (/\u8fd4\u4fee/.test(context)) field = 'rrp';
+    else if (/\u70eb/.test(context)) field = 'ir';
+    else if (/\u9500\u9000|\u8d28\u68c0|\u62bd\u68c0/.test(context)) field = 'q';
+    entries.push({ field, quantity });
+  }
+  return entries;
+}
+
+function qcRemarkProductionOutput(row, field = null) {
+  const entries = qcRemarkProductionEntries(row);
+  const noteTotals = entries.reduce((totals, item) => {
+    totals[item.field] = (totals[item.field] || 0) + item.quantity;
+    return totals;
+  }, {});
+  const mainOutput = (entryField) => {
+    if (entryField === 'q') return Math.max(Number(row?.q) || 0, Number(row?.rq) || 0, Number(row?.ret) || 0);
+    if (entryField === 'rrp') return Math.max(Number(row?.rrp) || 0, Number(row?.rp) || 0);
+    return Number(row?.[entryField]) || 0;
+  };
+  if (!field) {
+    return Object.entries(noteTotals).reduce(
+      (sum, [entryField, quantity]) => sum + Math.max(0, quantity - mainOutput(entryField)),
+      0,
+    );
+  }
+  const qualityField = ['q', 'rq', 'ret'].includes(field);
+  const entryField = qualityField ? 'q' : field;
+  return Math.max(0, (noteTotals[entryField] || 0) - (Number(row?.[field]) || 0));
+}
+
+function qcReturnSamplingHours(row) {
+  const directFields = ['returnSamplingHours', 'returnSamplingTime', 'samplingHours'];
+  for (const field of directFields) {
+    if (Object.prototype.hasOwnProperty.call(row || {}, field)) {
+      const directValue = Number(row[field]);
+      return Number.isFinite(directValue) && directValue > 0 ? directValue : 0;
+    }
+  }
+
+  const text = qcRemarkText(row);
+  const samplingLabelPattern = /(?:\u9500\u9000\u62bd\u68c0|\u6d88\u9000\u62bd\u68c0|\u62bd\u68c0\u9500\u9000|\u62bd\u68c0\u6d88\u9000)/;
+  const samplingPattern = /(?:\u9500\u9000\u62bd\u68c0|\u6d88\u9000\u62bd\u68c0|\u62bd\u68c0\u9500\u9000|\u62bd\u68c0\u6d88\u9000)\s*(?:(\d+(?:\.\d+)?)\s*\u5c0f\u65f6)?\s*(?:(\d+(?:\.\d+)?)\s*\u5206\u949f)?/g;
+  let hours = 0;
+  let match;
+  while ((match = samplingPattern.exec(text)) !== null) {
+    hours += (Number(match[1]) || 0) + (Number(match[2]) || 0) / 60;
+  }
+  if (hours > 0) return hours;
+  // 兼容“消退抽检4.5”这类省略单位的历史备注，数值以原其他计时字段为准。
+  return samplingLabelPattern.test(text) ? Math.max(0, Number(row?.other) || 0) : 0;
 }
 
 function qcEffectiveHours(row) {
   const totalHours = Number(row?.wh) || 0;
-  const otherHours = Number(row?.other) || 0;
-  return Math.max(0, totalHours - otherHours);
+  // 只有销退抽检耗时计入计时扣减；其他有产出的工作统一按产量统计。
+  return Math.max(0, totalHours - qcReturnSamplingHours(row));
 }
 function qcEfficiencyOutput(row, field = null) {
-  if (field) return Number(row[field]) || 0;
+  if (field) return (Number(row[field]) || 0) + qcRemarkProductionOutput(row, field);
   const qualityField = /\u9500\u9000/.test(String(row.r || '')) && Object.prototype.hasOwnProperty.call(row, 'rq') ? 'rq' : (/\u9500\u9000/.test(String(row.r || '')) && Object.prototype.hasOwnProperty.call(row, 'ret') ? 'ret' : 'q');
-  return [qualityField, 'pk', 'rrp', 'ir'].reduce((sum, key) => sum + (Number(row[key]) || 0), 0);
+  const mainTableOutput = [qualityField, 'pk', 'rrp', 'ir'].reduce((sum, key) => sum + (Number(row[key]) || 0), 0);
+  return mainTableOutput + qcRemarkProductionOutput(row, null);
 }
 
 function qcEfficiencySummary(rows, field, range) {

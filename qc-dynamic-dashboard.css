@@ -95,6 +95,38 @@ body.qc-redesign-enabled #qc .qc-echart {
   user-select: none;
 }
 
+@keyframes qcRealtimeValuePop {
+  0% { opacity: 0; transform: translate3d(-50%, 7px, 0) scale(.72); }
+  66% { opacity: 1; transform: translate3d(-50%, -2px, 0) scale(1.1); }
+  100% { opacity: 1; transform: translate3d(-50%, 0, 0) scale(1); }
+}
+
+body.qc-redesign-enabled #qc .qc-echart-realtime {
+  position: relative;
+}
+
+body.qc-redesign-enabled #qc .qc-realtime-value-motion-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: visible;
+  pointer-events: none;
+}
+
+body.qc-redesign-enabled #qc .qc-realtime-value-pop {
+  position: absolute;
+  color: var(--qc-value-color, #2878e8);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  opacity: 0;
+  text-shadow: -2px 0 #fff, 2px 0 #fff, 0 -2px #fff, 0 2px #fff;
+  transform-origin: center;
+  will-change: transform, opacity;
+  animation: qcRealtimeValuePop .44s cubic-bezier(.16,.8,.28,1) var(--qc-value-delay, 0ms) 1 both;
+}
+
 body.qc-redesign-enabled #qc .qc-echart canvas {
   cursor: crosshair;
 }
@@ -252,6 +284,13 @@ body.qc-redesign-enabled #qc .qc-dynamic-row-in {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  body.qc-redesign-enabled #qc .qc-realtime-value-pop {
+    animation: none !important;
+    opacity: 1;
+    transform: translate3d(-50%, 0, 0);
+    will-change: auto;
+  }
+
   body.qc-redesign-enabled #qc *,
   body.qc-redesign-enabled #qc *::before,
   body.qc-redesign-enabled #qc *::after {
