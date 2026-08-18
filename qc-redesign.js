@@ -807,6 +807,7 @@
       if (!row.n || !row.d) return;
       const key = `${row.n}|${row.d}`;
       const output = qcEfficiencyOutput(row);
+      if (!QCEfficiencyPolicy.hasWorkload(output)) return;
       if (!totalDays.has(key)) totalDays.set(key, { output: 0, hours: 0 });
       const total = totalDays.get(key);
       total.output += output;
@@ -823,7 +824,7 @@
       output += item.output;
       hours += total.hours * item.output / total.output;
     });
-    return { output, hours, rate: hours ? Math.round(output / hours * 10) / 10 : null };
+    return { output, hours, rate: QCEfficiencyPolicy.hasEfficiencySample(output, hours) ? Math.round(output / hours * 10) / 10 : null };
   }
 
   function redesignRenderCockpit() {
@@ -1061,18 +1062,20 @@
     const staffMap = new Map();
     rows.forEach((row) => {
       if (!row.n) return;
+      const output = qcEfficiencyOutput(row);
+      if (!QCEfficiencyPolicy.hasWorkload(output)) return;
       if (!staffMap.has(row.n)) staffMap.set(row.n, { name: row.n, output: 0, days: new Map(), brands: new Set(), modules: new Map() });
       const item = staffMap.get(row.n);
-      item.output += qcEfficiencyOutput(row);
-      if (row.d) item.days.set(row.d, Math.max(item.days.get(row.d) || 0, Number(row.wh) || 0));
+      item.output += output;
+      if (row.d) item.days.set(row.d, Math.max(item.days.get(row.d) || 0, qcEffectiveHours(row)));
       if (row.b) item.brands.add(row.b);
       const moduleLabel = row.r || '质检合计';
-      item.modules.set(moduleLabel, (item.modules.get(moduleLabel) || 0) + qcEfficiencyOutput(row));
+      item.modules.set(moduleLabel, (item.modules.get(moduleLabel) || 0) + output);
     });
     const staff = [...staffMap.values()].map((item) => {
       const hours = [...item.days.values()].reduce((sum, value) => sum + value, 0);
       const primary = [...item.modules.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] || '待补充';
-      return { ...item, hours, primary, rate: hours ? item.output / hours : null };
+      return { ...item, hours, primary, rate: QCEfficiencyPolicy.hasEfficiencySample(item.output, hours) ? item.output / hours : null };
     }).sort((a, b) => (b.rate ?? -1) - (a.rate ?? -1) || b.output - a.output).slice(0, 8);
     const currentByBrand = QC_MAIN_BRANDS.map((brand) => {
       const current = qcCapacityMetrics(rows.filter((row) => row.b === brand));
@@ -1122,20 +1125,22 @@
     qcState.peopleRoleFilter = role;
     const rows = brandRows.filter((row) => role === 'all' || String(row.r || '').trim() === role);
     const efficiency = qcEfficiencySummary(rows, null, range);
-    const people = new Set(rows.map((row) => row.n).filter(Boolean)).size;
+    const validWorkloadRows = rows.filter((row) => QCEfficiencyPolicy.hasWorkload(qcEfficiencyOutput(row)));
+    const people = new Set(validWorkloadRows.map((row) => row.n).filter(Boolean)).size;
     const stats = new Map();
-    rows.forEach((row) => {
+    validWorkloadRows.forEach((row) => {
       if (!row.n) return;
       const name = String(row.n).trim();
       if (!stats.has(name)) stats.set(name, { name, output: 0, days: new Map() });
       const item = stats.get(name);
-      item.output += qcEfficiencyOutput(row);
+      const output = qcEfficiencyOutput(row);
+      item.output += output;
       const hours = qcEffectiveHours(row);
       if (row.d && hours > (item.days.get(row.d) || 0)) item.days.set(row.d, hours);
     });
     const ranking = [...stats.values()].map((item) => {
       item.hours = [...item.days.values()].reduce((sum, value) => sum + value, 0);
-      item.rate = item.hours ? item.output / item.hours : null;
+      item.rate = QCEfficiencyPolicy.hasEfficiencySample(item.output, item.hours) ? item.output / item.hours : null;
       return item;
     }).filter((item) => item.rate !== null).sort((a, b) => b.rate - a.rate);
     const top = ranking[0];

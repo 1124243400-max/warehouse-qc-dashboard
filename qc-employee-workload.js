@@ -119,6 +119,7 @@ function render(){
  const seenHours=new Map();
  rows.forEach(row=>{
   const value=out(row);
+  if(!QCEfficiencyPolicy.hasWorkload(value))return;
   done+=value;
   if(value)active.add(String(row.n||'').trim());
   const key=String(row.n||'')+'|'+String(row.d||'');

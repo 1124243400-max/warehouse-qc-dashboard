@@ -33629,20 +33629,24 @@ function qcEfficiencyOutput(row, field = null) {
 function qcEfficiencySummary(rows, field, range) {
   const selectedDays = new Map();
   rows.forEach((row) => {
+    const rowOutput = qcEfficiencyOutput(row, field);
+    if (!QCEfficiencyPolicy.hasWorkload(rowOutput)) return;
     const key = `${row.n}|${row.d}`;
     if (!selectedDays.has(key)) selectedDays.set(key, { person: row.n, date: row.d, output: 0, hours: 0, roles: new Set() });
     const item = selectedDays.get(key);
-    item.output += qcEfficiencyOutput(row, field);
+    item.output += rowOutput;
     if (row.r) item.roles.add(row.r);
   });
 
   const allRows = qcFilterRows(qcState.data.capacity, range, { brand: false });
   const allDays = new Map();
   allRows.forEach((row) => {
+    const rowOutput = qcEfficiencyOutput(row, field);
+    if (!QCEfficiencyPolicy.hasWorkload(rowOutput)) return;
     const key = `${row.n}|${row.d}`;
     if (!allDays.has(key)) allDays.set(key, { output: 0, hours: 0 });
     const item = allDays.get(key);
-    item.output += qcEfficiencyOutput(row, field);
+    item.output += rowOutput;
     item.hours = Math.max(item.hours, qcEffectiveHours(row));
   });
 
@@ -33651,7 +33655,7 @@ function qcEfficiencySummary(rows, field, range) {
     const allocation = qcState.brands.length && all.output > 0 ? item.output / all.output : 1;
     return { ...item, hours: all.hours * allocation };
   });
-  const validGroups = groups.filter((item) => item.hours > 0);
+  const validGroups = groups.filter((item) => QCEfficiencyPolicy.hasEfficiencySample(item.output, item.hours));
   const output = validGroups.reduce((sum, item) => sum + item.output, 0);
   const hours = validGroups.reduce((sum, item) => sum + item.hours, 0);
   return {
@@ -33659,7 +33663,7 @@ function qcEfficiencySummary(rows, field, range) {
     validGroups,
     output,
     hours,
-    rate: hours ? Math.round(output / hours * 10) / 10 : null,
+    rate: QCEfficiencyPolicy.hasEfficiencySample(output, hours) ? Math.round(output / hours * 10) / 10 : null,
     coverage: groups.length ? Math.round(validGroups.length / groups.length * 1000) / 10 : 0,
     people: new Set(validGroups.map((item) => item.person)).size,
     personDays: validGroups.length,
@@ -33704,8 +33708,9 @@ function qcRenderEfficiency(rows, rangeValue) {
 function qcRenderInsights(rows, rangeValue) {
   const range = qcRangeLabel(rangeValue);
   $('#qcRoleScope').textContent = `${range} · 人数 / 综合产出`;
+  const validWorkloadRows = rows.filter((row) => QCEfficiencyPolicy.hasWorkload(qcEfficiencyOutput(row, null)));
   const roles = new Map();
-  rows.forEach((row) => {
+  validWorkloadRows.forEach((row) => {
     const roleName = row.r || '未登记岗位';
     if (!roles.has(roleName)) roles.set(roleName, { name: roleName, people: new Set(), value: 0 });
     const role = roles.get(roleName);
@@ -33715,12 +33720,12 @@ function qcRenderInsights(rows, rangeValue) {
   const roleItems = [...roles.values()].map((item) => ({ name: `${item.name} · ${item.people.size} 人`, value: item.value })).sort((a, b) => b.value - a.value).slice(0, 12);
   $('#qcRoleDistribution').innerHTML = qcBars(roleItems, `当前区间 ${range} 暂无岗位数据`);
 
-  const activePeople = new Set(rows.map((row) => row.n).filter(Boolean)).size;
-  const totalOutput = rows.reduce((sum, row) => sum + qcEfficiencyOutput(row, null), 0);
+  const activePeople = new Set(validWorkloadRows.map((row) => row.n).filter(Boolean)).size;
+  const totalOutput = validWorkloadRows.reduce((sum, row) => sum + qcEfficiencyOutput(row, null), 0);
   const efficiency = qcEfficiencySummary(rows, null, rangeValue);
   const reportRows = rows.filter((row) => row.p).length;
   const cards = [
-    ['活跃人数', `${qcNumber(activePeople, '0')} 人`, `${range} · ${qcNumber(rows.length, '0')} 条产能记录`],
+    ['活跃人数', `${qcNumber(activePeople, '0')} 人`, `${range} · ${qcNumber(validWorkloadRows.length, '0')} 条有效工作量记录`],
     ['人均处理量', `${qcNumber(activePeople ? Math.round(totalOutput / activePeople) : 0)} 件次`, `${range} · 综合产出 / 活跃人数`],
     ['在岗时长登记率', `${efficiency.coverage}%`, `${qcNumber(efficiency.validGroups.length, '0')} / ${qcNumber(efficiency.groups.length, '0')} 人天`],
     ['报次登记率', `${rows.length ? Math.round(reportRows / rows.length * 1000) / 10 : 0}%`, `${qcNumber(reportRows, '0')} / ${qcNumber(rows.length, '0')} 条`],

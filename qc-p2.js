@@ -104,9 +104,9 @@ function install(){
  const t=q('#qcComplaintToolbar'),f=q('#qcComplaintFilters');if(t&&f&&t.nextElementSibling!==f)t.insertAdjacentElement('afterend',f);if(f&&!q('#p2Complaint'))f.insertAdjacentHTML('afterend','<div id="p2Complaint" class="p2-workbench"></div>');
  const root=q('#p2Complaint');if(root&&!root.dataset.compareBrandBound){root.dataset.compareBrandBound='true';root.addEventListener('click',event=>{const detailButton=event.target.closest('[data-qc-complaint-detail]'),detailCard=event.target.closest('[data-qc-complaint-card-detail]'),closeButton=event.target.closest('[data-qc-complaint-detail-close]');if(detailButton||detailCard||closeButton){const panel=q('#p2ComplaintIssueDetail',root),type=detailButton?.dataset.qcComplaintDetail||detailCard?.dataset.qcComplaintCardDetail||'',next=(closeButton||qcState.complaintDetailType===type)?'':type;qcState.complaintDetailType=next;qa('[data-qc-complaint-detail]',root).forEach(button=>{const active=button.dataset.qcComplaintDetail===next;button.classList.toggle('active',active);button.setAttribute('aria-expanded',active?'true':'false')});qa('[data-qc-complaint-card-detail]',root).forEach(card=>card.classList.toggle('is-detail-active',card.dataset.qcComplaintCardDetail===next));if(panel){panel.dataset.activeDetail=next;panel.classList.toggle('is-open',Boolean(next));qa('[data-qc-complaint-detail-panel]',panel).forEach(card=>{card.hidden=card.dataset.qcComplaintDetailPanel!==next;if(!card.hidden){card.classList.remove('is-switching');requestAnimationFrame(()=>card.classList.add('is-switching'))}})}if(next){const target=q('#p2ComplaintDetailTarget',root),reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;requestAnimationFrame(()=>target?.scrollIntoView({behavior:reduced?'auto':'smooth',block:'center'}))}return}const button=event.target.closest('[data-qc-compare-brand]');if(!button)return;const name=button.dataset.qcCompareBrand,current=compareNames(),next=current.includes(name)?current.filter(item=>item!==name):[...current,name];if(!next.length)return;qcState.complaintCompareBrands=next;renderQCDashboard()})}
 }
-function personStats(r={start:qcState.start,end:qcState.end}){const map=new Map();qcFilterRows(qcState.data.capacity,r).forEach(x=>{if(!x.n)return;let p=map.get(x.n);if(!p){p={name:x.n,out:0,days:new Map()};map.set(x.n,p)}p.out+=qcEfficiencyOutput(x);const effectiveHours=qcEffectiveHours(x);if(x.d&&effectiveHours>(p.days.get(x.d)||0))p.days.set(x.d,effectiveHours)});return [...map.values()].map(p=>{p.wh=[...p.days.values()].reduce((a,b)=>a+b,0);p.rate=p.wh?p.out/p.wh:null;return p})}
+function personStats(r={start:qcState.start,end:qcState.end}){const map=new Map();qcFilterRows(qcState.data.capacity,r).forEach(x=>{if(!x.n)return;const output=qcEfficiencyOutput(x);if(!QCEfficiencyPolicy.hasWorkload(output))return;let p=map.get(x.n);if(!p){p={name:x.n,out:0,days:new Map()};map.set(x.n,p)}p.out+=output;const effectiveHours=qcEffectiveHours(x);if(x.d&&effectiveHours>(p.days.get(x.d)||0))p.days.set(x.d,effectiveHours)});return [...map.values()].map(p=>{p.wh=[...p.days.values()].reduce((a,b)=>a+b,0);p.rate=QCEfficiencyPolicy.hasEfficiencySample(p.out,p.wh)?p.out/p.wh:null;return p}).filter(p=>p.rate!==null)}
 function realtime(){
- const root=q('#qcRealtimeCards');if(!root)return;const r={start:qcState.start,end:qcState.end},cr=qcComparisonRange(r),a=qcFilterRows(qcState.data.capacity,r),b=cr?qcFilterRows(qcState.data.capacity,cr):[],m=qcCapacityMetrics(a),pm=qcCapacityMetrics(b),ps=personStats(r),pps=cr?personStats(cr):[],out=a.reduce((s,x)=>s+qcEfficiencyOutput(x),0),pout=b.reduce((s,x)=>s+qcEfficiencyOutput(x),0),wh=ps.reduce((s,x)=>s+x.wh,0),pwh=pps.reduce((s,x)=>s+x.wh,0),eff=wh?out/wh:null,peff=pwh?pout/pwh:null;
+ const root=q('#qcRealtimeCards');if(!root)return;const r={start:qcState.start,end:qcState.end},cr=qcComparisonRange(r),a=qcFilterRows(qcState.data.capacity,r),b=cr?qcFilterRows(qcState.data.capacity,cr):[],m=qcCapacityMetrics(a),pm=qcCapacityMetrics(b),ps=personStats(r),pps=cr?personStats(cr):[],out=ps.reduce((s,x)=>s+x.out,0),pout=pps.reduce((s,x)=>s+x.out,0),wh=ps.reduce((s,x)=>s+x.wh,0),pwh=pps.reduce((s,x)=>s+x.wh,0),eff=QCEfficiencyPolicy.hasEfficiencySample(out,wh)?out/wh:null,peff=QCEfficiencyPolicy.hasEfficiencySample(pout,pwh)?pout/pwh:null;
  const d=(x,y,bad=false)=>{const n=(+x||0)-(+y||0),rr=y?n/y:null,good=bad?n<=0:n>=0;return `<em class="${n===0?'neutral':good?'good':'risk'}">${n>0?'↗':n<0?'↘':'→'} ${rr==null?'—':(rr>0?'+':'')+(rr*100).toFixed(1)+'%'}</em>`};
  const cards=[
   ['▦','人效产出合计',out,pout,'件','blue',false],
@@ -221,10 +221,12 @@ function people(){
   const stats=new Map();
   sourceRows.forEach(row=>{
    if(!row.n)return;
+   const output=qcEfficiencyOutput(row);
+   if(!QCEfficiencyPolicy.hasWorkload(output))return;
    const name=String(row.n).trim();
    let item=stats.get(name);
     if(!item){item={name,out:0,days:new Map(),roles:new Set(),brands:new Set()};stats.set(name,item)}
-    item.out+=qcEfficiencyOutput(row);
+    item.out+=output;
     if(row.r)item.roles.add(row.r);
     if(row.b)item.brands.add(String(row.b).trim());
    const hours=qcEffectiveHours(row);
@@ -232,9 +234,9 @@ function people(){
   });
   return[...stats.values()].map(item=>{
    item.hours=[...item.days.values()].reduce((sum,value)=>sum+value,0);
-   item.rate=item.hours?item.out/item.hours:null;
+   item.rate=QCEfficiencyPolicy.hasEfficiencySample(item.out,item.hours)?item.out/item.hours:null;
    return item;
-  }).filter(item=>item.hours>0).sort((a,b)=>(b.rate||0)-(a.rate||0));
+  }).filter(item=>item.rate!==null).sort((a,b)=>(b.rate||0)-(a.rate||0));
  };
   const roleRanking=aggregatePeople(roleRows);
   const filteredRanking=selected.length?aggregatePeople(rows):roleRanking;
@@ -253,12 +255,14 @@ function people(){
  } const datePeople=new Map();
  rows.forEach(row=>{
   if(!row.d||!row.n)return;
+  const output=qcEfficiencyOutput(row);
+  if(!QCEfficiencyPolicy.hasWorkload(output))return;
   const name=String(row.n).trim();
   let day=datePeople.get(row.d);
   if(!day){day=new Map();datePeople.set(row.d,day)}
   let item=day.get(name);
   if(!item){item={out:0,hours:0};day.set(name,item)}
-  item.out+=qcEfficiencyOutput(row);
+  item.out+=output;
   item.hours=Math.max(item.hours,qcEffectiveHours(row));
  });
  const dates=[];
